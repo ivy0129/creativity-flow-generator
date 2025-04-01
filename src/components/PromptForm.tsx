@@ -23,7 +23,7 @@ export interface PromptData {
 const PromptForm: React.FC<PromptFormProps> = ({ onSubmit, isLoading }) => {
   const [promptData, setPromptData] = useState<PromptData>({
     prompt: '',
-    tone: '专业',
+    tone: '技术性',
     length: 200,
     creativity: 70,
   });
@@ -54,11 +54,11 @@ const PromptForm: React.FC<PromptFormProps> = ({ onSubmit, isLoading }) => {
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="space-y-2">
           <Label htmlFor="prompt" className="text-base font-medium">
-            输入您的主题或提示
+            描述您需要的功能或问题
           </Label>
           <Textarea
             id="prompt"
-            placeholder="例如：写一篇关于人工智能如何改变教育领域的文章..."
+            placeholder="例如：我想创建一个用户登录页面，需要包含用户名和密码字段，以及登录和注册按钮..."
             value={promptData.prompt}
             onChange={handleInputChange}
             className="min-h-[120px] resize-none border-input focus:border-primary focus:ring-1 focus:ring-primary"
@@ -69,18 +69,18 @@ const PromptForm: React.FC<PromptFormProps> = ({ onSubmit, isLoading }) => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="space-y-2">
             <Label htmlFor="tone" className="text-base font-medium">
-              语调
+              提示词风格
             </Label>
             <Select value={promptData.tone} onValueChange={handleToneChange}>
               <SelectTrigger id="tone" className="w-full">
-                <SelectValue placeholder="选择语调" />
+                <SelectValue placeholder="选择风格" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="专业">专业</SelectItem>
-                <SelectItem value="友好">友好</SelectItem>
-                <SelectItem value="幽默">幽默</SelectItem>
-                <SelectItem value="严肃">严肃</SelectItem>
-                <SelectItem value="鼓舞人心">鼓舞人心</SelectItem>
+                <SelectItem value="技术性">技术性</SelectItem>
+                <SelectItem value="教学性">教学性</SelectItem>
+                <SelectItem value="简洁明了">简洁明了</SelectItem>
+                <SelectItem value="详细解释">详细解释</SelectItem>
+                <SelectItem value="步骤化">步骤化</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -88,7 +88,7 @@ const PromptForm: React.FC<PromptFormProps> = ({ onSubmit, isLoading }) => {
           <div className="space-y-2">
             <div className="flex justify-between items-center">
               <Label htmlFor="length" className="text-base font-medium">
-                长度
+                提示词长度
               </Label>
               <span className="text-sm text-muted-foreground">{promptData.length} 字</span>
             </div>
@@ -107,7 +107,7 @@ const PromptForm: React.FC<PromptFormProps> = ({ onSubmit, isLoading }) => {
         <div className="space-y-2">
           <div className="flex justify-between items-center">
             <Label htmlFor="creativity" className="text-base font-medium">
-              创意程度
+              复杂度
             </Label>
             <span className="text-sm text-muted-foreground">{promptData.creativity}%</span>
           </div>
@@ -128,7 +128,7 @@ const PromptForm: React.FC<PromptFormProps> = ({ onSubmit, isLoading }) => {
           disabled={isLoading}
         >
           <Wand2 className="h-4 w-4" />
-          {isLoading ? "生成中..." : "生成创意内容"}
+          {isLoading ? "优化中..." : "优化提示词"}
         </Button>
       </form>
     </Card>

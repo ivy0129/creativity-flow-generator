@@ -3,31 +3,95 @@ import { useState } from 'react';
 import { PromptData } from '@/components/PromptForm';
 import { useToast } from '@/hooks/use-toast';
 
-// Some example creative responses for demo purposes
-const creativeResponses = [
-  `人工智能正在彻底改变教育领域，为师生提供前所未有的可能性。智能辅导系统能够根据每个学生的独特需求和学习风格提供个性化教学，使得教育不再是一刀切的方式。
+// 示例响应，针对开发人员的AI提示优化
+const optimizedPrompts = [
+  `我需要创建一个用户登录表单，具有以下要求：
 
-AI驱动的评估工具可以即时分析学生表现，让教师能够更有效地调整教学策略。虚拟实验室和模拟环境让学生能够安全地探索复杂概念，不受物理限制。
+1. 表单字段：
+   - 用户名/邮箱输入框
+   - 密码输入框（带显示/隐藏功能）
+   - "记住我"复选框
+   - 登录按钮
+   - "忘记密码"链接
 
-然而，我们必须注意保持人类教师的核心角色，因为教育不仅仅是知识传递，还关乎情感连接和道德指导。面向未来，人工智能和人类教育工作者的合作将创造一个更加包容、高效和创新的学习环境。`,
+2. 验证要求：
+   - 用户名/邮箱不能为空，且邮箱必须有效
+   - 密码长度至少8个字符
+   - 提交前验证所有字段
+
+3. UI/UX要求：
+   - 使用Material UI组件库
+   - 响应式设计，适配移动端和桌面端
+   - 表单提交时显示loading状态
+   - 表单验证错误时显示适当的错误消息
+
+请提供完整的React组件代码，使用TypeScript，并包含必要的样式和验证逻辑。`,
   
-  `创意写作是一门将想象力转化为文字的艺术，能够打开读者心灵的窗户，带他们进入全新的世界。成功的创意写作融合了鲜活的角色、引人入胜的情节和意境深远的主题。
+  `我想创建一个能够获取和显示GitHub用户仓库列表的功能。请帮我实现这个功能，具体要求如下：
 
-当你开始创意写作之旅时，请记住"展示而非讲述"的原则，通过感官细节和具体描写让故事栩栩如生。寻找独特的视角和声音，这是使你的作品脱颖而出的关键。
+1. 技术栈：
+   - React/Next.js前端
+   - 使用fetch或axios调用GitHub API
+   - TypeScript类型定义
 
-不要害怕修改和重写，因为最精彩的作品往往诞生于多次打磨过程中。最后，保持好奇心和观察力，生活中的每一个瞬间都可能成为你下一个精彩故事的灵感来源。`,
+2. 功能需求：
+   - 输入框用于搜索GitHub用户名
+   - 点击搜索后显示该用户的公开仓库列表
+   - 显示每个仓库的名称、描述、星数和最后更新时间
+   - 支持按星数排序
+   - 分页功能（如果用户有很多仓库）
+
+3. 错误处理：
+   - 处理用户不存在的情况
+   - 处理API请求限制
+   - 加载状态的显示
+
+请提供完整的实现代码，包括组件、API调用函数和必要的类型定义。同时，简要说明如何处理GitHub API的认证问题以避免频率限制。`,
   
-  `可持续发展已经从一个理想变成了现代社会的必然选择。面对气候变化和资源枯竭的挑战，企业必须重新思考其商业模式和运营方式。
+  `请帮我开发一个简单的待办事项管理应用的后端API，使用Node.js和Express框架。需要实现以下功能：
 
-实施可持续发展战略不仅是环保责任，更是明智的商业决策。研究表明，注重可持续发展的公司往往享有更高的品牌价值、更强的消费者忠诚度和更佳的长期财务表现。
+1. 数据模型：
+   - 任务(Task)：id, 标题, 描述, 完成状态, 创建时间, 截止时间, 优先级
 
-通过采用循环经济原则、减少碳足迹并支持可再生能源，企业可以降低成本、规避风险并开拓新市场。在未来的商业格局中，可持续发展将不再是锦上添花，而是生存和繁荣的基础。`,
+2. API端点：
+   - GET /tasks - 获取所有任务列表
+   - GET /tasks/:id - 获取单个任务详情
+   - POST /tasks - 创建新任务
+   - PUT /tasks/:id - 更新任务
+   - DELETE /tasks/:id - 删除任务
+   - GET /tasks/completed - 获取已完成任务
+   - GET /tasks/pending - 获取未完成任务
+
+3. 技术要求：
+   - RESTful API设计
+   - 适当的错误处理和状态码
+   - 使用MongoDB作为数据库
+   - 实现基本的输入验证
+
+请提供完整的代码实现，包括路由配置、控制器逻辑、数据模型定义和必要的中间件。代码应当结构清晰，包含适当的注释。`,
   
-  `数字化转型不仅仅是技术升级，它是组织思维方式和运营模式的根本变革。成功的数字化转型需要清晰的战略、全面的文化变革和持续的领导支持。
+  `我需要使用Vue.js开发一个天气查询应用。请帮我实现以下功能：
 
-首先，了解您的客户需求和行业趋势，确定最具价值的数字化机会。其次，投资于人才发展和变革管理，因为技术本身只是转型的一部分，真正的挑战在于人和流程的适应。
+1. 界面要求：
+   - 一个搜索框，用于输入城市名称
+   - 显示当前天气信息：温度、湿度、风速、天气状况
+   - 显示未来5天的天气预报
+   - 响应式设计，适配不同设备
 
-最后，采用敏捷方法，通过小步快跑、快速学习的方式推进转型，而不是追求一步到位的完美方案。在这个数字化时代，组织的适应力和学习速度将决定其未来的竞争力。`
+2. 功能细节：
+   - 使用OpenWeatherMap API获取天气数据
+   - 支持根据用户位置自动获取本地天气
+   - 支持摄氏度/华氏度切换
+   - 根据天气状况显示对应的图标
+   - 记住用户最后查询的城市
+
+3. 技术栈：
+   - Vue 3组合式API
+   - Vuex/Pinia状态管理
+   - SCSS样式
+   - Axios进行API调用
+
+请提供主要组件的代码实现和项目结构建议。同时，简要说明如何处理API密钥的安全问题和跨域请求。`
 ];
 
 export const usePromptGenerator = () => {
@@ -40,21 +104,19 @@ export const usePromptGenerator = () => {
     setIsLoading(true);
     
     try {
-      // In a real implementation, this would be an API call to a backend service
-      // For this demo, we'll simulate an API call with a timeout and random response
+      // 在实际实现中，这里会是一个API调用
+      // 现在使用模拟数据演示功能
       await new Promise(resolve => setTimeout(resolve, 1500));
       
-      // Get a random response based on creativity level
-      const randomIndex = Math.floor(Math.random() * creativeResponses.length);
-      let response = creativeResponses[randomIndex];
+      // 获取一个随机的优化后提示词
+      const randomIndex = Math.floor(Math.random() * optimizedPrompts.length);
+      let response = optimizedPrompts[randomIndex];
       
-      // Adjust response based on length
+      // 根据长度调整响应
       if (promptData.length < 200) {
-        response = response.split('.').slice(0, 3).join('.') + '.';
+        response = response.split('\n\n')[0] + '\n\n' + response.split('\n\n')[1];
       } else if (promptData.length > 300) {
-        // For longer content, we would duplicate some sentences
-        // In a real implementation, this would be handled by the AI model
-        response = response + '\n\n' + response.split('.').slice(0, 2).join('.') + '.';
+        // 对于较长内容，保持完整响应
       }
       
       setGeneratedContent(response);
@@ -62,8 +124,8 @@ export const usePromptGenerator = () => {
     } catch (error) {
       console.error('Error generating content:', error);
       toast({
-        title: "生成失败",
-        description: "内容生成过程中出现错误，请稍后再试",
+        title: "优化失败",
+        description: "提示词优化过程中出现错误，请稍后再试",
         variant: "destructive",
       });
     } finally {

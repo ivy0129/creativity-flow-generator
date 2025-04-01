@@ -7,7 +7,7 @@ const Footer: React.FC = () => {
       <div className="container mx-auto">
         <div className="flex flex-col sm:flex-row justify-between items-center">
           <p className="text-sm text-muted-foreground mb-4 sm:mb-0">
-            © {new Date().getFullYear()} 创意流生成器. 保留所有权利.
+            © {new Date().getFullYear()} AI提示优化助手. 保留所有权利.
           </p>
           <div className="flex items-center space-x-6">
             <a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
