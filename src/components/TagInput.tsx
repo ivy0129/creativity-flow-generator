@@ -3,7 +3,6 @@ import React, { useState, KeyboardEvent } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { X, Tag } from 'lucide-react';
-import { Link } from 'react-router-dom';
 
 interface TagInputProps {
   tags: string[];
@@ -37,18 +36,13 @@ const TagInput: React.FC<TagInputProps> = ({ tags, onChange }) => {
           key={index} 
           className="bg-secondary text-secondary-foreground px-2 py-1 rounded-md text-sm flex items-center gap-1"
         >
-          <Link to={`/tags/${tag}`} className="hover:underline">
-            {tag}
-          </Link>
+          {tag}
           <Button
             type="button"
             variant="ghost"
             size="sm"
-            className="h-4 w-4 p-0 ml-1"
-            onClick={(e) => {
-              e.preventDefault();
-              removeTag(index);
-            }}
+            className="h-4 w-4 p-0"
+            onClick={() => removeTag(index)}
           >
             <X className="h-3 w-3" />
             <span className="sr-only">删除标签</span>
