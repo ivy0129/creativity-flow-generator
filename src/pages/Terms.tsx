@@ -29,7 +29,7 @@ const Terms = () => {
           <p className="text-base text-muted-foreground mb-4">
             {language === 'en' 
               ? "Welcome to MyPrompt.ai. These Terms of Service ('Terms') govern your access to and use of the MyPrompt.ai website and services (the 'Service'). By accessing or using the Service, you agree to be bound by these Terms."
-              : "欢迎使用MyPrompt.ai。这些服务条款（"条款"）管理您对MyPrompt.ai网站和服务（"服务"）的访问和使用。通过访问或使用本服务，您同意受这些条款的约束。"}
+              : "欢迎使用MyPrompt.ai。这些服务条款（\"条款\"）管理您对MyPrompt.ai网站和服务（\"服务\"）的访问和使用。通过访问或使用本服务，您同意受这些条款的约束。"}
           </p>
           
           <Separator className="my-6" />

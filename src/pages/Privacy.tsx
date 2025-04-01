@@ -29,7 +29,7 @@ const Privacy = () => {
           <p className="text-base text-muted-foreground mb-4">
             {language === 'en' 
               ? "Welcome to MyPrompt.ai ('we', 'our', or 'us'). We respect your privacy and are committed to protecting your personal data. This privacy policy will inform you about how we look after your personal data when you visit our website (regardless of where you visit it from) and tell you about your privacy rights and how the law protects you."
-              : "欢迎访问MyPrompt.ai（以下简称"我们"）。我们尊重您的隐私并致力于保护您的个人数据。本隐私政策将告知您我们如何在您访问我们的网站时（无论您从何处访问）保护您的个人数据，并告知您的隐私权以及法律如何保护您。"}
+              : "欢迎访问MyPrompt.ai（以下简称\"我们\"）。我们尊重您的隐私并致力于保护您的个人数据。本隐私政策将告知您我们如何在您访问我们的网站时（无论您从何处访问）保护您的个人数据，并告知您的隐私权以及法律如何保护您。"}
           </p>
           
           <Separator className="my-6" />
@@ -170,7 +170,7 @@ const Privacy = () => {
           <p className="text-base text-muted-foreground mb-4">
             {language === 'en' 
               ? "We may update our privacy policy from time to time. We will notify you of any changes by posting the new privacy policy on this page and updating the 'last updated' date at the top of this privacy policy." 
-              : "我们可能会不时更新我们的隐私政策。我们将通过在本页面上发布新的隐私政策并更新本隐私政策顶部的"最后更新日期"来通知您任何更改。"}
+              : "我们可能会不时更新我们的隐私政策。我们将通过在本页面上发布新的隐私政策并更新本隐私政策顶部的\"最后更新日期\"来通知您任何更改。"}
           </p>
           
           <Separator className="my-6" />
