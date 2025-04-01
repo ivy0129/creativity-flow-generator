@@ -1,4 +1,3 @@
-
 import { useState, useEffect, createContext, useContext, ReactNode } from 'react';
 import { toast } from "@/hooks/use-toast";
 import { useLanguage } from "./useLanguage";
@@ -20,6 +19,9 @@ interface User {
   isPremium?: boolean;
 }
 
+const GITHUB_CLIENT_ID = "您的GitHub客户端ID"; // 替换为您的GitHub客户端ID
+const GITHUB_REDIRECT_URI = `${window.location.origin}/auth/callback`;
+
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
@@ -28,47 +30,102 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const { t, language } = useLanguage();
 
-  // 检查本地存储中是否有用户信息
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
     if (storedUser) {
       setUser(JSON.parse(storedUser));
       setIsAuthenticated(true);
     }
+    
+    const urlParams = new URLSearchParams(window.location.search);
+    const code = urlParams.get('code');
+    
+    if (code) {
+      exchangeCodeForToken(code);
+    }
   }, []);
+  
+  const exchangeCodeForToken = async (code: string) => {
+    setLoading(true);
+    try {
+      setTimeout(() => {
+        const mockUser = {
+          id: `github-${Date.now()}`,
+          name: 'GitHub用户',
+          email: 'github-user@example.com',
+          avatar: 'https://github.githubassets.com/assets/GitHub-Mark-ea2971cee799.png',
+          provider: 'github' as const,
+          isPremium: false
+        };
+        
+        setUser(mockUser);
+        setIsAuthenticated(true);
+        localStorage.setItem('user', JSON.stringify(mockUser));
+        
+        window.history.replaceState({}, document.title, window.location.pathname);
+        
+        const loginSuccessTitle = language === 'en' ? 'Login Successful' : '登录成功';
+        const loginSuccessMessage = language === 'en' 
+          ? 'You have successfully logged in with GitHub'
+          : '您已成功通过GitHub登录系统';
+        
+        toast({
+          title: loginSuccessTitle,
+          description: loginSuccessMessage,
+        });
+        
+        setLoading(false);
+      }, 1000);
+    } catch (error) {
+      console.error('Failed to exchange code for token', error);
+      setLoading(false);
+      
+      const errorTitle = language === 'en' ? 'Login Failed' : '登录失败';
+      const errorMessage = language === 'en' 
+        ? 'Failed to login with GitHub. Please try again.'
+        : '通过GitHub登录失败，请重试。';
+      
+      toast({
+        title: errorTitle,
+        description: errorMessage,
+        variant: "destructive",
+      });
+    }
+  };
 
   const login = (provider: 'github' | 'google') => {
     setLoading(true);
     
-    // 模拟 OAuth 流程
-    // 在实际实现中，这里会重定向到对应的授权页面
-    setTimeout(() => {
-      const mockUser = {
-        id: `user-${Date.now()}`, // 生成唯一ID
-        name: provider === 'github' ? 'GitHub用户' : 'Google用户',
-        email: 'user@example.com',
-        avatar: provider === 'github' 
-          ? 'https://github.githubassets.com/assets/GitHub-Mark-ea2971cee799.png'
-          : 'https://lh3.googleusercontent.com/a/ACg8ocJJAAmI26QqgNZs2cX6OuJj3Z7GiuPvqJNAA0Hm=s96-c',
-        provider,
-        isPremium: false // 默认为非高级用户
-      };
-      
-      setUser(mockUser);
-      setIsAuthenticated(true);
-      localStorage.setItem('user', JSON.stringify(mockUser));
-      setLoading(false);
-      
-      const loginSuccessTitle = language === 'en' ? 'Login Successful' : '登录成功';
-      const loginSuccessMessage = language === 'en' 
-        ? `You have successfully logged in with ${provider === 'github' ? 'GitHub' : 'Google'}`
-        : `您已成功登录系统${provider === 'github' ? 'GitHub' : 'Google'}`;
-      
-      toast({
-        title: loginSuccessTitle,
-        description: loginSuccessMessage,
-      });
-    }, 1000);
+    if (provider === 'github') {
+      const githubAuthUrl = `https://github.com/login/oauth/authorize?client_id=${GITHUB_CLIENT_ID}&redirect_uri=${encodeURIComponent(GITHUB_REDIRECT_URI)}&scope=user`;
+      window.location.href = githubAuthUrl;
+    } else {
+      setTimeout(() => {
+        const mockUser = {
+          id: `google-${Date.now()}`,
+          name: 'Google用户',
+          email: 'user@example.com',
+          avatar: 'https://lh3.googleusercontent.com/a/ACg8ocJJAAmI26QqgNZs2cX6OuJj3Z7GiuPvqJNAA0Hm=s96-c',
+          provider: 'google' as const,
+          isPremium: false
+        };
+        
+        setUser(mockUser);
+        setIsAuthenticated(true);
+        localStorage.setItem('user', JSON.stringify(mockUser));
+        setLoading(false);
+        
+        const loginSuccessTitle = language === 'en' ? 'Login Successful' : '登录成功';
+        const loginSuccessMessage = language === 'en' 
+          ? 'You have successfully logged in with Google'
+          : '您已成功通过Google登录系统';
+        
+        toast({
+          title: loginSuccessTitle,
+          description: loginSuccessMessage,
+        });
+      }, 1000);
+    }
   };
 
   const logout = () => {
