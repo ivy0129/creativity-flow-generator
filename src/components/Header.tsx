@@ -30,12 +30,6 @@ const Header: React.FC = () => {
             <Link to="/saved" className="text-sm font-medium text-foreground/80 hover:text-foreground transition-colors">
               已保存的提示词
             </Link>
-            <a href="#" className="text-sm font-medium text-foreground/80 hover:text-foreground transition-colors">
-              使用指南
-            </a>
-            <a href="#" className="text-sm font-medium text-foreground/80 hover:text-foreground transition-colors">
-              关于我们
-            </a>
           </div>
           
           {isAuthenticated ? (
