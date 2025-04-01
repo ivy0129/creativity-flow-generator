@@ -1,6 +1,5 @@
-
 import React from 'react';
-import { Sparkles, Code, LogIn, LogOut, Github, Mail, Languages } from 'lucide-react';
+import { Code, LogIn, LogOut, Github, Mail } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { useAuth } from '@/hooks/useAuth';
@@ -43,7 +42,7 @@ const Header: React.FC = () => {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" size={isMobile ? "icon" : "sm"} className={isMobile ? "w-8 h-8 p-0" : "gap-2"}>
-                <Languages className={isMobile ? "h-4 w-4" : "h-4 w-4"} />
+                <span className="font-medium">中/E</span>
                 {!isMobile && (language === 'en' ? 'English' : '中文')}
               </Button>
             </DropdownMenuTrigger>
