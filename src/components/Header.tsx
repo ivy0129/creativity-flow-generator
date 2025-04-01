@@ -48,7 +48,7 @@ const Header: React.FC = () => {
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="icon" className="w-9 h-9 p-0">
                 <Globe className="h-5 w-5 text-foreground/70" />
-                {language === 'zh' && <span className="ml-1 text-lg font-medium">中</span>}
+                {!isMobile && language === 'zh' && <span className="ml-1 text-lg font-medium">中</span>}
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="p-0 min-w-[150px]">
