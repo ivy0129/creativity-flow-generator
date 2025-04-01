@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -27,7 +26,7 @@ const PromptForm: React.FC<PromptFormProps> = ({ onSubmit, isLoading }) => {
   const { toast } = useToast();
   const [promptData, setPromptData] = useState<PromptData>({
     prompt: '',
-    tone: '技术性',
+    tone: '步骤化',
     length: 200,
     creativity: 70,
   });
@@ -64,7 +63,6 @@ const PromptForm: React.FC<PromptFormProps> = ({ onSubmit, isLoading }) => {
 
   const handleOptimizeClick = () => {
     if (!isAuthenticated) {
-      // 显示登录下拉菜单
       login('github');
     }
   };
