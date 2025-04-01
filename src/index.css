@@ -97,3 +97,20 @@
   background: radial-gradient(circle at top right, rgba(138, 91, 246, 0.15), transparent 60%),
               radial-gradient(circle at bottom left, rgba(99, 102, 241, 0.15), transparent 60%);
 }
+
+/* Chat bubble logo styling */
+.chat-bubble {
+  position: relative;
+}
+
+.chat-bubble::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  right: -5px;
+  width: 10px;
+  height: 10px;
+  background-color: inherit;
+  transform: rotate(45deg);
+}
+

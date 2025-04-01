@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Code, LogIn, LogOut, Github, Mail, Settings } from 'lucide-react';
+import { LogIn, LogOut, Github, Mail, Settings } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { useAuth } from '@/hooks/useAuth';
@@ -14,7 +14,6 @@ import {
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Toggle } from "@/components/ui/toggle";
 
 const Header: React.FC = () => {
   const { isAuthenticated, user, login, logout, loading } = useAuth();
@@ -25,7 +24,10 @@ const Header: React.FC = () => {
     <header className="w-full py-6 px-4 sm:px-6">
       <div className="container mx-auto flex items-center justify-between">
         <Link to="/" className="flex items-center gap-2 min-w-0">
-          <Code className="h-6 w-6 flex-shrink-0 text-purple-600" />
+          <div className="h-9 w-9 flex-shrink-0 rounded-md bg-purple-600 text-white flex items-center justify-center relative">
+            <div className="text-sm font-bold">AI</div>
+            <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-purple-600 transform rotate-45"></div>
+          </div>
           <h1 className="text-xl sm:text-2xl font-bold gradient-text truncate">
             {t('appName')}
           </h1>
