@@ -45,6 +45,10 @@ const translations = {
     promptsTaggedWith: 'Prompts Tagged with',
     backToSavedPrompts: 'Back to Saved Prompts',
     noPromptsWithTag: 'No prompts with this tag',
+    
+    // 新增 SavedPrompts 页面文案
+    totalPrompts: 'Total Prompts',
+    tryDifferentSearch: 'Try a different search term',
   },
   zh: {
     // 通用
@@ -85,6 +89,10 @@ const translations = {
     promptsTaggedWith: '标签为',
     backToSavedPrompts: '返回已保存的提示词',
     noPromptsWithTag: '没有使用此标签的提示词',
+    
+    // 新增 SavedPrompts 页面文案
+    totalPrompts: '提示词总数',
+    tryDifferentSearch: '尝试不同的搜索词',
   }
 };
 
@@ -113,6 +121,11 @@ export const LanguageProvider: React.FC<{children: React.ReactNode}> = ({ childr
   
   // 翻译函数
   const t = (key: string): string => {
+    // 修复：检查key是否存在于translations[language]中，如果不存在则返回key本身
+    if (!translations[language][key as keyof typeof translations[typeof language]]) {
+      console.warn(`Translation key "${key}" not found in language "${language}"`);
+      return key;
+    }
     return translations[language][key as keyof typeof translations[typeof language]] || key;
   };
 

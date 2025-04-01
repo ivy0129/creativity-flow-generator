@@ -53,84 +53,109 @@ const SavedPrompts = () => {
             {t('savedPrompts')}
           </h1>
           
-          {uniqueTags.length > 0 && (
-            <div className="mb-8">
-              <h2 className="text-lg font-medium mb-3 flex items-center gap-2">
-                <TagIcon className="h-5 w-5" />
-                {t('tags')}
-              </h2>
-              <div className="flex flex-wrap gap-2">
-                {uniqueTags.map((tag, index) => (
-                  <Button
-                    key={index}
-                    variant="outline"
-                    size="sm"
-                    className="rounded-full flex items-center"
-                    asChild
-                  >
-                    <a href={`/tags/${tag}`}>
-                      {tag}
-                      <span className="ml-1 px-1.5 py-0.5 text-xs rounded-full bg-muted">
-                        {tagCounts[tag]}
-                      </span>
-                    </a>
-                  </Button>
-                ))}
-              </div>
-            </div>
-          )}
-          
-          <div className="relative mb-6">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
-            <Input 
-              placeholder={t('searchPromptsOrTags')}
-              className="pl-10"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-          </div>
-
-          {filteredPrompts.length === 0 ? (
-            <div className="text-center py-12">
-              <p className="text-muted-foreground">
-                {searchTerm ? t('noMatchingPrompts') : t('noSavedPrompts')}
-              </p>
-            </div>
-          ) : (
-            <div className="space-y-4 mb-8">
-              {filteredPrompts.map((prompt, index) => (
-                <Card key={index} className="p-4 shadow-md hover:shadow-lg transition-shadow">
-                  <div className="flex justify-between items-start mb-3">
-                    <TagInput 
-                      tags={prompt.tags} 
-                      onChange={(newTags) => updatePromptTags(index, newTags)} 
-                    />
-                    <div className="flex space-x-2">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <div className="md:col-span-1">
+              <Card className="p-4 h-full">
+                <div className="flex items-center gap-2 font-medium mb-4">
+                  <TagIcon className="h-5 w-5" />
+                  {t('tags')}
+                </div>
+                
+                <div className="space-y-2">
+                  {uniqueTags.length > 0 ? (
+                    uniqueTags.map((tag, index) => (
                       <Button
+                        key={index}
                         variant="outline"
                         size="sm"
-                        onClick={() => copyToClipboard(prompt.content)}
+                        className="flex justify-between w-full"
+                        asChild
                       >
-                        <Copy className="h-4 w-4" />
-                        <span className="sr-only md:not-sr-only md:inline ml-1">{t('copy')}</span>
+                        <a href={`/tags/${tag}`}>
+                          <span>{tag}</span>
+                          <span className="ml-1 px-1.5 py-0.5 text-xs rounded-full bg-muted">
+                            {tagCounts[tag]}
+                          </span>
+                        </a>
                       </Button>
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => removeSavedPrompt(index)}
-                      >
-                        <Trash2 className="h-4 w-4" />
-                        <span className="sr-only md:not-sr-only md:inline ml-1">{t('delete')}</span>
-                      </Button>
+                    ))
+                  ) : (
+                    <p className="text-sm text-muted-foreground">
+                      {t('noSavedPrompts')}
+                    </p>
+                  )}
+                </div>
+                
+                {savedPrompts.length > 0 && (
+                  <div className="mt-4 pt-4 border-t">
+                    <div className="flex justify-between text-sm text-muted-foreground">
+                      <span>{t('totalPrompts')}</span>
+                      <span>{savedPrompts.length}</span>
                     </div>
                   </div>
-                  <div className="bg-muted rounded-md p-4 whitespace-pre-wrap">
-                    {prompt.content}
-                  </div>
-                </Card>
-              ))}
+                )}
+              </Card>
             </div>
-          )}
+            
+            <div className="md:col-span-3">
+              <div className="relative mb-6">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+                <Input 
+                  placeholder={t('searchPromptsOrTags')}
+                  className="pl-10"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
+              </div>
+
+              {filteredPrompts.length === 0 ? (
+                <Card className="p-8 text-center">
+                  <p className="text-muted-foreground mb-2">
+                    {searchTerm ? t('noMatchingPrompts') : t('noSavedPrompts')}
+                  </p>
+                  {searchTerm && (
+                    <p className="text-sm text-muted-foreground">
+                      {t('tryDifferentSearch')}
+                    </p>
+                  )}
+                </Card>
+              ) : (
+                <div className="space-y-4">
+                  {filteredPrompts.map((prompt, index) => (
+                    <Card key={index} className="p-4 shadow-md hover:shadow-lg transition-shadow">
+                      <div className="flex justify-between items-start mb-3">
+                        <TagInput 
+                          tags={prompt.tags} 
+                          onChange={(newTags) => updatePromptTags(index, newTags)} 
+                        />
+                        <div className="flex space-x-2">
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => copyToClipboard(prompt.content)}
+                          >
+                            <Copy className="h-4 w-4" />
+                            <span className="sr-only md:not-sr-only md:inline ml-1">{t('copy')}</span>
+                          </Button>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => removeSavedPrompt(index)}
+                          >
+                            <Trash2 className="h-4 w-4" />
+                            <span className="sr-only md:not-sr-only md:inline ml-1">{t('delete')}</span>
+                          </Button>
+                        </div>
+                      </div>
+                      <div className="bg-muted rounded-md p-4 whitespace-pre-wrap">
+                        {prompt.content}
+                      </div>
+                    </Card>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
         </section>
       </main>
       
