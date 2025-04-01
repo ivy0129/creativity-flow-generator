@@ -5,6 +5,7 @@ import Footer from '@/components/Footer';
 import PromptForm from '@/components/PromptForm';
 import ResultDisplay from '@/components/ResultDisplay';
 import { usePromptGenerator } from '@/hooks/usePromptGenerator';
+import { useLanguage } from '@/hooks/useLanguage';
 import { Code, Lightbulb, BookOpen, Rocket } from 'lucide-react';
 
 const Index = () => {
@@ -14,6 +15,8 @@ const Index = () => {
     isLoading, 
     isResultVisible 
   } = usePromptGenerator();
+  
+  const { t } = useLanguage();
 
   return (
     <div className="min-h-screen flex flex-col bg-background hero-gradient">
@@ -22,34 +25,34 @@ const Index = () => {
       <main className="flex-1 container mx-auto px-4 py-8">
         <section className="max-w-4xl mx-auto mb-12 text-center">
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 gradient-text">
-            AI提示优化助手
+            {t('promptOptimizer')}
           </h1>
           <p className="text-xl text-muted-foreground mb-8">
-            帮助开发新手编写清晰、有效的AI指令，获得更精准的回应
+            {t('subheading')}
           </p>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
             <div className="bg-background rounded-lg p-6 shadow-md border border-border">
               <Lightbulb className="h-8 w-8 text-purple-500 mb-4 mx-auto" />
-              <h3 className="text-lg font-semibold mb-2">提示词优化</h3>
+              <h3 className="text-lg font-semibold mb-2">{t('promptOptimization')}</h3>
               <p className="text-muted-foreground">
-                将复杂想法转化为AI能理解的清晰指令
+                {t('promptOptimizationDesc')}
               </p>
             </div>
             
             <div className="bg-background rounded-lg p-6 shadow-md border border-border">
               <BookOpen className="h-8 w-8 text-indigo-500 mb-4 mx-auto" />
-              <h3 className="text-lg font-semibold mb-2">开发命令生成</h3>
+              <h3 className="text-lg font-semibold mb-2">{t('devCommandGen')}</h3>
               <p className="text-muted-foreground">
-                生成适用于各种开发场景的命令和代码片段
+                {t('devCommandGenDesc')}
               </p>
             </div>
             
             <div className="bg-background rounded-lg p-6 shadow-md border border-border">
               <Rocket className="h-8 w-8 text-purple-500 mb-4 mx-auto" />
-              <h3 className="text-lg font-semibold mb-2">学习成长</h3>
+              <h3 className="text-lg font-semibold mb-2">{t('learningGrowth')}</h3>
               <p className="text-muted-foreground">
-                在使用过程中学习AI交互的最佳实践和技巧
+                {t('learningGrowthDesc')}
               </p>
             </div>
           </div>
@@ -64,7 +67,7 @@ const Index = () => {
         
         <section className="max-w-4xl mx-auto mt-16 text-center">
           <h2 className="text-3xl font-bold mb-8 gradient-text">
-            如何使用AI提示优化助手
+            {t('howToUse')}
           </h2>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -72,9 +75,9 @@ const Index = () => {
               <div className="w-12 h-12 rounded-full gradient-bg flex items-center justify-center text-white font-bold mb-4">
                 1
               </div>
-              <h3 className="text-lg font-semibold mb-2">描述您的需求</h3>
+              <h3 className="text-lg font-semibold mb-2">{t('describeNeeds')}</h3>
               <p className="text-muted-foreground">
-                输入您想要实现的功能或解决的问题
+                {t('describeNeedsDesc')}
               </p>
             </div>
             
@@ -82,9 +85,9 @@ const Index = () => {
               <div className="w-12 h-12 rounded-full gradient-bg flex items-center justify-center text-white font-bold mb-4">
                 2
               </div>
-              <h3 className="text-lg font-semibold mb-2">选择合适的参数</h3>
+              <h3 className="text-lg font-semibold mb-2">{t('chooseParams')}</h3>
               <p className="text-muted-foreground">
-                根据用途调整提示词的风格和复杂度
+                {t('chooseParamsDesc')}
               </p>
             </div>
             
@@ -92,9 +95,9 @@ const Index = () => {
               <div className="w-12 h-12 rounded-full gradient-bg flex items-center justify-center text-white font-bold mb-4">
                 3
               </div>
-              <h3 className="text-lg font-semibold mb-2">获取优化结果</h3>
+              <h3 className="text-lg font-semibold mb-2">{t('getResults')}</h3>
               <p className="text-muted-foreground">
-                复制生成的提示词，用于与AI助手交流
+                {t('getResultsDesc')}
               </p>
             </div>
           </div>

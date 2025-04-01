@@ -1,6 +1,7 @@
 
 import { useState, useEffect, createContext, useContext, ReactNode } from 'react';
 import { toast } from "@/hooks/use-toast";
+import { useLanguage } from "./useLanguage";
 
 interface AuthContextType {
   isAuthenticated: boolean;
@@ -23,6 +24,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
+  const { t } = useLanguage();
 
   // 检查本地存储中是否有用户信息
   useEffect(() => {
@@ -54,8 +56,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setLoading(false);
       
       toast({
-        title: "登录成功",
-        description: `您已通过${provider === 'github' ? 'GitHub' : 'Google'}成功登录系统`,
+        title: t('loginSuccess'),
+        description: `${t('loginSuccessMessage')}${provider === 'github' ? 'GitHub' : 'Google'}`,
       });
     }, 1000);
   };
@@ -66,8 +68,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     localStorage.removeItem('user');
     
     toast({
-      title: "已退出登录",
-      description: "您已成功退出系统",
+      title: t('logoutSuccess'),
+      description: t('logoutSuccessMessage'),
     });
   };
 
