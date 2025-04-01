@@ -31,12 +31,11 @@ const TagInput: React.FC<TagInputProps> = ({ tags, onChange, readonly = false })
   };
 
   return (
-    <div className="flex flex-wrap items-center gap-2 mb-2">
-      <Tag className="h-4 w-4 text-muted-foreground" />
+    <div className="flex flex-wrap items-center gap-2">
       {tags.map((tag, index) => (
         <div 
           key={index} 
-          className="bg-secondary text-secondary-foreground px-2 py-1 rounded-md text-sm flex items-center gap-1"
+          className="bg-primary text-primary-foreground px-3 py-1.5 rounded-full text-sm flex items-center gap-1"
         >
           {readonly ? (
             <Link to={`/tags/${tag}`} className="hover:underline">
@@ -51,7 +50,7 @@ const TagInput: React.FC<TagInputProps> = ({ tags, onChange, readonly = false })
               type="button"
               variant="ghost"
               size="sm"
-              className="h-4 w-4 p-0"
+              className="h-4 w-4 p-0 hover:bg-primary-foreground/20 rounded-full"
               onClick={() => removeTag(index)}
             >
               <X className="h-3 w-3" />
@@ -66,7 +65,7 @@ const TagInput: React.FC<TagInputProps> = ({ tags, onChange, readonly = false })
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
           onKeyDown={handleKeyDown}
-          className="flex-1 min-w-[120px] h-8"
+          className="flex-1 min-w-[180px] h-8 placeholder:text-muted-foreground/60 border-dashed"
           placeholder="添加标签..."
         />
       )}
