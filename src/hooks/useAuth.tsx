@@ -24,7 +24,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
 
   // 检查本地存储中是否有用户信息
   useEffect(() => {
@@ -55,9 +55,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       localStorage.setItem('user', JSON.stringify(mockUser));
       setLoading(false);
       
+      const loginSuccessTitle = language === 'en' ? 'Login Successful' : '登录成功';
+      const loginSuccessMessage = language === 'en' 
+        ? `You have successfully logged in with ${provider === 'github' ? 'GitHub' : 'Google'}`
+        : `您已成功登录系统${provider === 'github' ? 'GitHub' : 'Google'}`;
+      
       toast({
-        title: t('loginSuccess'),
-        description: `${t('loginSuccessMessage')}${provider === 'github' ? 'GitHub' : 'Google'}`,
+        title: loginSuccessTitle,
+        description: loginSuccessMessage,
       });
     }, 1000);
   };
@@ -67,9 +72,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setIsAuthenticated(false);
     localStorage.removeItem('user');
     
+    const logoutSuccessTitle = language === 'en' ? 'Logged Out' : '已退出登录';
+    const logoutSuccessMessage = language === 'en' 
+      ? 'You have been logged out'
+      : '您已成功退出系统';
+    
     toast({
-      title: t('logoutSuccess'),
-      description: t('logoutSuccessMessage'),
+      title: logoutSuccessTitle,
+      description: logoutSuccessMessage,
     });
   };
 
