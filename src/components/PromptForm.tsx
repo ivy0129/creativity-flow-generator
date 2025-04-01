@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -26,7 +27,7 @@ const PromptForm: React.FC<PromptFormProps> = ({ onSubmit, isLoading }) => {
   const { toast } = useToast();
   const [promptData, setPromptData] = useState<PromptData>({
     prompt: '',
-    tone: '步骤化',
+    tone: '技术性',
     length: 200,
     creativity: 70,
   });
