@@ -64,12 +64,12 @@ const Footer: React.FC = () => {
             </p>
             
             <div className="flex space-x-4">
-              <a href="/privacy" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+              <Link to="/privacy" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
                 {language === 'en' ? 'Privacy Policy' : '隐私政策'}
-              </a>
-              <a href="/terms" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+              </Link>
+              <Link to="/terms" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
                 {language === 'en' ? 'Terms of Service' : '服务条款'}
-              </a>
+              </Link>
             </div>
           </div>
         </div>
