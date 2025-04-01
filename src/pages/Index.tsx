@@ -54,9 +54,8 @@ const Index = () => {
             {/* 第三个卡片在移动端不显示，在桌面端显示 */}
             {!isMobile && (
               <div className="bg-background rounded-lg p-4 shadow-md border border-border">
-                <div className="h-9 w-9 bg-purple-600 text-white flex items-center justify-center mx-auto mb-2 rounded-md relative">
+                <div className="ai-chat-bubble h-9 w-9 bg-purple-500 text-white flex items-center justify-center mx-auto mb-2 rounded-lg">
                   <div className="text-sm font-bold">AI</div>
-                  <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-purple-600 transform rotate-45"></div>
                 </div>
                 <h3 className="text-lg font-semibold mb-1">{t('learningGrowth')}</h3>
                 <p className="text-sm text-muted-foreground">

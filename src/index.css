@@ -99,18 +99,17 @@
 }
 
 /* Chat bubble logo styling */
-.chat-bubble {
+.ai-chat-bubble {
   position: relative;
 }
 
-.chat-bubble::after {
+.ai-chat-bubble::after {
   content: '';
   position: absolute;
-  bottom: -5px;
-  right: -5px;
-  width: 10px;
-  height: 10px;
+  bottom: -4px;
+  right: -4px;
+  width: 8px;
+  height: 8px;
   background-color: inherit;
   transform: rotate(45deg);
 }
-

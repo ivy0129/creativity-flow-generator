@@ -24,9 +24,8 @@ const Header: React.FC = () => {
     <header className="w-full py-6 px-4 sm:px-6">
       <div className="container mx-auto flex items-center justify-between">
         <Link to="/" className="flex items-center gap-2 min-w-0">
-          <div className="h-9 w-9 flex-shrink-0 rounded-md bg-purple-600 text-white flex items-center justify-center relative">
+          <div className="ai-chat-bubble w-9 h-9 flex-shrink-0 rounded-lg bg-purple-500 text-white flex items-center justify-center">
             <div className="text-sm font-bold">AI</div>
-            <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-purple-600 transform rotate-45"></div>
           </div>
           <h1 className="text-xl sm:text-2xl font-bold gradient-text truncate">
             {t('appName')}
