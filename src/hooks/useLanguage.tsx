@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 
 type Language = 'en' | 'zh';
@@ -41,8 +40,8 @@ const translations = {
     zh: '专属于我的 AI Prompt',
   },
   subheading: {
-    en: 'Unleash the power of AI to refine your prompts for optimal results.',
-    zh: '释放AI的力量，优化您的提示词，以获得最佳效果。',
+    en: 'Help new developers write clear, effective AI prompts for more precise responses',
+    zh: '帮助开发新手编写清晰、有效的AI指令，获得更精准的回应',
   },
   promptOptimization: {
     en: 'Prompt Optimization',
@@ -168,7 +167,6 @@ const translations = {
     en: 'Cancel',
     zh: '取消',
   },
-  // New translations for tabs functionality
   optimizePrompt: {
     en: 'Optimize Prompt',
     zh: '优化提示词',
