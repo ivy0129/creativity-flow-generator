@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label";
 import { Wand2, LogIn } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/hooks/use-toast';
+import { useLanguage } from '@/hooks/useLanguage';
 
 interface PromptFormProps {
   onSubmit: (promptData: PromptData) => void;
@@ -25,20 +26,49 @@ export interface PromptData {
 const PromptForm: React.FC<PromptFormProps> = ({ onSubmit, isLoading }) => {
   const { isAuthenticated, login } = useAuth();
   const { toast } = useToast();
+  const { language, t } = useLanguage();
+  
   const [promptData, setPromptData] = useState<PromptData>({
     prompt: '',
-    tone: '技术性',
+    tone: language === 'zh' ? '技术性' : 'Technical',
     length: 200,
     creativity: 70,
   });
+
+  // Update tone when language changes
+  React.useEffect(() => {
+    // Map between English and Chinese tones
+    const toneMap: Record<string, string> = {
+      '技术性': 'Technical',
+      '教学性': 'Educational',
+      '简洁明了': 'Concise',
+      '详细解释': 'Detailed',
+      '步骤化': 'Step-by-step',
+      'Technical': '技术性',
+      'Educational': '教学性',
+      'Concise': '简洁明了',
+      'Detailed': '详细解释',
+      'Step-by-step': '步骤化'
+    };
+    
+    // When language changes, update the tone value if it's in the map
+    if (toneMap[promptData.tone]) {
+      setPromptData(prev => ({
+        ...prev,
+        tone: language === 'zh' ? 
+          (toneMap[prev.tone] && toneMap[prev.tone].includes('性') ? toneMap[prev.tone] : '技术性') :
+          (toneMap[prev.tone] && !toneMap[prev.tone].includes('性') ? toneMap[prev.tone] : 'Technical')
+      }));
+    }
+  }, [language]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!isAuthenticated) {
       toast({
-        title: "需要登录",
-        description: "请先登录以使用提示词优化功能",
+        title: language === 'zh' ? "需要登录" : "Login Required",
+        description: language === 'zh' ? "请先登录以使用提示词优化功能" : "Please login to use the prompt optimizer",
       });
       return;
     }
@@ -68,16 +98,41 @@ const PromptForm: React.FC<PromptFormProps> = ({ onSubmit, isLoading }) => {
     }
   };
 
+  // Get tone options based on current language
+  const getToneOptions = () => {
+    if (language === 'zh') {
+      return [
+        { value: '技术性', label: '技术性' },
+        { value: '教学性', label: '教学性' },
+        { value: '简洁明了', label: '简洁明了' },
+        { value: '详细解释', label: '详细解释' },
+        { value: '步骤化', label: '步骤化' }
+      ];
+    } else {
+      return [
+        { value: 'Technical', label: 'Technical' },
+        { value: 'Educational', label: 'Educational' },
+        { value: 'Concise', label: 'Concise' },
+        { value: 'Detailed', label: 'Detailed' },
+        { value: 'Step-by-step', label: 'Step-by-step' }
+      ];
+    }
+  };
+
+  const placeholderText = language === 'zh'
+    ? "例如：我想创建一个用户登录页面，需要包含用户名和密码字段，以及登录和注册按钮..."
+    : "Example: I want to create a user login page with username and password fields, plus login and register buttons...";
+
   return (
     <Card className="w-full p-6 shadow-lg prompt-shadow animate-fade-in">
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="space-y-2">
           <Label htmlFor="prompt" className="text-base font-medium">
-            描述您需要的功能或问题
+            {language === 'zh' ? "描述您需要的功能或问题" : "Describe your needed functionality or problem"}
           </Label>
           <Textarea
             id="prompt"
-            placeholder="例如：我想创建一个用户登录页面，需要包含用户名和密码字段，以及登录和注册按钮..."
+            placeholder={placeholderText}
             value={promptData.prompt}
             onChange={handleInputChange}
             className="min-h-[120px] resize-none border-input focus:border-primary focus:ring-1 focus:ring-primary"
@@ -88,18 +143,18 @@ const PromptForm: React.FC<PromptFormProps> = ({ onSubmit, isLoading }) => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="space-y-2">
             <Label htmlFor="tone" className="text-base font-medium">
-              提示词风格
+              {language === 'zh' ? "提示词风格" : "Prompt Style"}
             </Label>
             <Select value={promptData.tone} onValueChange={handleToneChange}>
               <SelectTrigger id="tone" className="w-full">
-                <SelectValue placeholder="选择风格" />
+                <SelectValue placeholder={language === 'zh' ? "选择风格" : "Select style"} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="技术性">技术性</SelectItem>
-                <SelectItem value="教学性">教学性</SelectItem>
-                <SelectItem value="简洁明了">简洁明了</SelectItem>
-                <SelectItem value="详细解释">详细解释</SelectItem>
-                <SelectItem value="步骤化">步骤化</SelectItem>
+                {getToneOptions().map(option => (
+                  <SelectItem key={option.value} value={option.value}>
+                    {option.label}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
           </div>
@@ -107,9 +162,11 @@ const PromptForm: React.FC<PromptFormProps> = ({ onSubmit, isLoading }) => {
           <div className="space-y-2">
             <div className="flex justify-between items-center">
               <Label htmlFor="length" className="text-base font-medium">
-                提示词长度
+                {language === 'zh' ? "提示词长度" : "Prompt Length"}
               </Label>
-              <span className="text-sm text-muted-foreground">{promptData.length} 字</span>
+              <span className="text-sm text-muted-foreground">
+                {promptData.length} {language === 'zh' ? "字" : "chars"}
+              </span>
             </div>
             <Slider
               id="length"
@@ -126,7 +183,7 @@ const PromptForm: React.FC<PromptFormProps> = ({ onSubmit, isLoading }) => {
         <div className="space-y-2">
           <div className="flex justify-between items-center">
             <Label htmlFor="creativity" className="text-base font-medium">
-              复杂度
+              {language === 'zh' ? "复杂度" : "Complexity"}
             </Label>
             <span className="text-sm text-muted-foreground">{promptData.creativity}%</span>
           </div>
@@ -153,10 +210,10 @@ const PromptForm: React.FC<PromptFormProps> = ({ onSubmit, isLoading }) => {
             <Wand2 className="h-4 w-4" />
           )}
           {isLoading 
-            ? "优化中..." 
+            ? (language === 'zh' ? "优化中..." : "Optimizing...") 
             : !isAuthenticated 
-              ? "登录以优化提示词" 
-              : "优化提示词"
+              ? (language === 'zh' ? "登录以优化提示词" : "Login to optimize prompt") 
+              : (language === 'zh' ? "优化提示词" : "Optimize Prompt")
           }
         </Button>
       </form>

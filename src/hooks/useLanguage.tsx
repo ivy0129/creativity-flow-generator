@@ -1,3 +1,4 @@
+
 import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 
 type Language = 'en' | 'zh';
@@ -114,6 +115,71 @@ export const translations: Translations = {
   getResultsDesc: {
     en: 'Copy the generated prompt to use with AI assistants',
     zh: '复制生成的提示词，用于与AI助手交流',
+  },
+  // Form related translations
+  describeYourNeeds: {
+    en: 'Describe your needed functionality or problem',
+    zh: '描述您需要的功能或问题',
+  },
+  promptStyle: {
+    en: 'Prompt Style',
+    zh: '提示词风格',
+  },
+  promptLength: {
+    en: 'Prompt Length',
+    zh: '提示词长度',
+  },
+  complexity: {
+    en: 'Complexity',
+    zh: '复杂度',
+  },
+  optimizePrompt: {
+    en: 'Optimize Prompt',
+    zh: '优化提示词',
+  },
+  optimizing: {
+    en: 'Optimizing...',
+    zh: '优化中...',
+  },
+  loginToOptimize: {
+    en: 'Login to optimize prompt',
+    zh: '登录以优化提示词',
+  },
+  generatedContent: {
+    en: 'Generated Content',
+    zh: '生成的内容',
+  },
+  good: {
+    en: 'Good',
+    zh: '好的',
+  },
+  notGood: {
+    en: 'Not good',
+    zh: '不好',
+  },
+  copy: {
+    en: 'Copy',
+    zh: '复制',
+  },
+  copied: {
+    en: 'Copied',
+    zh: '已复制',
+  },
+  save: {
+    en: 'Save',
+    zh: '保存',
+  },
+  saved: {
+    en: 'Saved',
+    zh: '已保存',
+  },
+  usage: {
+    en: 'Usage',
+    zh: '使用次数',
+  },
+  viewDetails: {
+    en: 'View details',
+    zh: '查看详情',
   },
 };
 

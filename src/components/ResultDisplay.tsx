@@ -6,6 +6,7 @@ import { Copy, Check, ThumbsUp, ThumbsDown, Save, Info } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast";
 import { useSavedPrompts } from '@/hooks/useSavedPrompts';
 import { usePromptGenerator } from '@/hooks/usePromptGenerator';
+import { useLanguage } from '@/hooks/useLanguage';
 import { Link } from 'react-router-dom';
 
 interface ResultDisplayProps {
@@ -17,6 +18,7 @@ const ResultDisplay: React.FC<ResultDisplayProps> = ({ content, isVisible }) => 
   const { toast } = useToast();
   const { savePrompt } = useSavedPrompts();
   const { usageCount, usageLimit } = usePromptGenerator();
+  const { language } = useLanguage();
   const [copied, setCopied] = useState(false);
   const [feedbackGiven, setFeedbackGiven] = useState(false);
   const [saved, setSaved] = useState(false);
@@ -27,8 +29,8 @@ const ResultDisplay: React.FC<ResultDisplayProps> = ({ content, isVisible }) => 
     navigator.clipboard.writeText(content);
     setCopied(true);
     toast({
-      title: "已复制到剪贴板",
-      description: "您现在可以将内容粘贴到任何地方",
+      title: language === 'zh' ? "已复制到剪贴板" : "Copied to clipboard",
+      description: language === 'zh' ? "您现在可以将内容粘贴到任何地方" : "You can now paste the content anywhere",
     });
     
     setTimeout(() => {
@@ -38,10 +40,12 @@ const ResultDisplay: React.FC<ResultDisplayProps> = ({ content, isVisible }) => 
 
   const giveFeedback = (isPositive: boolean) => {
     toast({
-      title: isPositive ? "感谢您的反馈！" : "感谢您的反馈",
+      title: isPositive 
+        ? (language === 'zh' ? "感谢您的反馈！" : "Thanks for your feedback!") 
+        : (language === 'zh' ? "感谢您的反馈" : "Thanks for your feedback"),
       description: isPositive 
-        ? "我们很高兴您喜欢这个内容" 
-        : "我们会努力改进生成的内容",
+        ? (language === 'zh' ? "我们很高兴您喜欢这个内容" : "We're glad you liked this content") 
+        : (language === 'zh' ? "我们会努力改进生成的内容" : "We'll work to improve the generated content"),
     });
     setFeedbackGiven(true);
   };
@@ -50,8 +54,8 @@ const ResultDisplay: React.FC<ResultDisplayProps> = ({ content, isVisible }) => 
     savePrompt(content);
     setSaved(true);
     toast({
-      title: "提示词已保存",
-      description: "您可以在'已保存的提示词'页面查看",
+      title: language === 'zh' ? "提示词已保存" : "Prompt saved",
+      description: language === 'zh' ? "您可以在'已保存的提示词'页面查看" : "You can view it in the 'Saved Prompts' page",
     });
     setTimeout(() => {
       setSaved(false);
@@ -61,7 +65,9 @@ const ResultDisplay: React.FC<ResultDisplayProps> = ({ content, isVisible }) => 
   return (
     <Card className="w-full mt-8 p-6 shadow-lg prompt-shadow animate-fade-in">
       <div className="flex justify-between items-center mb-4">
-        <h3 className="text-xl font-semibold gradient-text">生成的内容</h3>
+        <h3 className="text-xl font-semibold gradient-text">
+          {language === 'zh' ? "生成的内容" : "Generated Content"}
+        </h3>
         <div className="flex items-center gap-2">
           <Button 
             variant="outline" 
@@ -71,7 +77,9 @@ const ResultDisplay: React.FC<ResultDisplayProps> = ({ content, isVisible }) => 
             disabled={feedbackGiven}
           >
             <ThumbsUp className="h-4 w-4 mr-1" />
-            <span className="sr-only md:not-sr-only md:inline">好的</span>
+            <span className="sr-only md:not-sr-only md:inline">
+              {language === 'zh' ? "好的" : "Good"}
+            </span>
           </Button>
           <Button 
             variant="outline" 
@@ -81,7 +89,9 @@ const ResultDisplay: React.FC<ResultDisplayProps> = ({ content, isVisible }) => 
             disabled={feedbackGiven}
           >
             <ThumbsDown className="h-4 w-4 mr-1" />
-            <span className="sr-only md:not-sr-only md:inline">不好</span>
+            <span className="sr-only md:not-sr-only md:inline">
+              {language === 'zh' ? "不好" : "Not good"}
+            </span>
           </Button>
           <Button 
             variant="outline" 
@@ -95,7 +105,10 @@ const ResultDisplay: React.FC<ResultDisplayProps> = ({ content, isVisible }) => 
               <Copy className="h-4 w-4 mr-1" />
             )}
             <span className="sr-only md:not-sr-only md:inline">
-              {copied ? "已复制" : "复制"}
+              {copied 
+                ? (language === 'zh' ? "已复制" : "Copied") 
+                : (language === 'zh' ? "复制" : "Copy")
+              }
             </span>
           </Button>
           <Button 
@@ -111,7 +124,10 @@ const ResultDisplay: React.FC<ResultDisplayProps> = ({ content, isVisible }) => 
               <Save className="h-4 w-4 mr-1" />
             )}
             <span className="sr-only md:not-sr-only md:inline">
-              {saved ? "已保存" : "保存"}
+              {saved 
+                ? (language === 'zh' ? "已保存" : "Saved") 
+                : (language === 'zh' ? "保存" : "Save")
+              }
             </span>
           </Button>
         </div>
@@ -121,10 +137,15 @@ const ResultDisplay: React.FC<ResultDisplayProps> = ({ content, isVisible }) => 
         <div className="mb-4 text-sm text-muted-foreground flex items-center justify-between bg-muted rounded-md p-2">
           <div className="flex items-center">
             <Info className="h-4 w-4 mr-2" />
-            <span>使用次数: {usageCount} / {usageLimit}</span>
+            <span>
+              {language === 'zh' 
+                ? `使用次数: ${usageCount} / ${usageLimit}` 
+                : `Usage: ${usageCount} / ${usageLimit}`
+              }
+            </span>
           </div>
           <Link to="/settings" className="text-primary hover:underline">
-            查看详情
+            {language === 'zh' ? "查看详情" : "View details"}
           </Link>
         </div>
       )}
