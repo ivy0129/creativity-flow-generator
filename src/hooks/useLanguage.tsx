@@ -57,7 +57,7 @@ export const translations: Translations = {
   },
   promptOptimizer: {
     en: 'My Personal AI Prompt',
-    zh: '专属于我的 AI prompt',
+    zh: '专属于我的 AI Prompt',
   },
   subheading: {
     en: 'Help beginners write clear, effective AI instructions for more accurate responses',
