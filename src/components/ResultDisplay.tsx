@@ -48,7 +48,7 @@ const ResultDisplay: React.FC<ResultDisplayProps> = ({ content, isVisible }) => 
     setSaved(true);
     toast({
       title: "提示词已保存",
-      description: "您可以在"已保存的提示词"页面查看",
+      description: "您可以在'已保存的提示词'页面查看",
     });
     setTimeout(() => {
       setSaved(false);
