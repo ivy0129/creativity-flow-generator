@@ -2,8 +2,9 @@
 import React, { useState } from 'react';
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Copy, Check, ThumbsUp, ThumbsDown } from 'lucide-react';
+import { Copy, Check, ThumbsUp, ThumbsDown, Save } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast";
+import { useSavedPrompts } from '@/hooks/useSavedPrompts';
 
 interface ResultDisplayProps {
   content: string;
@@ -12,8 +13,10 @@ interface ResultDisplayProps {
 
 const ResultDisplay: React.FC<ResultDisplayProps> = ({ content, isVisible }) => {
   const { toast } = useToast();
+  const { savePrompt } = useSavedPrompts();
   const [copied, setCopied] = useState(false);
   const [feedbackGiven, setFeedbackGiven] = useState(false);
+  const [saved, setSaved] = useState(false);
   
   if (!isVisible || !content) return null;
   
@@ -38,6 +41,18 @@ const ResultDisplay: React.FC<ResultDisplayProps> = ({ content, isVisible }) => 
         : "我们会努力改进生成的内容",
     });
     setFeedbackGiven(true);
+  };
+
+  const handleSave = () => {
+    savePrompt(content);
+    setSaved(true);
+    toast({
+      title: "提示词已保存",
+      description: "您可以在"已保存的提示词"页面查看",
+    });
+    setTimeout(() => {
+      setSaved(false);
+    }, 2000);
   };
 
   return (
@@ -78,6 +93,22 @@ const ResultDisplay: React.FC<ResultDisplayProps> = ({ content, isVisible }) => 
             )}
             <span className="sr-only md:not-sr-only md:inline">
               {copied ? "已复制" : "复制"}
+            </span>
+          </Button>
+          <Button 
+            variant="outline" 
+            size="sm" 
+            className="transition-colors"
+            onClick={handleSave}
+            disabled={saved}
+          >
+            {saved ? (
+              <Check className="h-4 w-4 mr-1 text-green-500" />
+            ) : (
+              <Save className="h-4 w-4 mr-1" />
+            )}
+            <span className="sr-only md:not-sr-only md:inline">
+              {saved ? "已保存" : "保存"}
             </span>
           </Button>
         </div>
