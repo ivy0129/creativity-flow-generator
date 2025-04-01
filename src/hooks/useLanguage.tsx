@@ -37,8 +37,8 @@ const translations = {
     zh: '使用Google登录',
   },
   promptOptimizer: {
-    en: 'Prompt Optimizer',
-    zh: '提示词优化器',
+    en: 'My Personal AI Prompt',
+    zh: '专属于我的 AI Prompt',
   },
   subheading: {
     en: 'Unleash the power of AI to refine your prompts for optimal results.',
