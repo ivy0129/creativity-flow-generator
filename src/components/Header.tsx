@@ -25,11 +25,11 @@ const Header: React.FC = () => {
     <header className="w-full py-6 px-4 sm:px-6">
       <div className="container mx-auto flex items-center justify-between">
         <Link to="/" className="flex items-center gap-2 min-w-0">
-          <div className="ai-chat-bubble w-9 h-9 flex-shrink-0 bg-purple-500 text-white flex items-center justify-center">
+          <div className="w-9 h-9 flex-shrink-0 bg-purple-500 text-white flex items-center justify-center rounded-md">
             <div className="text-sm font-bold">AI</div>
           </div>
-          <h1 className="text-xl sm:text-2xl font-bold gradient-text truncate">
-            {t('appName')}
+          <h1 className="text-xl sm:text-2xl font-bold text-purple-600 truncate">
+            MyPrompt
           </h1>
         </Link>
         <nav className="flex items-center space-x-2 sm:space-x-6 flex-shrink-0">
