@@ -1,12 +1,107 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+
+import React from 'react';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
+import PromptForm from '@/components/PromptForm';
+import ResultDisplay from '@/components/ResultDisplay';
+import { usePromptGenerator } from '@/hooks/usePromptGenerator';
+import { Sparkles, Lightbulb, BookOpen, Rocket } from 'lucide-react';
 
 const Index = () => {
+  const { 
+    generateContent, 
+    generatedContent, 
+    isLoading, 
+    isResultVisible 
+  } = usePromptGenerator();
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-gray-600">Start building your amazing project here!</p>
-      </div>
+    <div className="min-h-screen flex flex-col bg-background hero-gradient">
+      <Header />
+      
+      <main className="flex-1 container mx-auto px-4 py-8">
+        <section className="max-w-4xl mx-auto mb-12 text-center">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 gradient-text">
+            创意流生成器
+          </h1>
+          <p className="text-xl text-muted-foreground mb-8">
+            使用我们强大的AI工具，一键生成高质量的创意内容
+          </p>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+            <div className="bg-background rounded-lg p-6 shadow-md border border-border">
+              <Lightbulb className="h-8 w-8 text-purple-500 mb-4 mx-auto" />
+              <h3 className="text-lg font-semibold mb-2">无限创意</h3>
+              <p className="text-muted-foreground">
+                突破思维限制，获取源源不断的创意灵感
+              </p>
+            </div>
+            
+            <div className="bg-background rounded-lg p-6 shadow-md border border-border">
+              <BookOpen className="h-8 w-8 text-indigo-500 mb-4 mx-auto" />
+              <h3 className="text-lg font-semibold mb-2">多样内容</h3>
+              <p className="text-muted-foreground">
+                从文章到故事，从广告文案到社交媒体内容
+              </p>
+            </div>
+            
+            <div className="bg-background rounded-lg p-6 shadow-md border border-border">
+              <Rocket className="h-8 w-8 text-purple-500 mb-4 mx-auto" />
+              <h3 className="text-lg font-semibold mb-2">节省时间</h3>
+              <p className="text-muted-foreground">
+                几秒钟内生成高质量内容，提高工作效率
+              </p>
+            </div>
+          </div>
+          
+          <PromptForm onSubmit={generateContent} isLoading={isLoading} />
+          
+          <ResultDisplay 
+            content={generatedContent} 
+            isVisible={isResultVisible} 
+          />
+        </section>
+        
+        <section className="max-w-4xl mx-auto mt-16 text-center">
+          <h2 className="text-3xl font-bold mb-8 gradient-text">
+            如何使用
+          </h2>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="flex flex-col items-center">
+              <div className="w-12 h-12 rounded-full gradient-bg flex items-center justify-center text-white font-bold mb-4">
+                1
+              </div>
+              <h3 className="text-lg font-semibold mb-2">输入主题</h3>
+              <p className="text-muted-foreground">
+                在表单中输入您想要创作的内容主题或基础提示
+              </p>
+            </div>
+            
+            <div className="flex flex-col items-center">
+              <div className="w-12 h-12 rounded-full gradient-bg flex items-center justify-center text-white font-bold mb-4">
+                2
+              </div>
+              <h3 className="text-lg font-semibold mb-2">自定义参数</h3>
+              <p className="text-muted-foreground">
+                调整语调、长度和创意程度以满足您的需求
+              </p>
+            </div>
+            
+            <div className="flex flex-col items-center">
+              <div className="w-12 h-12 rounded-full gradient-bg flex items-center justify-center text-white font-bold mb-4">
+                3
+              </div>
+              <h3 className="text-lg font-semibold mb-2">获取结果</h3>
+              <p className="text-muted-foreground">
+                点击生成按钮，几秒钟内获得高质量创意内容
+              </p>
+            </div>
+          </div>
+        </section>
+      </main>
+      
+      <Footer />
     </div>
   );
 };
