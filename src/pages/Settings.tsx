@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -8,6 +7,7 @@ import { Separator } from "@/components/ui/separator";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from '@/hooks/useAuth';
 import { useLanguage } from '@/hooks/useLanguage';
+import { Github } from 'lucide-react';
 
 const DAILY_FREE_LIMIT = 10; // 免费用户每天10次
 const DAILY_PREMIUM_LIMIT = 100; // 高级用户每天100次
@@ -15,15 +15,13 @@ const PREMIUM_PRICE = 20; // 高级账户每月20美元
 
 const Settings = () => {
   const { toast } = useToast();
-  const { isAuthenticated, user } = useAuth();
+  const { isAuthenticated, user, login } = useAuth();
   const { t, language } = useLanguage();
   const [usageCount, setUsageCount] = useState(0);
   const [usageLimit, setUsageLimit] = useState(DAILY_FREE_LIMIT);
   
-  // 加载使用情况
   useEffect(() => {
     if (isAuthenticated && user) {
-      // 获取当前日期作为使用记录的键
       const today = new Date().toISOString().split('T')[0]; // 格式: YYYY-MM-DD
       const usageKey = `prompt_optimizer_usage_${user.id}_${today}`;
       
@@ -34,7 +32,6 @@ const Settings = () => {
         setUsageCount(0);
       }
       
-      // 设置用户限制
       if (user.isPremium) {
         setUsageLimit(DAILY_PREMIUM_LIMIT);
       } else {
@@ -56,6 +53,18 @@ const Settings = () => {
     toast({
       title: language === 'en' ? "Coming Soon" : "即将推出",
       description: language === 'en' ? "Premium upgrade will be available soon" : "高级账户升级功能即将推出",
+    });
+  };
+
+  const handleGithubConnect = () => {
+    if (!isAuthenticated) {
+      login('github');
+      return;
+    }
+    
+    toast({
+      title: language === 'en' ? "GitHub Account" : "GitHub 账号",
+      description: language === 'en' ? "Your GitHub account is already connected" : "您的GitHub账号已连接",
     });
   };
 
@@ -123,6 +132,26 @@ const Settings = () => {
                 : (language === 'en' ? `Upgrade to Premium ($${PREMIUM_PRICE}/month)` : `升级到高级账户（每月${PREMIUM_PRICE}美元）`)}
             </Button>
           </div>
+        </Card>
+
+        <Card className="p-6">
+          <h2 className="text-xl font-semibold mb-4">{language === 'en' ? "GitHub Integration" : "GitHub 集成"}</h2>
+          <p className="text-base text-muted-foreground mb-4">
+            {language === 'en' 
+              ? "Connect your GitHub account to sync your prompts and customize your experience."
+              : "连接您的GitHub账号，同步您的提示词并自定义您的体验。"}
+          </p>
+          
+          <Button 
+            onClick={handleGithubConnect}
+            className="w-full flex items-center justify-center gap-2" 
+            variant="outline"
+          >
+            <Github className="h-5 w-5" />
+            {isAuthenticated 
+              ? (language === 'en' ? "GitHub Connected" : "GitHub 已连接") 
+              : (language === 'en' ? "Connect GitHub Account" : "连接 GitHub 账号")}
+          </Button>
         </Card>
       </main>
       
