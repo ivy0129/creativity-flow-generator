@@ -9,7 +9,7 @@ import { useLanguage } from '@/hooks/useLanguage';
 
 const TagsExplorer: React.FC = () => {
   const { savedPrompts } = useSavedPrompts();
-  const { language } = useLanguage();
+  const { t, language } = useLanguage();
   
   // Count occurrences of each tag
   const tagCounts: Record<string, number> = {};
@@ -19,9 +19,10 @@ const TagsExplorer: React.FC = () => {
     });
   });
   
-  // Convert to array and sort by count (descending)
+  // Convert to array, sort by count (descending), and limit to top 10
   const sortedTags = Object.entries(tagCounts)
     .sort((a, b) => b[1] - a[1])
+    .slice(0, 10)  // Only take the top 10 tags
     .map(([tag, count]) => ({ tag, count }));
   
   if (sortedTags.length === 0) {

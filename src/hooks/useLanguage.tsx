@@ -115,7 +115,7 @@ const translations = {
     en: 'Creativity',
     zh: '创造力',
   },
-  prompt: {
+  promptText: {  // Renamed from 'prompt' to avoid duplicate key
     en: 'Prompt',
     zh: '提示词',
   },
