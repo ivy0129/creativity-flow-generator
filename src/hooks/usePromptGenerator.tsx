@@ -1,9 +1,11 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { PromptData } from '@/components/PromptForm';
 import { useToast } from '@/hooks/use-toast';
+import { optimizePrompt } from '@/utils/openaiClient';
+import { useAuth } from '@/hooks/useAuth';
 
-// 示例响应，针对开发人员的AI提示优化
+// 示例响应，作为备用或演示用途
 const optimizedPrompts = [
   `我需要创建一个用户登录表单，具有以下要求：
 
@@ -94,32 +96,105 @@ const optimizedPrompts = [
 请提供主要组件的代码实现和项目结构建议。同时，简要说明如何处理API密钥的安全问题和跨域请求。`
 ];
 
+const USER_LIMIT_KEY = 'prompt_optimizer_usage';
+const DEFAULT_FREE_LIMIT = 3; // 免费用户默认限制次数
+
 export const usePromptGenerator = () => {
   const [generatedContent, setGeneratedContent] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isResultVisible, setIsResultVisible] = useState(false);
+  const [usageCount, setUsageCount] = useState(0);
+  const [usageLimit, setUsageLimit] = useState(DEFAULT_FREE_LIMIT);
   const { toast } = useToast();
+  const { isAuthenticated, user } = useAuth();
+
+  // 加载用户使用次数
+  useEffect(() => {
+    if (isAuthenticated && user) {
+      // 从localStorage加载用户使用次数
+      const userUsage = localStorage.getItem(`${USER_LIMIT_KEY}_${user.id}`);
+      if (userUsage) {
+        setUsageCount(parseInt(userUsage, 10));
+      } else {
+        setUsageCount(0);
+        localStorage.setItem(`${USER_LIMIT_KEY}_${user.id}`, '0');
+      }
+      
+      // 这里可以根据用户等级设置不同的使用限制
+      // 例如，付费用户可能有更高的限制
+      if (user.isPremium) {
+        setUsageLimit(10); // 付费用户限制
+      }
+    }
+  }, [isAuthenticated, user]);
+
+  // 更新使用次数
+  const updateUsageCount = () => {
+    if (isAuthenticated && user) {
+      const newCount = usageCount + 1;
+      setUsageCount(newCount);
+      localStorage.setItem(`${USER_LIMIT_KEY}_${user.id}`, newCount.toString());
+    }
+  };
+
+  // 检查用户是否达到使用限制
+  const checkUsageLimit = () => {
+    if (usageCount >= usageLimit) {
+      toast({
+        title: "使用次数已达上限",
+        description: "您已达到免费使用次数上限，请升级到高级账户获取更多次数",
+        variant: "destructive",
+      });
+      return false;
+    }
+    return true;
+  };
 
   const generateContent = async (promptData: PromptData) => {
+    // 检查是否已达到使用限制
+    if (!checkUsageLimit()) return;
+    
     setIsLoading(true);
     
     try {
-      // 在实际实现中，这里会是一个API调用
-      // 现在使用模拟数据演示功能
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      // 调用OpenAI API
+      const apiKey = localStorage.getItem('openai_api_key');
       
-      // 获取一个随机的优化后提示词
-      const randomIndex = Math.floor(Math.random() * optimizedPrompts.length);
-      let response = optimizedPrompts[randomIndex];
-      
-      // 根据长度调整响应
-      if (promptData.length < 200) {
-        response = response.split('\n\n')[0] + '\n\n' + response.split('\n\n')[1];
-      } else if (promptData.length > 300) {
-        // 对于较长内容，保持完整响应
+      // 如果没有API密钥，提示用户添加
+      if (!apiKey) {
+        const apiKeyInput = prompt('请输入您的OpenAI API密钥以继续:');
+        if (apiKeyInput) {
+          localStorage.setItem('openai_api_key', apiKeyInput);
+        } else {
+          // 如果用户取消输入，使用示例响应
+          fallbackToExampleResponse(promptData);
+          return;
+        }
       }
       
-      setGeneratedContent(response);
+      const result = await optimizePrompt(
+        promptData.prompt,
+        promptData.tone,
+        promptData.length,
+        promptData.creativity
+      );
+      
+      if (result.error) {
+        toast({
+          title: "优化失败",
+          description: result.error,
+          variant: "destructive",
+        });
+        
+        // 如果API调用失败，使用示例响应
+        fallbackToExampleResponse(promptData);
+        return;
+      }
+      
+      // 更新使用次数
+      updateUsageCount();
+      
+      setGeneratedContent(result.content);
       setIsResultVisible(true);
     } catch (error) {
       console.error('Error generating content:', error);
@@ -128,9 +203,29 @@ export const usePromptGenerator = () => {
         description: "提示词优化过程中出现错误，请稍后再试",
         variant: "destructive",
       });
+      
+      // 使用示例响应
+      fallbackToExampleResponse(promptData);
     } finally {
       setIsLoading(false);
     }
+  };
+  
+  // 使用示例响应作为备用
+  const fallbackToExampleResponse = (promptData: PromptData) => {
+    // 获取一个随机的优化后提示词
+    const randomIndex = Math.floor(Math.random() * optimizedPrompts.length);
+    let response = optimizedPrompts[randomIndex];
+    
+    // 根据长度调整响应
+    if (promptData.length < 200) {
+      response = response.split('\n\n')[0] + '\n\n' + response.split('\n\n')[1];
+    } else if (promptData.length > 300) {
+      // 对于较长内容，保持完整响应
+    }
+    
+    setGeneratedContent(response);
+    setIsResultVisible(true);
   };
 
   return {
@@ -138,5 +233,7 @@ export const usePromptGenerator = () => {
     isLoading,
     isResultVisible,
     generateContent,
+    usageCount,
+    usageLimit,
   };
 };

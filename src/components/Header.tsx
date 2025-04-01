@@ -1,5 +1,6 @@
+
 import React from 'react';
-import { Code, LogIn, LogOut, Github, Mail } from 'lucide-react';
+import { Code, LogIn, LogOut, Github, Mail, Settings } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { useAuth } from '@/hooks/useAuth';
@@ -36,6 +37,9 @@ const Header: React.FC = () => {
             </Link>
             <Link to="/saved" className="text-sm font-medium text-foreground/80 hover:text-foreground transition-colors">
               {t('savedPrompts')}
+            </Link>
+            <Link to="/settings" className="text-sm font-medium text-foreground/80 hover:text-foreground transition-colors">
+              {t('settings')}
             </Link>
           </div>
           
@@ -76,6 +80,13 @@ const Header: React.FC = () => {
                 <DropdownMenuItem className="text-sm font-medium">
                   {user?.name}
                 </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link to="/settings" className="flex items-center cursor-pointer">
+                    <Settings className="mr-2 h-4 w-4" />
+                    {t('settings')}
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={logout} className="text-sm font-medium text-red-500 cursor-pointer">
                   <LogOut className="mr-2 h-4 w-4" />
                   {t('logout')}

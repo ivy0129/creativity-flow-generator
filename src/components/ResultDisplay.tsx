@@ -2,9 +2,11 @@
 import React, { useState } from 'react';
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Copy, Check, ThumbsUp, ThumbsDown, Save } from 'lucide-react';
+import { Copy, Check, ThumbsUp, ThumbsDown, Save, Info } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast";
 import { useSavedPrompts } from '@/hooks/useSavedPrompts';
+import { usePromptGenerator } from '@/hooks/usePromptGenerator';
+import { Link } from 'react-router-dom';
 
 interface ResultDisplayProps {
   content: string;
@@ -14,6 +16,7 @@ interface ResultDisplayProps {
 const ResultDisplay: React.FC<ResultDisplayProps> = ({ content, isVisible }) => {
   const { toast } = useToast();
   const { savePrompt } = useSavedPrompts();
+  const { usageCount, usageLimit } = usePromptGenerator();
   const [copied, setCopied] = useState(false);
   const [feedbackGiven, setFeedbackGiven] = useState(false);
   const [saved, setSaved] = useState(false);
@@ -113,6 +116,19 @@ const ResultDisplay: React.FC<ResultDisplayProps> = ({ content, isVisible }) => 
           </Button>
         </div>
       </div>
+
+      {usageCount > 0 && (
+        <div className="mb-4 text-sm text-muted-foreground flex items-center justify-between bg-muted rounded-md p-2">
+          <div className="flex items-center">
+            <Info className="h-4 w-4 mr-2" />
+            <span>使用次数: {usageCount} / {usageLimit}</span>
+          </div>
+          <Link to="/settings" className="text-primary hover:underline">
+            查看详情
+          </Link>
+        </div>
+      )}
+      
       <div className="bg-muted rounded-md p-4 whitespace-pre-wrap">
         {content}
       </div>
