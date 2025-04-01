@@ -1,5 +1,6 @@
 
 import React, { useState, KeyboardEvent } from 'react';
+import { Link } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { X, Tag } from 'lucide-react';
@@ -7,9 +8,10 @@ import { X, Tag } from 'lucide-react';
 interface TagInputProps {
   tags: string[];
   onChange: (tags: string[]) => void;
+  readonly?: boolean;
 }
 
-const TagInput: React.FC<TagInputProps> = ({ tags, onChange }) => {
+const TagInput: React.FC<TagInputProps> = ({ tags, onChange, readonly = false }) => {
   const [inputValue, setInputValue] = useState('');
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -36,27 +38,38 @@ const TagInput: React.FC<TagInputProps> = ({ tags, onChange }) => {
           key={index} 
           className="bg-secondary text-secondary-foreground px-2 py-1 rounded-md text-sm flex items-center gap-1"
         >
-          {tag}
-          <Button
-            type="button"
-            variant="ghost"
-            size="sm"
-            className="h-4 w-4 p-0"
-            onClick={() => removeTag(index)}
-          >
-            <X className="h-3 w-3" />
-            <span className="sr-only">删除标签</span>
-          </Button>
+          {readonly ? (
+            <Link to={`/tags/${tag}`} className="hover:underline">
+              {tag}
+            </Link>
+          ) : (
+            <span>{tag}</span>
+          )}
+          
+          {!readonly && (
+            <Button
+              type="button"
+              variant="ghost"
+              size="sm"
+              className="h-4 w-4 p-0"
+              onClick={() => removeTag(index)}
+            >
+              <X className="h-3 w-3" />
+              <span className="sr-only">删除标签</span>
+            </Button>
+          )}
         </div>
       ))}
-      <Input
-        type="text"
-        value={inputValue}
-        onChange={(e) => setInputValue(e.target.value)}
-        onKeyDown={handleKeyDown}
-        className="flex-1 min-w-[120px] h-8"
-        placeholder="添加标签..."
-      />
+      {!readonly && (
+        <Input
+          type="text"
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
+          onKeyDown={handleKeyDown}
+          className="flex-1 min-w-[120px] h-8"
+          placeholder="添加标签..."
+        />
+      )}
     </div>
   );
 };

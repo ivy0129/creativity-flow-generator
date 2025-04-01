@@ -143,6 +143,10 @@ const translations = {
     en: 'Search prompts or tags...',
     zh: '搜索提示词或标签...',
   },
+  searchPrompts: {
+    en: 'Search prompts...',
+    zh: '搜索提示词...',
+  },
   noSavedPrompts: {
     en: 'No saved prompts yet.',
     zh: '还没有保存的提示词。',
@@ -214,6 +218,26 @@ const translations = {
   errorSavingPrompt: {
     en: 'An error occurred while saving your prompt',
     zh: '保存提示词时发生错误',
+  },
+  backToSavedPrompts: {
+    en: 'Back to Saved Prompts',
+    zh: '返回保存的提示词',
+  },
+  relatedTags: {
+    en: 'Related Tags',
+    zh: '相关标签',
+  },
+  exploreAllTags: {
+    en: 'Explore All Tags',
+    zh: '探索所有标签',
+  },
+  popularTags: {
+    en: 'Popular Tags',
+    zh: '热门标签',
+  },
+  promptsWithTag: {
+    en: 'prompts with the tag',
+    zh: '个与此标签相关的提示词',
   },
 };
 

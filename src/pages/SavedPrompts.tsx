@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Copy, Search, Trash2 } from 'lucide-react';
 import { useSavedPrompts } from '@/hooks/useSavedPrompts';
 import TagInput from '@/components/TagInput';
+import TagsExplorer from '@/components/TagsExplorer';
 import { useToast } from '@/hooks/use-toast';
 import { useLanguage } from '@/hooks/useLanguage';
 
@@ -49,6 +50,12 @@ const SavedPrompts = () => {
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
+          
+          {savedPrompts.length > 0 && (
+            <div className="mb-6">
+              <TagsExplorer />
+            </div>
+          )}
 
           {filteredPrompts.length === 0 ? (
             <div className="text-center py-12">
