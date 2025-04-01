@@ -58,10 +58,10 @@ const translations = {
     savePrompts: 'Save Prompts',
     savePromptsDesc: 'Store and organize your favorite prompts',
     
-    // 应用名称和子标题
+    // 应用名称和子标题 - 更新为新的文案
     appName: 'AI Prompt Engineer',
-    promptOptimizer: 'Prompt Optimizer',
-    subheading: 'Generate, optimize, and manage AI prompts efficiently',
+    promptOptimizer: 'My Personal AI Prompt',
+    subheading: 'Help beginners write clear, effective AI instructions for more accurate responses',
     
     // 如何使用
     howToUse: 'How to Use',
@@ -129,10 +129,10 @@ const translations = {
     savePrompts: '保存提示词',
     savePromptsDesc: '存储并组织您喜爱的提示词',
     
-    // 应用名称和子标题
+    // 应用名称和子标题 - 更新为新的文案
     appName: 'AI提示词工程师',
-    promptOptimizer: '提示词优化器',
-    subheading: '高效生成、优化和管理AI提示词',
+    promptOptimizer: '专属于我的 AI Prompt',
+    subheading: '帮助开发新手编写清晰、有效的AI指令，获得更精准的回应',
     
     // 如何使用
     howToUse: '使用方法',
