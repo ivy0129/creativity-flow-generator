@@ -11,6 +11,30 @@ interface LanguageContextType {
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 const translations = {
+  appName: {
+    en: 'Prompt Optimizer',
+    zh: '提示词优化器',
+  },
+  home: {
+    en: 'Home',
+    zh: '首页',
+  },
+  logout: {
+    en: 'Logout',
+    zh: '退出登录',
+  },
+  login: {
+    en: 'Login',
+    zh: '登录',
+  },
+  githubLogin: {
+    en: 'Login with GitHub',
+    zh: '使用GitHub登录',
+  },
+  googleLogin: {
+    en: 'Login with Google',
+    zh: '使用Google登录',
+  },
   promptOptimizer: {
     en: 'Prompt Optimizer',
     zh: '提示词优化器',
