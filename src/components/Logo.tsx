@@ -1,6 +1,5 @@
 
 import React from 'react';
-import { MessageSquare, MessageCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useLanguage } from '@/hooks/useLanguage';
 
@@ -31,25 +30,23 @@ const Logo = ({
 
   return (
     <div className={cn('flex items-center gap-2', className)}>
-      <div className="relative flex">
-        <div className="absolute inset-0 blur-sm opacity-50 bg-purple-500 rounded-full"></div>
-        <MessageCircle 
-          className={cn(
-            sizeClasses[size], 
-            'text-primary relative z-10 -mr-1'
-          )} 
-        />
-        <MessageSquare 
-          className={cn(
-            sizeClasses[size], 
-            'text-primary relative z-10 translate-x-1 -translate-y-1'
-          )} 
-        />
+      <div className="relative">
+        {/* Simple message bubble logo */}
+        <div className={cn(
+          "rounded-lg flex items-center justify-center relative",
+          sizeClasses[size]
+        )}>
+          <svg viewBox="0 0 24 24" className={cn(sizeClasses[size])}>
+            <rect width="20" height="16" x="2" y="4" rx="3" fill="#8B5CF6" className="drop-shadow-md" />
+            <text x="50%" y="50%" dominantBaseline="middle" textAnchor="middle" 
+                  fill="white" fontSize="10" fontWeight="bold">AI</text>
+          </svg>
+        </div>
       </div>
       
       {showText && (
         <span className={cn(
-          "font-bold gradient-text", 
+          "font-bold text-primary", 
           textSizeClasses[size]
         )}>
           {t('promptOptimizer')}
