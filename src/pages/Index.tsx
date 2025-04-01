@@ -1,4 +1,3 @@
-
 import React from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -11,14 +10,6 @@ import { Lightbulb, BookOpen, Save } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import SavePromptForm from '@/components/SavePromptForm';
 import { useAuth } from '@/hooks/useAuth';
-import { 
-  Breadcrumb,
-  BreadcrumbList,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
 import { Helmet } from 'react-helmet';
 
 const Index = () => {
@@ -36,7 +27,7 @@ const Index = () => {
   return (
     <>
       <Helmet>
-        <title>{t('appName')} - {t('promptOptimizer')}</title>
+        <title>MyPrompt - {t('promptOptimizer')}</title>
         <meta name="description" content={t('subheading')} />
       </Helmet>
       
@@ -44,18 +35,6 @@ const Index = () => {
         <Header />
         
         <main className="flex-1 container mx-auto px-4 py-4">
-          <Breadcrumb className="mb-4">
-            <BreadcrumbList>
-              <BreadcrumbItem>
-                <BreadcrumbLink href="/">{t('home')}</BreadcrumbLink>
-              </BreadcrumbItem>
-              <BreadcrumbSeparator />
-              <BreadcrumbItem>
-                <BreadcrumbPage>{t('promptOptimizer')}</BreadcrumbPage>
-              </BreadcrumbItem>
-            </BreadcrumbList>
-          </Breadcrumb>
-          
           <section className="max-w-4xl mx-auto mb-6 text-center">
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-4 gradient-text">
               {t('promptOptimizer')}

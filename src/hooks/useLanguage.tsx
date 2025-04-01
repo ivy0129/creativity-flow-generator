@@ -13,8 +13,8 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 
 const translations = {
   appName: {
-    en: 'Prompt Optimizer',
-    zh: '提示词优化器',
+    en: 'MyPrompt',
+    zh: 'MyPrompt',
   },
   home: {
     en: 'Home',
