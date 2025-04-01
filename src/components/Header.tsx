@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { LogIn, LogOut, Github, Mail, Settings, Globe } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -14,6 +13,7 @@ import {
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 
 const Header: React.FC = () => {
   const { isAuthenticated, user, login, logout, loading } = useAuth();
@@ -46,23 +46,35 @@ const Header: React.FC = () => {
           
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon" className="w-9 h-9 p-0 flex items-center justify-center">
-                <Globe className="h-5 w-5 text-foreground/70" />
-                {!isMobile && <span className="ml-1 text-lg font-medium">{language === 'zh' ? '中' : 'En'}</span>}
+              <Button 
+                variant="outline" 
+                size="sm" 
+                className={`rounded-full border border-purple-400/50 bg-purple-50/50 hover:bg-purple-100/50 text-purple-700 ${
+                  isMobile ? "w-9 h-9 p-0" : "px-3 py-1 h-9"
+                }`}
+              >
+                <Globe className={`h-4 w-4 ${!isMobile ? "mr-1" : ""} text-purple-600`} />
+                {!isMobile && 
+                  <span className="text-sm font-medium">
+                    {language === 'zh' ? '中' : 'En'}
+                  </span>
+                }
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="p-0 min-w-[150px]">
               <DropdownMenuItem 
                 onClick={() => setLanguage('zh')} 
-                className={`py-3 px-4 text-base cursor-pointer ${language === 'zh' ? 'font-bold' : ''}`}
+                className={`py-3 px-4 text-base cursor-pointer flex items-center ${language === 'zh' ? 'bg-purple-50 text-purple-700 font-medium' : ''}`}
               >
                 简体中文
+                {language === 'zh' && <span className="ml-auto text-xs text-purple-600">✓</span>}
               </DropdownMenuItem>
               <DropdownMenuItem 
                 onClick={() => setLanguage('en')} 
-                className={`py-3 px-4 text-base cursor-pointer ${language === 'en' ? 'font-bold' : ''}`}
+                className={`py-3 px-4 text-base cursor-pointer flex items-center ${language === 'en' ? 'bg-purple-50 text-purple-700 font-medium' : ''}`}
               >
                 English
+                {language === 'en' && <span className="ml-auto text-xs text-purple-600">✓</span>}
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
