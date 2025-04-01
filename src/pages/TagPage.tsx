@@ -1,39 +1,25 @@
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
-import { Copy, ArrowLeft, Tag as TagIcon, Search } from 'lucide-react';
+import { Copy, ArrowLeft, Trash2, Tag as TagIcon } from 'lucide-react';
 import { useSavedPrompts } from '@/hooks/useSavedPrompts';
 import { useToast } from '@/hooks/use-toast';
 import { useLanguage } from '@/hooks/useLanguage';
+import TagInput from '@/components/TagInput';
 
 const TagPage = () => {
   const { tagName } = useParams<{ tagName: string }>();
-  const { savedPrompts } = useSavedPrompts();
-  const [searchTerm, setSearchTerm] = useState('');
+  const { savedPrompts, removeSavedPrompt, updatePromptTags } = useSavedPrompts();
   const { toast } = useToast();
   const { t, language } = useLanguage();
   
-  // Get all unique tags from saved prompts
-  const allTags = Array.from(
-    new Set(
-      savedPrompts.flatMap(prompt => prompt.tags)
-    )
-  ).sort();
-
-  // Filter prompts by the current tag
-  const promptsWithTag = savedPrompts.filter(
-    prompt => prompt.tags.includes(tagName || '')
-  );
-  
-  // Further filter by search term if provided
-  const filteredPrompts = promptsWithTag.filter(
-    prompt => prompt.content.toLowerCase().includes(searchTerm.toLowerCase())
+  // Filter prompts by the tag from URL
+  const filteredPrompts = savedPrompts.filter(prompt => 
+    prompt.tags.some(t => t.toLowerCase() === tagName?.toLowerCase())
   );
 
   const copyToClipboard = (content: string) => {
@@ -49,99 +35,81 @@ const TagPage = () => {
       <Header />
       
       <main className="flex-1 container mx-auto px-4 py-8">
-        <section className="max-w-5xl mx-auto mb-12">
-          <div className="mb-8">
-            <Link to="/saved" className="inline-flex items-center text-primary hover:underline mb-4">
-              <ArrowLeft className="h-4 w-4 mr-1" />
-              {t('backToSavedPrompts')}
-            </Link>
-            
-            <div className="flex items-center gap-2 mb-4">
+        <div className="max-w-4xl mx-auto mb-6">
+          <Link 
+            to="/saved" 
+            className="inline-flex items-center text-muted-foreground hover:text-foreground mb-4"
+          >
+            <ArrowLeft className="h-4 w-4 mr-2" />
+            {t('backToSavedPrompts')}
+          </Link>
+          
+          <div className="flex items-center gap-3 mb-6">
+            <div className="bg-primary/10 p-3 rounded-full">
               <TagIcon className="h-6 w-6 text-primary" />
-              <h1 className="text-3xl sm:text-4xl font-bold gradient-text">
-                {tagName}
-              </h1>
             </div>
-            
-            <p className="text-muted-foreground mb-6">
-              {language === 'zh' 
-                ? `${filteredPrompts.length} 个与 "${tagName}" 相关的提示词` 
-                : `${filteredPrompts.length} prompts with the "${tagName}" tag`}
-            </p>
+            <h1 className="text-3xl sm:text-4xl font-bold gradient-text">
+              {tagName}
+            </h1>
           </div>
           
-          {/* Search bar */}
-          <div className="relative mb-6">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
-            <Input 
-              placeholder={t('searchPrompts')}
-              className="pl-10"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-          </div>
-          
-          {/* Related tags */}
-          <div className="mb-8">
-            <h2 className="text-lg font-medium mb-3">
-              {t('relatedTags')}
-            </h2>
-            <div className="flex flex-wrap gap-2">
-              {allTags.filter(tag => tag !== tagName).map(tag => (
-                <Link to={`/tags/${tag}`} key={tag}>
-                  <Badge variant="secondary" className="text-sm py-1 px-2 cursor-pointer hover:bg-secondary/80">
-                    {tag}
-                  </Badge>
-                </Link>
-              ))}
-            </div>
-          </div>
-          
-          {/* Prompt list */}
+          <p className="text-muted-foreground mb-8">
+            {t('promptsTaggedWith')} <span className="font-semibold">"{tagName}"</span>
+          </p>
+
           {filteredPrompts.length === 0 ? (
-            <div className="text-center py-12">
-              <p className="text-muted-foreground">
-                {searchTerm 
-                  ? language === 'zh' ? `没有与"${searchTerm}"匹配的提示词` : `No prompts matching "${searchTerm}"` 
-                  : language === 'zh' ? `没有带有"${tagName}"标签的提示词` : `No prompts with the "${tagName}" tag`}
+            <div className="text-center py-12 bg-muted/50 rounded-lg">
+              <TagIcon className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+              <p className="text-muted-foreground text-lg">
+                {t('noPromptsWithTag')}
               </p>
             </div>
           ) : (
-            <div className="space-y-4">
-              {filteredPrompts.map((prompt, index) => (
-                <Card key={index} className="p-4 shadow-md">
-                  <div className="flex flex-wrap gap-2 mb-3">
-                    {prompt.tags.map(tag => (
-                      <Link to={`/tags/${tag}`} key={tag}>
-                        <Badge 
-                          variant={tag === tagName ? "default" : "secondary"} 
-                          className="cursor-pointer"
+            <div className="space-y-4 mb-8">
+              <p className="text-sm text-muted-foreground">
+                {filteredPrompts.length} {filteredPrompts.length === 1 ? t('prompt') : t('prompts')}
+              </p>
+              {filteredPrompts.map((prompt, index) => {
+                const originalIndex = savedPrompts.findIndex(p => 
+                  p.content === prompt.content && 
+                  p.createdAt === prompt.createdAt
+                );
+                
+                return (
+                  <Card key={index} className="p-4 shadow-md hover:shadow-lg transition-shadow">
+                    <div className="flex justify-between items-start mb-3">
+                      <TagInput 
+                        tags={prompt.tags} 
+                        onChange={(newTags) => updatePromptTags(originalIndex, newTags)} 
+                      />
+                      <div className="flex space-x-2">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => copyToClipboard(prompt.content)}
                         >
-                          {tag}
-                        </Badge>
-                      </Link>
-                    ))}
-                  </div>
-                  
-                  <div className="bg-muted rounded-md p-4 whitespace-pre-wrap">
-                    {prompt.content}
-                  </div>
-                  
-                  <div className="mt-3 flex justify-end">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => copyToClipboard(prompt.content)}
-                    >
-                      <Copy className="h-4 w-4 mr-1" />
-                      {t('copy')}
-                    </Button>
-                  </div>
-                </Card>
-              ))}
+                          <Copy className="h-4 w-4" />
+                          <span className="sr-only md:not-sr-only md:inline ml-1">{t('copy')}</span>
+                        </Button>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => removeSavedPrompt(originalIndex)}
+                        >
+                          <Trash2 className="h-4 w-4" />
+                          <span className="sr-only md:not-sr-only md:inline ml-1">{t('delete')}</span>
+                        </Button>
+                      </div>
+                    </div>
+                    <div className="bg-muted rounded-md p-4 whitespace-pre-wrap">
+                      {prompt.content}
+                    </div>
+                  </Card>
+                );
+              })}
             </div>
           )}
-        </section>
+        </div>
       </main>
       
       <Footer />

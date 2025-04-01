@@ -235,9 +235,21 @@ const translations = {
     en: 'Popular Tags',
     zh: '热门标签',
   },
-  promptsWithTag: {
-    en: 'prompts with the tag',
-    zh: '个与此标签相关的提示词',
+  promptsTaggedWith: {
+    en: 'Prompts tagged with',
+    zh: '带有标签的提示词',
+  },
+  noPromptsWithTag: {
+    en: 'No prompts with this tag yet',
+    zh: '暂无带有此标签的提示词',
+  },
+  prompt: {
+    en: 'Prompt',
+    zh: '提示词',
+  },
+  prompts: {
+    en: 'Prompts',
+    zh: '提示词',
   },
 };
 
