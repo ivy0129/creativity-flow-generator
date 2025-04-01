@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -123,7 +124,7 @@ const ResultDisplay: React.FC<ResultDisplayProps> = ({ content, isVisible }) => 
             <span>使用次数: {usageCount} / {usageLimit}</span>
           </div>
           <Link to="/settings" className="text-primary hover:underline">
-            升级获取更多次数
+            查看详情
           </Link>
         </div>
       )}

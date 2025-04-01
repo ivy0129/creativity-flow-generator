@@ -64,7 +64,7 @@ const Settings = () => {
       <Header />
       
       <main className="flex-1 container mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold mb-6">{language === 'en' ? "About Us & Pricing" : "关于我们与定价"}</h1>
+        <h1 className="text-3xl font-bold mb-6">{language === 'en' ? "About Us" : "关于我们"}</h1>
         
         <Card className="p-6 mb-6">
           <h2 className="text-xl font-semibold mb-4">{language === 'en' ? "Our Mission" : "我们的使命"}</h2>
@@ -77,20 +77,6 @@ const Settings = () => {
             {language === 'en'
               ? "With our service, you can focus on your ideas and let us handle the prompt engineering, saving you time and improving your AI interactions."
               : "借助我们的服务，您可以专注于您的想法，让我们处理提示词工程，节省您的时间并改善您与AI的互动。"}
-          </p>
-        </Card>
-
-        <Card className="p-6 mb-6">
-          <h2 className="text-xl font-semibold mb-4">{language === 'en' ? "Technology" : "技术说明"}</h2>
-          <p className="text-base text-muted-foreground mb-4">
-            {language === 'en' 
-              ? "Our prompt optimization service is powered by Together.ai's LLM models, which provide state-of-the-art natural language processing capabilities."
-              : "我们的提示词优化服务由Together.ai的大语言模型提供支持，它拥有最先进的自然语言处理能力。"}
-          </p>
-          <p className="text-base text-muted-foreground">
-            {language === 'en'
-              ? "We use meta-llama/Llama-3-70b-chat-hf for optimal prompt optimization results."
-              : "我们使用meta-llama/Llama-3-70b-chat-hf模型来获得最佳的提示词优化结果。"}
           </p>
         </Card>
         
@@ -116,12 +102,12 @@ const Settings = () => {
             
             <div className="bg-purple-50 dark:bg-purple-950 border border-purple-200 dark:border-purple-800 rounded-md p-4">
               <h3 className="font-medium text-purple-800 dark:text-purple-300 mb-2">
-                {language === 'en' ? "API Resource Information" : "API资源信息"}
+                {language === 'en' ? "Resource Limitations" : "资源限制"}
               </h3>
               <p className="text-sm text-purple-700 dark:text-purple-400">
                 {language === 'en' 
-                  ? `Our service is powered by Together.ai. Free users can use our service ${DAILY_FREE_LIMIT} times per day. For increased usage (${DAILY_PREMIUM_LIMIT} per day), you can upgrade to a premium account for just $${PREMIUM_PRICE}/month.`
-                  : `我们的服务由Together.ai提供支持。免费用户每天可以使用${DAILY_FREE_LIMIT}次提示词优化服务。如果您想使用更多次数（每天${DAILY_PREMIUM_LIMIT}次），可升级到高级账户，每月${PREMIUM_PRICE}美元。`}
+                  ? `Due to resource limitations, free users can use our service ${DAILY_FREE_LIMIT} times per day. For increased usage (${DAILY_PREMIUM_LIMIT} per day), you can upgrade to a premium account for just $${PREMIUM_PRICE}/month.`
+                  : `由于资源限制，免费用户每天可以使用${DAILY_FREE_LIMIT}次提示词优化服务。如果您想使用更多次数（每天${DAILY_PREMIUM_LIMIT}次），可升级到高级账户，每月${PREMIUM_PRICE}美元。`}
               </p>
             </div>
             
