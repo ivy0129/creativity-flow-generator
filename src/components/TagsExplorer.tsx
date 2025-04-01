@@ -30,22 +30,22 @@ const TagsExplorer: React.FC = () => {
   }
 
   return (
-    <Card className="p-4 shadow-sm bg-white">
+    <Card className="p-4 shadow-sm bg-white overflow-hidden">
       <div className="flex items-center gap-2 mb-4">
         <Tags className="h-5 w-5 text-primary" />
-        <h2 className="text-xl font-semibold">
+        <h2 className="text-lg font-semibold text-foreground">
           {language === 'zh' ? '热门标签' : 'Popular Tags'}
         </h2>
       </div>
       
-      <div className="flex flex-wrap gap-3">
+      <div className="flex flex-wrap gap-2">
         {sortedTags.map(({ tag, count }) => (
           <Link to={`/tags/${tag}`} key={tag}>
             <Badge 
               variant="secondary" 
-              className="py-2 px-4 text-sm cursor-pointer hover:bg-secondary/80"
+              className="py-1.5 rounded-full text-xs font-medium hover:bg-secondary/80 cursor-pointer"
             >
-              {tag} <span className="ml-1 text-xs opacity-70">({count})</span>
+              {tag} <span className="ml-1 opacity-70">({count})</span>
             </Badge>
           </Link>
         ))}
