@@ -1,242 +1,129 @@
 
-import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 
+// 语言类型
 type Language = 'en' | 'zh';
 
-interface LanguageContextType {
+// 将所有翻译文本进行集中管理
+const translations = {
+  en: {
+    // 通用
+    submit: 'Submit',
+    save: 'Save',
+    cancel: 'Cancel',
+    delete: 'Delete',
+    confirm: 'Confirm',
+    copy: 'Copy',
+    home: 'Home',
+    settings: 'Settings',
+    login: 'Login',
+    logout: 'Logout',
+    copied: 'Copied',
+    copiedToClipboard: 'Text has been copied to clipboard',
+    error: 'Error',
+    
+    // 提示词相关
+    prompt: 'Prompt',
+    prompts: 'Prompts',
+    promptContent: 'Prompt Content',
+    savedPrompts: 'Saved Prompts',
+    savePrompt: 'Save Prompt',
+    savedPrompt: 'Saved Prompt',
+    promptSaved: 'Prompt Saved',
+    promptSavedDesc: 'Your prompt has been saved successfully',
+    promptEmpty: 'Prompt cannot be empty',
+    errorSavingPrompt: 'An error occurred while saving the prompt',
+    noSavedPrompts: 'No saved prompts yet',
+    noMatchingPrompts: 'No prompts match your search',
+    searchPromptsOrTags: 'Search prompts or tags',
+    
+    // 标签相关
+    tags: 'Tags',
+    tagsOptional: 'optional',
+    
+    // 新增标签页相关
+    promptsTaggedWith: 'Prompts Tagged with',
+    backToSavedPrompts: 'Back to Saved Prompts',
+    noPromptsWithTag: 'No prompts with this tag',
+  },
+  zh: {
+    // 通用
+    submit: '提交',
+    save: '保存',
+    cancel: '取消',
+    delete: '删除',
+    confirm: '确认',
+    copy: '复制',
+    home: '首页',
+    settings: '设置',
+    login: '登录',
+    logout: '退出登录',
+    copied: '已复制',
+    copiedToClipboard: '文本已复制到剪贴板',
+    error: '错误',
+    
+    // 提示词相关
+    prompt: '提示词',
+    prompts: '提示词',
+    promptContent: '提示词内容',
+    savedPrompts: '已保存的提示词',
+    savePrompt: '保存提示词',
+    savedPrompt: '已保存提示词',
+    promptSaved: '提示词已保存',
+    promptSavedDesc: '您的提示词已成功保存',
+    promptEmpty: '提示词不能为空',
+    errorSavingPrompt: '保存提示词时发生错误',
+    noSavedPrompts: '暂无已保存的提示词',
+    noMatchingPrompts: '没有匹配的提示词',
+    searchPromptsOrTags: '搜索提示词或标签',
+    
+    // 标签相关
+    tags: '标签',
+    tagsOptional: '可选',
+    
+    // 新增标签页相关
+    promptsTaggedWith: '标签为',
+    backToSavedPrompts: '返回已保存的提示词',
+    noPromptsWithTag: '没有使用此标签的提示词',
+  }
+};
+
+// 创建上下文
+type LanguageContextType = {
   language: Language;
-  setLanguage: (language: Language) => void;
-  t: (key: keyof typeof translations) => string;
-}
+  setLanguage: (lang: Language) => void;
+  t: (key: string) => string;
+};
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
-const translations = {
-  appName: {
-    en: 'Prompt Optimizer',
-    zh: '提示词优化器',
-  },
-  home: {
-    en: 'Home',
-    zh: '首页',
-  },
-  logout: {
-    en: 'Logout',
-    zh: '退出登录',
-  },
-  login: {
-    en: 'Login',
-    zh: '登录',
-  },
-  githubLogin: {
-    en: 'Login with GitHub',
-    zh: '使用GitHub登录',
-  },
-  googleLogin: {
-    en: 'Login with Google',
-    zh: '使用Google登录',
-  },
-  promptOptimizer: {
-    en: 'Prompt Optimizer',
-    zh: '提示词优化器',
-  },
-  subheading: {
-    en: 'Unleash the power of AI to refine your prompts for optimal results.',
-    zh: '释放AI的力量，优化您的提示词，以获得最佳效果。',
-  },
-  promptOptimization: {
-    en: 'Prompt Optimization',
-    zh: '提示词优化',
-  },
-  promptOptimizationDesc: {
-    en: 'Refine your prompts to get the best results from AI models.',
-    zh: '优化您的提示词，以从AI模型获得最佳结果。',
-  },
-  devCommandGen: {
-    en: 'Dev Command Gen',
-    zh: '开发命令生成',
-  },
-  devCommandGenDesc: {
-    en: 'Generate code and commands for development tasks.',
-    zh: '生成用于开发任务的代码和命令。',
-  },
-  learningGrowth: {
-    en: 'Learning & Growth',
-    zh: '学习与成长',
-  },
-  learningGrowthDesc: {
-    en: 'AI-driven insights for personal and professional development.',
-    zh: 'AI驱动的洞察力，用于个人和职业发展。',
-  },
-  howToUse: {
-    en: 'How to Use',
-    zh: '如何使用',
-  },
-  describeNeeds: {
-    en: 'Describe Your Needs',
-    zh: '描述您的需求',
-  },
-  describeNeedsDesc: {
-    en: 'Clearly outline the functionality or problem you\'re addressing.',
-    zh: '清晰地概述您要解决的功能或问题。',
-  },
-  chooseParams: {
-    en: 'Choose Parameters',
-    zh: '选择参数',
-  },
-  chooseParamsDesc: {
-    en: 'Customize the tone, length, and creativity to match your style.',
-    zh: '自定义语气、长度和创造力以匹配您的风格。',
-  },
-  getResults: {
-    en: 'Get Results',
-    zh: '获取结果',
-  },
-  getResultsDesc: {
-    en: 'Receive optimized prompts or generated content instantly.',
-    zh: '立即收到优化的提示词或生成的内容。',
-  },
-  enterPrompt: {
-    en: 'Enter your prompt here...',
-    zh: '在此输入您的提示词...',
-  },
-  optimize: {
-    en: 'Optimize',
-    zh: '优化',
-  },
-  tone: {
-    en: 'Tone',
-    zh: '语气',
-  },
-  length: {
-    en: 'Length',
-    zh: '长度',
-  },
-  creativity: {
-    en: 'Creativity',
-    zh: '创造力',
-  },
-  prompt: {
-    en: 'Prompt',
-    zh: '提示词',
-  },
-  result: {
-    en: 'Result',
-    zh: '结果',
-  },
-  copy: {
-    en: 'Copy',
-    zh: '复制',
-  },
-  copied: {
-    en: 'Copied!',
-    zh: '已复制！',
-  },
-  copiedToClipboard: {
-    en: 'Copied to clipboard.',
-    zh: '已复制到剪贴板。',
-  },
-  savedPrompts: {
-    en: 'Saved Prompts',
-    zh: '保存的提示词',
-  },
-  searchPromptsOrTags: {
-    en: 'Search prompts or tags...',
-    zh: '搜索提示词或标签...',
-  },
-  noSavedPrompts: {
-    en: 'No saved prompts yet.',
-    zh: '还没有保存的提示词。',
-  },
-  noMatchingPrompts: {
-    en: 'No matching prompts found.',
-    zh: '未找到匹配的提示词。',
-  },
-  delete: {
-    en: 'Delete',
-    zh: '删除',
-  },
-  editTags: {
-    en: 'Edit Tags',
-    zh: '编辑标签',
-  },
-  save: {
-    en: 'Save',
-    zh: '保存',
-  },
-  cancel: {
-    en: 'Cancel',
-    zh: '取消',
-  },
-  // New translations for tabs functionality
-  optimizePrompt: {
-    en: 'Optimize Prompt',
-    zh: '优化提示词',
-  },
-  savePrompt: {
-    en: 'Save Prompt',
-    zh: '保存提示词',
-  },
-  savePrompts: {
-    en: 'Save Prompts',
-    zh: '保存提示词',
-  },
-  savePromptsDesc: {
-    en: 'Save your prompts for future use and easy access',
-    zh: '保存您的提示词以便将来使用和轻松访问',
-  },
-  promptContent: {
-    en: 'Prompt Content',
-    zh: '提示词内容',
-  },
-  tags: {
-    en: 'Tags',
-    zh: '标签',
-  },
-  tagsOptional: {
-    en: 'optional',
-    zh: '可选',
-  },
-  promptSaved: {
-    en: 'Prompt Saved',
-    zh: '提示词已保存',
-  },
-  promptSavedDesc: {
-    en: 'Your prompt has been saved successfully',
-    zh: '您的提示词已成功保存',
-  },
-  error: {
-    en: 'Error',
-    zh: '错误',
-  },
-  promptEmpty: {
-    en: 'Prompt content cannot be empty',
-    zh: '提示词内容不能为空',
-  },
-  errorSavingPrompt: {
-    en: 'An error occurred while saving your prompt',
-    zh: '保存提示词时发生错误',
-  },
-};
+// 语言提供者组件
+export const LanguageProvider: React.FC<{children: React.ReactNode}> = ({ children }) => {
+  // 尝试从本地存储加载语言设置，默认为中文
+  const [language, setLanguage] = useState<Language>(() => {
+    const savedLang = localStorage.getItem('preferred_language');
+    return (savedLang === 'en' ? 'en' : 'zh') as Language;
+  });
 
-export const LanguageProvider = ({ children }: { children: ReactNode }) => {
-  const [language, setLanguage] = useState<Language>((localStorage.getItem('language') as Language) || 'en');
-
-  useEffect(() => {
-    localStorage.setItem('language', language);
-  }, [language]);
-
-  const t = (key: keyof typeof translations) => {
-    return translations[key][language] || translations[key]['en'];
+  // 当语言变化时保存到本地存储
+  const changeLanguage = (lang: Language) => {
+    setLanguage(lang);
+    localStorage.setItem('preferred_language', lang);
+  };
+  
+  // 翻译函数
+  const t = (key: string): string => {
+    return translations[language][key as keyof typeof translations[typeof language]] || key;
   };
 
   return (
-    <LanguageContext.Provider value={{ language, setLanguage, t }}>
+    <LanguageContext.Provider value={{ language, setLanguage: changeLanguage, t }}>
       {children}
     </LanguageContext.Provider>
   );
 };
 
+// 使用语言的自定义Hook
 export const useLanguage = () => {
   const context = useContext(LanguageContext);
   if (context === undefined) {
