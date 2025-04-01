@@ -1,8 +1,8 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Copy, Check, ThumbsUp, ThumbsDown, Save, Info, Key } from 'lucide-react';
+import { Copy, Check, ThumbsUp, ThumbsDown, Save, Info } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast";
 import { useSavedPrompts } from '@/hooks/useSavedPrompts';
 import { usePromptGenerator } from '@/hooks/usePromptGenerator';
@@ -20,13 +20,6 @@ const ResultDisplay: React.FC<ResultDisplayProps> = ({ content, isVisible }) => 
   const [copied, setCopied] = useState(false);
   const [feedbackGiven, setFeedbackGiven] = useState(false);
   const [saved, setSaved] = useState(false);
-  const [hasApiKey, setHasApiKey] = useState(false);
-  
-  useEffect(() => {
-    // 检查是否已设置 API 密钥
-    const apiKey = localStorage.getItem('together_api_key');
-    setHasApiKey(!!apiKey);
-  }, []);
   
   if (!isVisible || !content) return null;
   
@@ -124,18 +117,6 @@ const ResultDisplay: React.FC<ResultDisplayProps> = ({ content, isVisible }) => 
         </div>
       </div>
 
-      {!hasApiKey && (
-        <div className="mb-4 text-sm text-amber-600 dark:text-amber-400 flex items-center justify-between bg-amber-50 dark:bg-amber-950/50 border border-amber-200 dark:border-amber-800/50 rounded-md p-2">
-          <div className="flex items-center">
-            <Key className="h-4 w-4 mr-2" />
-            <span>请在设置页面配置您的 Together.ai API 密钥以获得更好的结果</span>
-          </div>
-          <Link to="/settings" className="text-primary hover:underline whitespace-nowrap ml-2">
-            前往设置
-          </Link>
-        </div>
-      )}
-      
       {usageCount > 0 && (
         <div className="mb-4 text-sm text-muted-foreground flex items-center justify-between bg-muted rounded-md p-2">
           <div className="flex items-center">
