@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { LogIn, LogOut, Github, Mail, Settings } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -24,7 +23,7 @@ const Header: React.FC = () => {
     <header className="w-full py-6 px-4 sm:px-6">
       <div className="container mx-auto flex items-center justify-between">
         <Link to="/" className="flex items-center gap-2 min-w-0">
-          <div className="ai-chat-bubble w-9 h-9 flex-shrink-0 rounded-lg bg-purple-500 text-white flex items-center justify-center">
+          <div className="ai-chat-bubble w-9 h-9 flex-shrink-0 bg-purple-500 text-white flex items-center justify-center">
             <div className="text-sm font-bold">AI</div>
           </div>
           <h1 className="text-xl sm:text-2xl font-bold gradient-text truncate">

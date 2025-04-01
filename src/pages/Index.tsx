@@ -1,4 +1,3 @@
-
 import React from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -34,7 +33,6 @@ const Index = () => {
           </p>
           
           <div className={`grid grid-cols-1 md:grid-cols-3 gap-4 ${isMobile ? 'mb-6' : 'mb-12'}`}>
-            {/* 在移动端只显示前两个卡片 */}
             <div className="bg-background rounded-lg p-4 shadow-md border border-border">
               <Lightbulb className="h-8 w-8 text-purple-500 mb-2 mx-auto" />
               <h3 className="text-lg font-semibold mb-1">{t('promptOptimization')}</h3>
@@ -51,10 +49,9 @@ const Index = () => {
               </p>
             </div>
             
-            {/* 第三个卡片在移动端不显示，在桌面端显示 */}
             {!isMobile && (
               <div className="bg-background rounded-lg p-4 shadow-md border border-border">
-                <div className="ai-chat-bubble h-9 w-9 bg-purple-500 text-white flex items-center justify-center mx-auto mb-2 rounded-lg">
+                <div className="ai-chat-bubble h-9 w-9 bg-purple-500 text-white flex items-center justify-center mx-auto mb-2">
                   <div className="text-sm font-bold">AI</div>
                 </div>
                 <h3 className="text-lg font-semibold mb-1">{t('learningGrowth')}</h3>
@@ -73,7 +70,6 @@ const Index = () => {
           />
         </section>
         
-        {/* 如果是移动端，则不显示"如何使用"部分，或者可以选择性地显示更简洁的版本 */}
         {!isMobile && (
           <section className="max-w-4xl mx-auto mt-16 text-center">
             <h2 className="text-3xl font-bold mb-8 gradient-text">
