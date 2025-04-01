@@ -12,10 +12,12 @@ interface AuthContextType {
 }
 
 interface User {
+  id: string;
   name: string;
   email?: string;
   avatar?: string;
   provider: 'github' | 'google';
+  isPremium?: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -42,12 +44,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     // 在实际实现中，这里会重定向到对应的授权页面
     setTimeout(() => {
       const mockUser = {
+        id: `user-${Date.now()}`, // 生成唯一ID
         name: provider === 'github' ? 'GitHub用户' : 'Google用户',
         email: 'user@example.com',
         avatar: provider === 'github' 
           ? 'https://github.githubassets.com/assets/GitHub-Mark-ea2971cee799.png'
           : 'https://lh3.googleusercontent.com/a/ACg8ocJJAAmI26QqgNZs2cX6OuJj3Z7GiuPvqJNAA0Hm=s96-c',
-        provider
+        provider,
+        isPremium: false // 默认为非高级用户
       };
       
       setUser(mockUser);
