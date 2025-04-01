@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 
 type Language = 'en' | 'zh';
@@ -180,6 +179,27 @@ export const translations: Translations = {
   viewDetails: {
     en: 'View details',
     zh: '查看详情',
+  },
+  // New translation keys for SavedPrompts page
+  searchPromptsOrTags: {
+    en: 'Search prompts or tags...',
+    zh: '搜索提示词或标签...',
+  },
+  noMatchingPrompts: {
+    en: 'No matching prompts found',
+    zh: '没有找到匹配的提示词',
+  },
+  noSavedPrompts: {
+    en: 'You haven\'t saved any prompts yet',
+    zh: '您还没有保存任何提示词',
+  },
+  delete: {
+    en: 'Delete',
+    zh: '删除',
+  },
+  copiedToClipboard: {
+    en: 'You can now paste the prompt anywhere',
+    zh: '您现在可以将提示词粘贴到任何地方',
   },
 };
 
