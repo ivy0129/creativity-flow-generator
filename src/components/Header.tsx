@@ -1,5 +1,6 @@
+
 import React from 'react';
-import { LogIn, LogOut, Github, Mail, Settings } from 'lucide-react';
+import { LogIn, LogOut, Github, Mail, Settings, Globe } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { useAuth } from '@/hooks/useAuth';
@@ -45,23 +46,23 @@ const Header: React.FC = () => {
           
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" size={isMobile ? "icon" : "sm"} className={isMobile ? "w-8 h-8 p-0" : "gap-2"}>
-                <span className="font-medium">中/E</span>
-                {!isMobile && (language === 'en' ? 'English' : '中文')}
+              <Button variant="ghost" size="icon" className="w-9 h-9 p-0">
+                <Globe className="h-5 w-5 text-foreground/70" />
+                {language === 'zh' && <span className="ml-1 text-lg font-medium">中</span>}
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem 
-                onClick={() => setLanguage('en')} 
-                className={`cursor-pointer ${language === 'en' ? 'font-bold' : ''}`}
-              >
-                English
-              </DropdownMenuItem>
+            <DropdownMenuContent align="end" className="p-0 min-w-[150px]">
               <DropdownMenuItem 
                 onClick={() => setLanguage('zh')} 
-                className={`cursor-pointer ${language === 'zh' ? 'font-bold' : ''}`}
+                className={`py-3 px-4 text-base cursor-pointer ${language === 'zh' ? 'font-bold' : ''}`}
               >
-                中文
+                简体中文
+              </DropdownMenuItem>
+              <DropdownMenuItem 
+                onClick={() => setLanguage('en')} 
+                className={`py-3 px-4 text-base cursor-pointer ${language === 'en' ? 'font-bold' : ''}`}
+              >
+                English
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

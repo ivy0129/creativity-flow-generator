@@ -115,3 +115,13 @@
   border-radius: 50% 50% 50% 0;
   transform: rotate(45deg);
 }
+
+/* Language switcher styling */
+.language-menu-item {
+  @apply py-3 px-4 text-base hover:bg-purple-50 transition-colors;
+}
+
+.language-menu-item.active {
+  @apply font-bold;
+}
+
