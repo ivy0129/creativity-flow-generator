@@ -1,3 +1,4 @@
+
 import React from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -6,7 +7,10 @@ import ResultDisplay from '@/components/ResultDisplay';
 import { usePromptGenerator } from '@/hooks/usePromptGenerator';
 import { useLanguage } from '@/hooks/useLanguage';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { Lightbulb, BookOpen } from 'lucide-react';
+import { Lightbulb, BookOpen, Save } from 'lucide-react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import SavePromptForm from '@/components/SavePromptForm';
+import { useAuth } from '@/hooks/useAuth';
 
 const Index = () => {
   const { 
@@ -16,8 +20,9 @@ const Index = () => {
     isResultVisible 
   } = usePromptGenerator();
   
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const isMobile = useIsMobile();
+  const { isAuthenticated } = useAuth();
 
   return (
     <div className="min-h-screen flex flex-col bg-background hero-gradient">
@@ -51,23 +56,34 @@ const Index = () => {
             
             {!isMobile && (
               <div className="bg-background rounded-lg p-4 shadow-md border border-border">
-                <div className="ai-chat-bubble h-9 w-9 bg-purple-500 text-white flex items-center justify-center mx-auto mb-2">
-                  <div className="text-sm font-bold">AI</div>
-                </div>
-                <h3 className="text-lg font-semibold mb-1">{t('learningGrowth')}</h3>
+                <Save className="h-8 w-8 text-green-500 mb-2 mx-auto" />
+                <h3 className="text-lg font-semibold mb-1">{t('savePrompts')}</h3>
                 <p className="text-sm text-muted-foreground">
-                  {t('learningGrowthDesc')}
+                  {t('savePromptsDesc')}
                 </p>
               </div>
             )}
           </div>
           
-          <PromptForm onSubmit={generateContent} isLoading={isLoading} />
-          
-          <ResultDisplay 
-            content={generatedContent} 
-            isVisible={isResultVisible} 
-          />
+          <Tabs defaultValue="optimize" className="w-full">
+            <TabsList className="grid w-full grid-cols-2 mb-6">
+              <TabsTrigger value="optimize">{t('optimizePrompt')}</TabsTrigger>
+              <TabsTrigger value="save">{t('savePrompt')}</TabsTrigger>
+            </TabsList>
+            
+            <TabsContent value="optimize">
+              <PromptForm onSubmit={generateContent} isLoading={isLoading} />
+              
+              <ResultDisplay 
+                content={generatedContent} 
+                isVisible={isResultVisible} 
+              />
+            </TabsContent>
+            
+            <TabsContent value="save">
+              <SavePromptForm />
+            </TabsContent>
+          </Tabs>
         </section>
         
         {!isMobile && (

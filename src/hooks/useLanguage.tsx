@@ -2,238 +2,207 @@ import React, { createContext, useContext, useState, ReactNode, useEffect } from
 
 type Language = 'en' | 'zh';
 
-type Translations = {
-  [key: string]: {
-    en: string;
-    zh: string;
-  };
-};
+interface LanguageContextType {
+  language: Language;
+  setLanguage: (language: Language) => void;
+  t: (key: keyof typeof translations) => string;
+}
 
-// Common translations used across the app
-export const translations: Translations = {
-  appName: {
-    en: 'MyPrompt',
-    zh: 'MyPrompt',
-  },
-  home: {
-    en: 'Home',
-    zh: '首页',
-  },
-  savedPrompts: {
-    en: 'Saved Prompts',
-    zh: '已保存的提示词',
-  },
-  login: {
-    en: 'Login',
-    zh: '登录',
-  },
-  logout: {
-    en: 'Logout',
-    zh: '退出登录',
-  },
-  githubLogin: {
-    en: 'GitHub Login',
-    zh: 'GitHub 登录',
-  },
-  googleLogin: {
-    en: 'Google Login',
-    zh: 'Google 登录',
-  },
-  loginSuccess: {
-    en: 'Login Successful',
-    zh: '登录成功',
-  },
-  loginSuccessMessage: {
-    en: 'You have successfully logged in',
-    zh: '您已成功登录系统',
-  },
-  logoutSuccess: {
-    en: 'Logged Out',
-    zh: '已退出登录',
-  },
-  logoutSuccessMessage: {
-    en: 'You have been logged out',
-    zh: '您已成功退出系统',
-  },
+const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
+
+const translations = {
   promptOptimizer: {
-    en: 'My Personal AI Prompt',
-    zh: '专属于我的 AI Prompt',
+    en: 'Prompt Optimizer',
+    zh: '提示词优化器',
   },
   subheading: {
-    en: 'Help beginners write clear, effective AI instructions for more accurate responses',
-    zh: '帮助开发新手编写清晰、有效的AI指令，获得更精准的回应',
+    en: 'Unleash the power of AI to refine your prompts for optimal results.',
+    zh: '释放AI的力量，优化您的提示词，以获得最佳效果。',
   },
   promptOptimization: {
     en: 'Prompt Optimization',
     zh: '提示词优化',
   },
   promptOptimizationDesc: {
-    en: 'Convert complex ideas into clear instructions that AI can understand',
-    zh: '将复杂想法转化为AI能理解的清晰指令',
+    en: 'Refine your prompts to get the best results from AI models.',
+    zh: '优化您的提示词，以从AI模型获得最佳结果。',
   },
   devCommandGen: {
-    en: 'Dev Command Generation',
+    en: 'Dev Command Gen',
     zh: '开发命令生成',
   },
   devCommandGenDesc: {
-    en: 'Generate commands and code snippets for various development scenarios',
-    zh: '生成适用于各种开发场景的命令和代码片段',
+    en: 'Generate code and commands for development tasks.',
+    zh: '生成用于开发任务的代码和命令。',
   },
   learningGrowth: {
     en: 'Learning & Growth',
-    zh: '学习成长',
+    zh: '学习与成长',
   },
   learningGrowthDesc: {
-    en: 'Learn best practices and tips for AI interaction as you use the tool',
-    zh: '在使用过程中学习AI交互的最佳实践和技巧',
+    en: 'AI-driven insights for personal and professional development.',
+    zh: 'AI驱动的洞察力，用于个人和职业发展。',
   },
   howToUse: {
-    en: 'How to Use AI Prompt Optimizer',
-    zh: '如何使用AI提示优化助手',
+    en: 'How to Use',
+    zh: '如何使用',
   },
   describeNeeds: {
     en: 'Describe Your Needs',
     zh: '描述您的需求',
   },
   describeNeedsDesc: {
-    en: 'Enter the functionality you want to achieve or problem you want to solve',
-    zh: '输入您想要实现的功能或解决的问题',
+    en: 'Clearly outline the functionality or problem you\'re addressing.',
+    zh: '清晰地概述您要解决的功能或问题。',
   },
   chooseParams: {
-    en: 'Choose Suitable Parameters',
-    zh: '选择合适的参数',
+    en: 'Choose Parameters',
+    zh: '选择参数',
   },
   chooseParamsDesc: {
-    en: 'Adjust prompt style and complexity based on your purpose',
-    zh: '根据用途调整提示词的风格和复杂度',
+    en: 'Customize the tone, length, and creativity to match your style.',
+    zh: '自定义语气、长度和创造力以匹配您的风格。',
   },
   getResults: {
-    en: 'Get Optimized Results',
-    zh: '获取优化结果',
+    en: 'Get Results',
+    zh: '获取结果',
   },
   getResultsDesc: {
-    en: 'Copy the generated prompt to use with AI assistants',
-    zh: '复制生成的提示词，用于与AI助手交流',
+    en: 'Receive optimized prompts or generated content instantly.',
+    zh: '立即收到优化的提示词或生成的内容。',
   },
-  // Form related translations
-  describeYourNeeds: {
-    en: 'Describe your needed functionality or problem',
-    zh: '描述您需要的功能或问题',
+  enterPrompt: {
+    en: 'Enter your prompt here...',
+    zh: '在此输入您的提示词...',
   },
-  promptStyle: {
-    en: 'Prompt Style',
-    zh: '提示词风格',
+  optimize: {
+    en: 'Optimize',
+    zh: '优化',
   },
-  promptLength: {
-    en: 'Prompt Length',
-    zh: '提示词长度',
+  tone: {
+    en: 'Tone',
+    zh: '语气',
   },
-  complexity: {
-    en: 'Complexity',
-    zh: '复杂度',
+  length: {
+    en: 'Length',
+    zh: '长度',
   },
-  optimizePrompt: {
-    en: 'Optimize Prompt',
-    zh: '优化提示词',
+  creativity: {
+    en: 'Creativity',
+    zh: '创造力',
   },
-  optimizing: {
-    en: 'Optimizing...',
-    zh: '优化中...',
+  prompt: {
+    en: 'Prompt',
+    zh: '提示词',
   },
-  loginToOptimize: {
-    en: 'Login to optimize prompt',
-    zh: '登录以优化提示词',
-  },
-  generatedContent: {
-    en: 'Generated Content',
-    zh: '生成的内容',
-  },
-  good: {
-    en: 'Good',
-    zh: '好的',
-  },
-  notGood: {
-    en: 'Not good',
-    zh: '不好',
+  result: {
+    en: 'Result',
+    zh: '结果',
   },
   copy: {
     en: 'Copy',
     zh: '复制',
   },
   copied: {
-    en: 'Copied',
-    zh: '已复制',
+    en: 'Copied!',
+    zh: '已复制！',
   },
-  save: {
-    en: 'Save',
-    zh: '保存',
+  copiedToClipboard: {
+    en: 'Copied to clipboard.',
+    zh: '已复制到剪贴板。',
   },
-  saved: {
-    en: 'Saved',
-    zh: '已保存',
+  savedPrompts: {
+    en: 'Saved Prompts',
+    zh: '保存的提示词',
   },
-  usage: {
-    en: 'Usage',
-    zh: '使用次数',
-  },
-  viewDetails: {
-    en: 'View details',
-    zh: '查看详情',
-  },
-  // New translation keys for SavedPrompts page
   searchPromptsOrTags: {
     en: 'Search prompts or tags...',
     zh: '搜索提示词或标签...',
   },
-  noMatchingPrompts: {
-    en: 'No matching prompts found',
-    zh: '没有找到匹配的提示词',
-  },
   noSavedPrompts: {
-    en: 'You haven\'t saved any prompts yet',
-    zh: '您还没有保存任何提示词',
+    en: 'No saved prompts yet.',
+    zh: '还没有保存的提示词。',
+  },
+  noMatchingPrompts: {
+    en: 'No matching prompts found.',
+    zh: '未找到匹配的提示词。',
   },
   delete: {
     en: 'Delete',
     zh: '删除',
   },
-  copiedToClipboard: {
-    en: 'You can now paste the prompt anywhere',
-    zh: '您现在可以将提示词粘贴到任何地方',
+  editTags: {
+    en: 'Edit Tags',
+    zh: '编辑标签',
+  },
+  save: {
+    en: 'Save',
+    zh: '保存',
+  },
+  cancel: {
+    en: 'Cancel',
+    zh: '取消',
+  },
+  // New translations for tabs functionality
+  optimizePrompt: {
+    en: 'Optimize Prompt',
+    zh: '优化提示词',
+  },
+  savePrompt: {
+    en: 'Save Prompt',
+    zh: '保存提示词',
+  },
+  savePrompts: {
+    en: 'Save Prompts',
+    zh: '保存提示词',
+  },
+  savePromptsDesc: {
+    en: 'Save your prompts for future use and easy access',
+    zh: '保存您的提示词以便将来使用和轻松访问',
+  },
+  promptContent: {
+    en: 'Prompt Content',
+    zh: '提示词内容',
+  },
+  tags: {
+    en: 'Tags',
+    zh: '标签',
+  },
+  tagsOptional: {
+    en: 'optional',
+    zh: '可选',
+  },
+  promptSaved: {
+    en: 'Prompt Saved',
+    zh: '提示词已保存',
+  },
+  promptSavedDesc: {
+    en: 'Your prompt has been saved successfully',
+    zh: '您的提示词已成功保存',
+  },
+  error: {
+    en: 'Error',
+    zh: '错误',
+  },
+  promptEmpty: {
+    en: 'Prompt content cannot be empty',
+    zh: '提示词内容不能为空',
+  },
+  errorSavingPrompt: {
+    en: 'An error occurred while saving your prompt',
+    zh: '保存提示词时发生错误',
   },
 };
 
-interface LanguageContextType {
-  language: Language;
-  setLanguage: (lang: Language) => void;
-  t: (key: string) => string;
-}
-
-const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
-
 export const LanguageProvider = ({ children }: { children: ReactNode }) => {
-  const [language, setLanguage] = useState<Language>('en'); // Default to English
+  const [language, setLanguage] = useState<Language>((localStorage.getItem('language') as Language) || 'en');
 
-  useEffect(() => {
-    // Try to get stored language preference
-    const storedLanguage = localStorage.getItem('language') as Language;
-    if (storedLanguage && (storedLanguage === 'en' || storedLanguage === 'zh')) {
-      setLanguage(storedLanguage);
-    }
-  }, []);
-
-  // Save language preference to localStorage when it changes
   useEffect(() => {
     localStorage.setItem('language', language);
   }, [language]);
 
-  // Translation function
-  const t = (key: string): string => {
-    if (translations[key]) {
-      return translations[key][language];
-    }
-    console.warn(`Translation key not found: ${key}`);
-    return key;
+  const t = (key: keyof typeof translations) => {
+    return translations[key][language] || translations[key]['en'];
   };
 
   return (
