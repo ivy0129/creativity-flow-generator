@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -11,13 +10,15 @@ import TagInput from '@/components/TagInput';
 import { useToast } from '@/hooks/use-toast';
 import { useLanguage } from '@/hooks/useLanguage';
 import { useAuth } from '@/hooks/useAuth';
+import { useNavigate } from 'react-router-dom';
 
 const SavedPrompts = () => {
   const { savedPrompts, removeSavedPrompt, updatePromptTags } = useSavedPrompts();
   const [searchTerm, setSearchTerm] = useState('');
   const { toast } = useToast();
   const { t } = useLanguage();
-  const { isAuthenticated, login } = useAuth();
+  const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
 
   const copyToClipboard = (content: string) => {
     navigator.clipboard.writeText(content);
@@ -47,7 +48,7 @@ const SavedPrompts = () => {
               <p className="text-muted-foreground mb-4">
                 {t('loginToViewSavedPrompts')}
               </p>
-              <Button onClick={() => login('github')} className="gradient-bg text-white gap-2">
+              <Button onClick={() => navigate('/auth')} className="gradient-bg text-white gap-2">
                 <LogIn className="h-4 w-4" />
                 {t('login')}
               </Button>

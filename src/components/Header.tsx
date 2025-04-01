@@ -1,7 +1,6 @@
-
 import React from 'react';
-import { LogIn, LogOut, Github, Mail, Settings, Globe } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { LogIn, LogOut, Settings, Globe } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { useAuth } from '@/hooks/useAuth';
 import { useLanguage } from '@/hooks/useLanguage';
@@ -17,9 +16,10 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 
 const Header: React.FC = () => {
-  const { isAuthenticated, user, login, logout, loading } = useAuth();
+  const { isAuthenticated, user, logout, loading } = useAuth();
   const { language, setLanguage, t } = useLanguage();
   const isMobile = useIsMobile();
+  const navigate = useNavigate();
 
   return (
     <header className="w-full py-6 px-4 sm:px-6">
@@ -45,93 +45,57 @@ const Header: React.FC = () => {
             </Link>
           </div>
           
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
+          <div className="flex items-center space-x-2">
+            <button
+              className="language-switcher"
+              onClick={() => setLanguage(language === 'en' ? 'zh' : 'en')}
+            >
+              <Globe className="globe-icon h-4 w-4" />
+              <span className="language-text">
+                {language === 'en' ? 'English' : '简体中文'}
+              </span>
+            </button>
+            
+            {isAuthenticated ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" className="relative h-8 w-8 sm:h-10 sm:w-10 rounded-full p-0">
+                    <Avatar className="h-8 w-8 sm:h-10 sm:w-10">
+                      <AvatarImage src={user?.avatar} alt={user?.name} />
+                      <AvatarFallback>{user?.name?.charAt(0)}</AvatarFallback>
+                    </Avatar>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem className="text-sm font-medium">
+                    {user?.name}
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link to="/settings" className="flex items-center cursor-pointer">
+                      <Settings className="mr-2 h-4 w-4" />
+                      {language === 'en' ? 'About Us' : '关于我们'}
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={logout} className="text-sm font-medium text-red-500 cursor-pointer">
+                    <LogOut className="mr-2 h-4 w-4" />
+                    {t('logout')}
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
               <Button 
                 variant="outline" 
-                size="sm" 
-                className={`rounded-full border border-purple-400/50 bg-purple-50/50 hover:bg-purple-100/50 text-purple-700 ${
-                  isMobile ? "w-9 h-9 p-0" : "px-3 py-1 h-9"
-                }`}
+                size={isMobile ? "icon" : "sm"} 
+                disabled={loading}
+                className={isMobile ? "w-8 h-8 p-0" : ""}
+                onClick={() => navigate('/auth')}
               >
-                <Globe className={`h-4 w-4 ${!isMobile ? "mr-1" : ""} text-purple-600`} />
-                {!isMobile && 
-                  <span className="text-sm font-medium">
-                    {language === 'zh' ? '中' : 'En'}
-                  </span>
-                }
+                <LogIn className={isMobile ? "h-4 w-4" : "mr-2 h-4 w-4"} />
+                {!isMobile && (loading ? "..." : t('login'))}
               </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="p-0 min-w-[150px]">
-              <DropdownMenuItem 
-                onClick={() => setLanguage('zh')} 
-                className={`py-3 px-4 text-base cursor-pointer flex items-center ${language === 'zh' ? 'bg-purple-50 text-purple-700 font-medium' : ''}`}
-              >
-                简体中文
-                {language === 'zh' && <span className="ml-auto text-xs text-purple-600">✓</span>}
-              </DropdownMenuItem>
-              <DropdownMenuItem 
-                onClick={() => setLanguage('en')} 
-                className={`py-3 px-4 text-base cursor-pointer flex items-center ${language === 'en' ? 'bg-purple-50 text-purple-700 font-medium' : ''}`}
-              >
-                English
-                {language === 'en' && <span className="ml-auto text-xs text-purple-600">✓</span>}
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-          
-          {isAuthenticated ? (
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="relative h-8 w-8 sm:h-10 sm:w-10 rounded-full p-0">
-                  <Avatar className="h-8 w-8 sm:h-10 sm:w-10">
-                    <AvatarImage src={user?.avatar} alt={user?.name} />
-                    <AvatarFallback>{user?.name?.charAt(0)}</AvatarFallback>
-                  </Avatar>
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuItem className="text-sm font-medium">
-                  {user?.name}
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link to="/settings" className="flex items-center cursor-pointer">
-                    <Settings className="mr-2 h-4 w-4" />
-                    {language === 'en' ? 'About Us' : '关于我们'}
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={logout} className="text-sm font-medium text-red-500 cursor-pointer">
-                  <LogOut className="mr-2 h-4 w-4" />
-                  {t('logout')}
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          ) : (
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button 
-                  variant="outline" 
-                  size={isMobile ? "icon" : "sm"} 
-                  disabled={loading}
-                  className={isMobile ? "w-8 h-8 p-0" : ""}
-                >
-                  <LogIn className={isMobile ? "h-4 w-4" : "mr-2 h-4 w-4"} />
-                  {!isMobile && (loading ? "..." : t('login'))}
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuItem onClick={() => login('github')} className="cursor-pointer">
-                  <Github className="mr-2 h-4 w-4" />
-                  {t('githubLogin')}
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => login('google')} className="cursor-pointer">
-                  <Mail className="mr-2 h-4 w-4" />
-                  {t('googleLogin')}
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          )}
+            )}
+          </div>
         </nav>
       </div>
     </header>

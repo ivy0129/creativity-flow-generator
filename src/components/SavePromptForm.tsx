@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -10,12 +9,14 @@ import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/hooks/use-toast';
 import { useLanguage } from '@/hooks/useLanguage';
 import { useSavedPrompts } from '@/hooks/useSavedPrompts';
+import { useNavigate } from 'react-router-dom';
 
 const SavePromptForm: React.FC = () => {
-  const { isAuthenticated, login, user } = useAuth();
+  const { isAuthenticated, user } = useAuth();
   const { toast } = useToast();
   const { t, language } = useLanguage();
   const { savePrompt } = useSavedPrompts();
+  const navigate = useNavigate();
   
   const [promptContent, setPromptContent] = useState('');
   const [tags, setTags] = useState('');
@@ -78,7 +79,7 @@ const SavePromptForm: React.FC = () => {
 
   const handleLoginClick = () => {
     if (!isAuthenticated) {
-      login('github');
+      navigate('/auth');
     }
   };
 

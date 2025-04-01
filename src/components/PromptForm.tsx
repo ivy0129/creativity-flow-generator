@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -10,6 +9,7 @@ import { Wand2, LogIn } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/hooks/use-toast';
 import { useLanguage } from '@/hooks/useLanguage';
+import { useNavigate } from 'react-router-dom';
 
 interface PromptFormProps {
   onSubmit: (promptData: PromptData) => void;
@@ -24,9 +24,10 @@ export interface PromptData {
 }
 
 const PromptForm: React.FC<PromptFormProps> = ({ onSubmit, isLoading }) => {
-  const { isAuthenticated, login } = useAuth();
+  const { isAuthenticated } = useAuth();
   const { toast } = useToast();
   const { language, t } = useLanguage();
+  const navigate = useNavigate();
   
   const [promptData, setPromptData] = useState<PromptData>({
     prompt: '',
@@ -94,7 +95,7 @@ const PromptForm: React.FC<PromptFormProps> = ({ onSubmit, isLoading }) => {
 
   const handleOptimizeClick = () => {
     if (!isAuthenticated) {
-      login('github');
+      navigate('/auth');
     }
   };
 

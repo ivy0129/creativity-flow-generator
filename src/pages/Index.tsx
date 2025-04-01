@@ -1,4 +1,3 @@
-
 import React from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -26,119 +25,70 @@ const Index = () => {
   const { isAuthenticated } = useAuth();
 
   return (
-    <>
-      <Helmet>
-        <title>{t('appName')} - {t('promptOptimizer')}</title>
-        <meta name="description" content={t('subheading')} />
-      </Helmet>
+    <div className="min-h-screen flex flex-col bg-background hero-gradient">
+      <Header />
       
-      <div className="min-h-screen flex flex-col bg-background hero-gradient">
-        <Header />
-        
-        <main className="flex-1 container mx-auto px-4 py-4">
-          {/* Removed the breadcrumb navigation here */}
+      <main className="flex-1 container mx-auto px-4 py-4">
+        <section className="max-w-4xl mx-auto mb-6 text-center">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-4 gradient-text">
+            {t('promptOptimizer')}
+          </h1>
+          <p className={`text-lg md:text-xl text-muted-foreground ${isMobile ? 'mb-4' : 'mb-8'}`}>
+            {t('subheading')}
+          </p>
           
-          <section className="max-w-4xl mx-auto mb-6 text-center">
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-4 gradient-text">
-              {t('promptOptimizer')}
-            </h1>
-            <p className={`text-lg md:text-xl text-muted-foreground ${isMobile ? 'mb-4' : 'mb-8'}`}>
-              {t('subheading')}
-            </p>
+          <div className={`grid grid-cols-1 md:grid-cols-3 gap-4 ${isMobile ? 'mb-6' : 'mb-12'}`}>
+            <article className="bg-background rounded-lg p-4 shadow-md border border-border">
+              <Lightbulb className="h-8 w-8 text-purple-500 mb-2 mx-auto" aria-hidden="true" />
+              <h3 className="text-lg font-semibold mb-1">{t('promptOptimization')}</h3>
+              <p className="text-sm text-muted-foreground">
+                {t('promptOptimizationDesc')}
+              </p>
+            </article>
             
-            <div className={`grid grid-cols-1 md:grid-cols-3 gap-4 ${isMobile ? 'mb-6' : 'mb-12'}`}>
+            <article className="bg-background rounded-lg p-4 shadow-md border border-border">
+              <BookOpen className="h-8 w-8 text-indigo-500 mb-2 mx-auto" aria-hidden="true" />
+              <h3 className="text-lg font-semibold mb-1">{t('devCommandGen')}</h3>
+              <p className="text-sm text-muted-foreground">
+                {t('devCommandGenDesc')}
+              </p>
+            </article>
+            
+            {!isMobile && (
               <article className="bg-background rounded-lg p-4 shadow-md border border-border">
-                <Lightbulb className="h-8 w-8 text-purple-500 mb-2 mx-auto" aria-hidden="true" />
-                <h3 className="text-lg font-semibold mb-1">{t('promptOptimization')}</h3>
+                <Save className="h-8 w-8 text-green-500 mb-2 mx-auto" aria-hidden="true" />
+                <h3 className="text-lg font-semibold mb-1">{t('savePrompts')}</h3>
                 <p className="text-sm text-muted-foreground">
-                  {t('promptOptimizationDesc')}
+                  {t('savePromptsDesc')}
                 </p>
               </article>
-              
-              <article className="bg-background rounded-lg p-4 shadow-md border border-border">
-                <BookOpen className="h-8 w-8 text-indigo-500 mb-2 mx-auto" aria-hidden="true" />
-                <h3 className="text-lg font-semibold mb-1">{t('devCommandGen')}</h3>
-                <p className="text-sm text-muted-foreground">
-                  {t('devCommandGenDesc')}
-                </p>
-              </article>
-              
-              {!isMobile && (
-                <article className="bg-background rounded-lg p-4 shadow-md border border-border">
-                  <Save className="h-8 w-8 text-green-500 mb-2 mx-auto" aria-hidden="true" />
-                  <h3 className="text-lg font-semibold mb-1">{t('savePrompts')}</h3>
-                  <p className="text-sm text-muted-foreground">
-                    {t('savePromptsDesc')}
-                  </p>
-                </article>
-              )}
-            </div>
-            
-            <Tabs defaultValue="optimize" className="w-full">
-              <TabsList className="grid w-full grid-cols-2 mb-6">
-                <TabsTrigger value="optimize">{t('optimizePrompt')}</TabsTrigger>
-                <TabsTrigger value="save">{t('savePrompt')}</TabsTrigger>
-              </TabsList>
-              
-              <TabsContent value="optimize">
-                <PromptForm onSubmit={generateContent} isLoading={isLoading} />
-                
-                <ResultDisplay 
-                  content={generatedContent} 
-                  isVisible={isResultVisible} 
-                />
-              </TabsContent>
-              
-              <TabsContent value="save">
-                <SavePromptForm />
-              </TabsContent>
-            </Tabs>
-          </section>
+            )}
+          </div>
           
-          {!isMobile && (
-            <section className="max-w-4xl mx-auto mt-16 text-center">
-              <h2 className="text-3xl font-bold mb-8 gradient-text">
-                {t('howToUse')}
-              </h2>
+          <Tabs defaultValue="optimize" className="w-full">
+            <TabsList className="grid w-full grid-cols-2 mb-6">
+              <TabsTrigger value="optimize">{t('optimizePrompt')}</TabsTrigger>
+              <TabsTrigger value="save">{t('savePrompt')}</TabsTrigger>
+            </TabsList>
+            
+            <TabsContent value="optimize">
+              <PromptForm onSubmit={generateContent} isLoading={isLoading} />
               
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <article className="flex flex-col items-center">
-                  <div className="w-12 h-12 rounded-full gradient-bg flex items-center justify-center text-white font-bold mb-4">
-                    1
-                  </div>
-                  <h3 className="text-lg font-semibold mb-2">{t('describeNeeds')}</h3>
-                  <p className="text-muted-foreground">
-                    {t('describeNeedsDesc')}
-                  </p>
-                </article>
-                
-                <article className="flex flex-col items-center">
-                  <div className="w-12 h-12 rounded-full gradient-bg flex items-center justify-center text-white font-bold mb-4">
-                    2
-                  </div>
-                  <h3 className="text-lg font-semibold mb-2">{t('chooseParams')}</h3>
-                  <p className="text-muted-foreground">
-                    {t('chooseParamsDesc')}
-                  </p>
-                </article>
-                
-                <article className="flex flex-col items-center">
-                  <div className="w-12 h-12 rounded-full gradient-bg flex items-center justify-center text-white font-bold mb-4">
-                    3
-                  </div>
-                  <h3 className="text-lg font-semibold mb-2">{t('getResults')}</h3>
-                  <p className="text-muted-foreground">
-                    {t('getResultsDesc')}
-                  </p>
-                </article>
-              </div>
-            </section>
-          )}
-        </main>
-        
-        <Footer />
-      </div>
-    </>
+              <ResultDisplay 
+                content={generatedContent} 
+                isVisible={isResultVisible} 
+              />
+            </TabsContent>
+            
+            <TabsContent value="save">
+              <SavePromptForm />
+            </TabsContent>
+          </Tabs>
+        </section>
+      </main>
+      
+      <Footer />
+    </div>
   );
 };
 

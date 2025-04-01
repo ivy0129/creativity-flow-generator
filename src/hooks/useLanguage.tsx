@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useState } from 'react';
 
 // 语言类型
@@ -21,6 +20,7 @@ const translations = {
     copied: 'Copied',
     copiedToClipboard: 'Text has been copied to clipboard',
     error: 'Error',
+    loginToViewSavedPrompts: 'Please login to view your saved prompts',
     
     // 提示词相关
     prompt: 'Prompt',
@@ -92,6 +92,7 @@ const translations = {
     copied: '已复制',
     copiedToClipboard: '文本已复制到剪贴板',
     error: '错误',
+    loginToViewSavedPrompts: '请登录以查看已保存的提示词',
     
     // 提示词相关
     prompt: '提示词',
