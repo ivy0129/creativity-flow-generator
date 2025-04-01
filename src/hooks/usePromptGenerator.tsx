@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { PromptData } from '@/components/PromptForm';
 import { useToast } from '@/hooks/use-toast';
