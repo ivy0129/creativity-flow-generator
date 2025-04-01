@@ -56,8 +56,8 @@ export const translations: Translations = {
     zh: '您已成功退出系统',
   },
   promptOptimizer: {
-    en: 'AI Prompt Optimizer',
-    zh: 'AI提示优化助手',
+    en: 'My Personal AI Prompt',
+    zh: '专属于我的 AI prompt',
   },
   subheading: {
     en: 'Help beginners write clear, effective AI instructions for more accurate responses',
