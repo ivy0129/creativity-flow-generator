@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 
 type Language = 'en' | 'zh';
@@ -13,8 +12,8 @@ type Translations = {
 // Common translations used across the app
 export const translations: Translations = {
   appName: {
-    en: 'AI Prompt Optimizer',
-    zh: 'AI提示优化助手',
+    en: 'myprompt',
+    zh: 'myprompt',
   },
   home: {
     en: 'Home',
