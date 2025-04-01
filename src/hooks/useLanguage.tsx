@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 
 type Language = 'en' | 'zh';
@@ -121,7 +120,6 @@ export const translations: Translations = {
 interface LanguageContextType {
   language: Language;
   setLanguage: (lang: Language) => void;
-  toggleLanguage: () => void;
   t: (key: string) => string;
 }
 
@@ -143,11 +141,6 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
     localStorage.setItem('language', language);
   }, [language]);
 
-  // Toggle language function
-  const toggleLanguage = () => {
-    setLanguage(prevLang => prevLang === 'en' ? 'zh' : 'en');
-  };
-
   // Translation function
   const t = (key: string): string => {
     if (translations[key]) {
@@ -158,7 +151,7 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <LanguageContext.Provider value={{ language, setLanguage, toggleLanguage, t }}>
+    <LanguageContext.Provider value={{ language, setLanguage, t }}>
       {children}
     </LanguageContext.Provider>
   );
