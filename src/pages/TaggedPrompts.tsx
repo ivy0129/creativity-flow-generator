@@ -1,11 +1,11 @@
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Copy, ArrowLeft, Trash2, Tag as TagIcon } from 'lucide-react';
+import { Copy, ArrowLeft, Trash2 } from 'lucide-react';
 import { useSavedPrompts } from '@/hooks/useSavedPrompts';
 import { useToast } from '@/hooks/use-toast';
 import { useLanguage } from '@/hooks/useLanguage';
@@ -15,7 +15,7 @@ const TaggedPrompts = () => {
   const { tag } = useParams<{ tag: string }>();
   const { savedPrompts, removeSavedPrompt, updatePromptTags } = useSavedPrompts();
   const { toast } = useToast();
-  const { t, language } = useLanguage();
+  const { t } = useLanguage();
   
   // Filter prompts by the tag from URL
   const filteredPrompts = savedPrompts.filter(prompt => 
@@ -44,31 +44,18 @@ const TaggedPrompts = () => {
             {t('backToSavedPrompts')}
           </Link>
           
-          <div className="flex items-center gap-3 mb-6">
-            <div className="bg-primary/10 p-3 rounded-full">
-              <TagIcon className="h-6 w-6 text-primary" />
-            </div>
-            <h1 className="text-3xl sm:text-4xl font-bold gradient-text">
-              {tag}
-            </h1>
-          </div>
-          
-          <p className="text-muted-foreground mb-8">
-            {t('promptsTaggedWith')} <span className="font-semibold">"{tag}"</span>
-          </p>
+          <h1 className="text-3xl sm:text-4xl font-bold mb-6 gradient-text">
+            {t('promptsTaggedWith')} "{tag}"
+          </h1>
 
           {filteredPrompts.length === 0 ? (
-            <div className="text-center py-12 bg-muted/50 rounded-lg">
-              <TagIcon className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-              <p className="text-muted-foreground text-lg">
+            <div className="text-center py-12">
+              <p className="text-muted-foreground">
                 {t('noPromptsWithTag')}
               </p>
             </div>
           ) : (
-            <div className="space-y-4 mb-8">
-              <p className="text-sm text-muted-foreground">
-                {filteredPrompts.length} {filteredPrompts.length === 1 ? t('prompt') : t('prompts')}
-              </p>
+            <div className="space-y-4">
               {filteredPrompts.map((prompt, index) => {
                 const originalIndex = savedPrompts.findIndex(p => 
                   p.content === prompt.content && 
@@ -76,7 +63,7 @@ const TaggedPrompts = () => {
                 );
                 
                 return (
-                  <Card key={index} className="p-4 shadow-md hover:shadow-lg transition-shadow">
+                  <Card key={index} className="p-4 shadow-md">
                     <div className="flex justify-between items-start mb-3">
                       <TagInput 
                         tags={prompt.tags} 
