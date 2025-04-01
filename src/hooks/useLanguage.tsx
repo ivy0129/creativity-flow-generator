@@ -12,8 +12,8 @@ type Translations = {
 // Common translations used across the app
 export const translations: Translations = {
   appName: {
-    en: 'myprompt',
-    zh: 'myprompt',
+    en: 'MyPrompt',
+    zh: 'MyPrompt',
   },
   home: {
     en: 'Home',
