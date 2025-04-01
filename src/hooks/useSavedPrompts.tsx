@@ -1,21 +1,45 @@
 
 import { useState, useEffect } from 'react';
+import { useAuth } from './useAuth';
 
 export interface SavedPrompt {
   content: string;
   tags: string[];
   createdAt: string;
+  userId?: string; // 添加用户ID字段
 }
 
 export const useSavedPrompts = () => {
+  const { isAuthenticated, user } = useAuth();
   const [savedPrompts, setSavedPrompts] = useState<SavedPrompt[]>(() => {
+    // 如果用户已登录，从本地存储获取用户特定的提示词
+    if (isAuthenticated && user) {
+      const userPrompts = localStorage.getItem(`saved_prompts_${user.id}`);
+      return userPrompts ? JSON.parse(userPrompts) : [];
+    }
+    // 否则使用普通存储
     const saved = localStorage.getItem('saved_prompts');
     return saved ? JSON.parse(saved) : [];
   });
 
+  // 当用户身份变化时更新提示词列表
   useEffect(() => {
-    localStorage.setItem('saved_prompts', JSON.stringify(savedPrompts));
-  }, [savedPrompts]);
+    if (isAuthenticated && user) {
+      const userPrompts = localStorage.getItem(`saved_prompts_${user.id}`);
+      if (userPrompts) {
+        setSavedPrompts(JSON.parse(userPrompts));
+      }
+    }
+  }, [isAuthenticated, user]);
+
+  // 保存提示词到本地存储
+  useEffect(() => {
+    if (isAuthenticated && user) {
+      localStorage.setItem(`saved_prompts_${user.id}`, JSON.stringify(savedPrompts));
+    } else {
+      localStorage.setItem('saved_prompts', JSON.stringify(savedPrompts));
+    }
+  }, [savedPrompts, isAuthenticated, user]);
 
   const savePrompt = (content: string) => {
     // 自动根据内容生成标签
@@ -25,6 +49,7 @@ export const useSavedPrompts = () => {
       content,
       tags: generatedTags,
       createdAt: new Date().toISOString(),
+      userId: user?.id, // 关联用户ID
     };
     
     setSavedPrompts(prev => [newPrompt, ...prev]);

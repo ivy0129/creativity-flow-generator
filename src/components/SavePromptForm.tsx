@@ -12,7 +12,7 @@ import { useLanguage } from '@/hooks/useLanguage';
 import { useSavedPrompts } from '@/hooks/useSavedPrompts';
 
 const SavePromptForm: React.FC = () => {
-  const { isAuthenticated, login } = useAuth();
+  const { isAuthenticated, login, user } = useAuth();
   const { toast } = useToast();
   const { t, language } = useLanguage();
   const { savePrompt } = useSavedPrompts();
@@ -114,6 +114,14 @@ const SavePromptForm: React.FC = () => {
             onChange={(e) => setTags(e.target.value)}
           />
         </div>
+
+        {isAuthenticated && (
+          <div className="text-sm text-muted-foreground">
+            {language === 'zh' 
+              ? `提示词将保存到账户：${user?.name}` 
+              : `Prompt will be saved to account: ${user?.name}`}
+          </div>
+        )}
 
         <Button 
           type="submit" 
