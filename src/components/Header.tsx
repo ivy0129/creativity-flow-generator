@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { useAuth } from '@/hooks/useAuth';
 import { useLanguage } from '@/hooks/useLanguage';
+import { useIsMobile } from '@/hooks/use-mobile';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -18,15 +19,18 @@ import { Toggle } from "@/components/ui/toggle";
 const Header: React.FC = () => {
   const { isAuthenticated, user, login, logout, loading } = useAuth();
   const { language, setLanguage, t } = useLanguage();
+  const isMobile = useIsMobile();
 
   return (
     <header className="w-full py-6 px-4 sm:px-6">
       <div className="container mx-auto flex items-center justify-between">
-        <Link to="/" className="flex items-center gap-2">
-          <Code className="h-6 w-6 text-purple-600" />
-          <h1 className="text-2xl font-bold gradient-text">{t('appName')}</h1>
+        <Link to="/" className="flex items-center gap-2 min-w-0">
+          <Code className="h-6 w-6 flex-shrink-0 text-purple-600" />
+          <h1 className="text-xl sm:text-2xl font-bold gradient-text truncate">
+            {t('appName')}
+          </h1>
         </Link>
-        <nav className="flex items-center space-x-6">
+        <nav className="flex items-center space-x-2 sm:space-x-6 flex-shrink-0">
           <div className="hidden sm:flex items-center space-x-6">
             <Link to="/" className="text-sm font-medium text-foreground/80 hover:text-foreground transition-colors">
               {t('home')}
@@ -38,9 +42,9 @@ const Header: React.FC = () => {
           
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm" className="gap-2">
-                <Languages className="h-4 w-4" />
-                {language === 'en' ? 'English' : '中文'}
+              <Button variant="outline" size={isMobile ? "icon" : "sm"} className={isMobile ? "w-8 h-8 p-0" : "gap-2"}>
+                <Languages className={isMobile ? "h-4 w-4" : "h-4 w-4"} />
+                {!isMobile && (language === 'en' ? 'English' : '中文')}
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
@@ -62,8 +66,8 @@ const Header: React.FC = () => {
           {isAuthenticated ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="relative h-10 w-10 rounded-full">
-                  <Avatar className="h-10 w-10">
+                <Button variant="ghost" className="relative h-8 w-8 sm:h-10 sm:w-10 rounded-full p-0">
+                  <Avatar className="h-8 w-8 sm:h-10 sm:w-10">
                     <AvatarImage src={user?.avatar} alt={user?.name} />
                     <AvatarFallback>{user?.name?.charAt(0)}</AvatarFallback>
                   </Avatar>
@@ -82,9 +86,14 @@ const Header: React.FC = () => {
           ) : (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="outline" size="sm" disabled={loading}>
-                  <LogIn className="mr-2 h-4 w-4" />
-                  {loading ? "..." : t('login')}
+                <Button 
+                  variant="outline" 
+                  size={isMobile ? "icon" : "sm"} 
+                  disabled={loading}
+                  className={isMobile ? "w-8 h-8 p-0" : ""}
+                >
+                  <LogIn className={isMobile ? "h-4 w-4" : "mr-2 h-4 w-4"} />
+                  {!isMobile && (loading ? "..." : t('login'))}
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
