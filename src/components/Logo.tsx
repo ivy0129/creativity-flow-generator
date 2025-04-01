@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Sparkles } from 'lucide-react';
+import { MessageSquare, MessageCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useLanguage } from '@/hooks/useLanguage';
 
@@ -31,12 +31,18 @@ const Logo = ({
 
   return (
     <div className={cn('flex items-center gap-2', className)}>
-      <div className="relative">
+      <div className="relative flex">
         <div className="absolute inset-0 blur-sm opacity-50 bg-purple-500 rounded-full"></div>
-        <Sparkles 
+        <MessageCircle 
           className={cn(
             sizeClasses[size], 
-            'text-primary relative z-10'
+            'text-primary relative z-10 -mr-1'
+          )} 
+        />
+        <MessageSquare 
+          className={cn(
+            sizeClasses[size], 
+            'text-primary relative z-10 translate-x-1 -translate-y-1'
           )} 
         />
       </div>
