@@ -96,33 +96,39 @@ const optimizedPrompts = [
 ];
 
 const USER_LIMIT_KEY = 'prompt_optimizer_usage';
-const DEFAULT_FREE_LIMIT = 3; // 免费用户默认限制次数
+const DAILY_FREE_LIMIT = 10; // 免费用户每天10次
+const DAILY_PREMIUM_LIMIT = 50; // 付费用户每天50次
 
 export const usePromptGenerator = () => {
   const [generatedContent, setGeneratedContent] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isResultVisible, setIsResultVisible] = useState(false);
   const [usageCount, setUsageCount] = useState(0);
-  const [usageLimit, setUsageLimit] = useState(DEFAULT_FREE_LIMIT);
+  const [usageLimit, setUsageLimit] = useState(DAILY_FREE_LIMIT);
   const { toast } = useToast();
   const { isAuthenticated, user } = useAuth();
 
   // 加载用户使用次数
   useEffect(() => {
     if (isAuthenticated && user) {
-      // 从localStorage加载用户使用次数
-      const userUsage = localStorage.getItem(`${USER_LIMIT_KEY}_${user.id}`);
+      // 获取当前日期作为使用记录的键
+      const today = new Date().toISOString().split('T')[0]; // 格式: YYYY-MM-DD
+      const usageKey = `${USER_LIMIT_KEY}_${user.id}_${today}`;
+      
+      // 从localStorage加载用户今日使用次数
+      const userUsage = localStorage.getItem(usageKey);
       if (userUsage) {
         setUsageCount(parseInt(userUsage, 10));
       } else {
         setUsageCount(0);
-        localStorage.setItem(`${USER_LIMIT_KEY}_${user.id}`, '0');
+        localStorage.setItem(usageKey, '0');
       }
       
-      // 这里可以根据用户等级设置不同的使用限制
-      // 例如，付费用户可能有更高的限制
+      // 根据用户类型设置不同的使用限制
       if (user.isPremium) {
-        setUsageLimit(10); // 付费用户限制
+        setUsageLimit(DAILY_PREMIUM_LIMIT); // 付费用户限制
+      } else {
+        setUsageLimit(DAILY_FREE_LIMIT); // 免费用户限制
       }
     }
   }, [isAuthenticated, user]);
@@ -130,9 +136,12 @@ export const usePromptGenerator = () => {
   // 更新使用次数
   const updateUsageCount = () => {
     if (isAuthenticated && user) {
+      const today = new Date().toISOString().split('T')[0];
+      const usageKey = `${USER_LIMIT_KEY}_${user.id}_${today}`;
+      
       const newCount = usageCount + 1;
       setUsageCount(newCount);
-      localStorage.setItem(`${USER_LIMIT_KEY}_${user.id}`, newCount.toString());
+      localStorage.setItem(usageKey, newCount.toString());
     }
   };
 
@@ -141,7 +150,7 @@ export const usePromptGenerator = () => {
     if (usageCount >= usageLimit) {
       toast({
         title: "使用次数已达上限",
-        description: "您已达到免费使用次数上限，请升级到高级账户获取更多次数",
+        description: "您今日的使用次数已达上限，请明天再试或升级到高级账户获取更多次数",
         variant: "destructive",
       });
       return false;
@@ -156,21 +165,7 @@ export const usePromptGenerator = () => {
     setIsLoading(true);
     
     try {
-      // 调用OpenAI API
-      const apiKey = localStorage.getItem('openai_api_key');
-      
-      // 如果没有API密钥，提示用户添加
-      if (!apiKey) {
-        const apiKeyInput = prompt('请输入您的OpenAI API密钥以继续:');
-        if (apiKeyInput) {
-          localStorage.setItem('openai_api_key', apiKeyInput);
-        } else {
-          // 如果用户取消输入，使用示例响应
-          fallbackToExampleResponse(promptData);
-          return;
-        }
-      }
-      
+      // 调用优化API
       const result = await optimizePrompt(
         promptData.prompt,
         promptData.tone,
