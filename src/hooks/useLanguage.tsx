@@ -49,6 +49,33 @@ const translations = {
     // 新增 SavedPrompts 页面文案
     totalPrompts: 'Total Prompts',
     tryDifferentSearch: 'Try a different search term',
+    
+    // 首页功能介绍卡片
+    promptOptimization: 'Prompt Optimization',
+    promptOptimizationDesc: 'Generate optimized prompts for better AI responses',
+    devCommandGen: 'Dev Command Generator',
+    devCommandGenDesc: 'Create precise commands for development tasks',
+    savePrompts: 'Save Prompts',
+    savePromptsDesc: 'Store and organize your favorite prompts',
+    
+    // 应用名称和子标题
+    appName: 'AI Prompt Engineer',
+    promptOptimizer: 'Prompt Optimizer',
+    subheading: 'Generate, optimize, and manage AI prompts efficiently',
+    
+    // 如何使用
+    howToUse: 'How to Use',
+    describeNeeds: 'Describe Your Needs',
+    describeNeedsDesc: 'Explain what you want to accomplish with the AI',
+    chooseParams: 'Adjust Parameters',
+    chooseParamsDesc: 'Set the tone, length, and complexity for your needs',
+    getResults: 'Get Results',
+    getResultsDesc: 'Copy, save, or further refine the generated prompt',
+    
+    // 其它按钮和标签
+    optimizePrompt: 'Optimize Prompt',
+    githubLogin: 'Login with GitHub',
+    googleLogin: 'Login with Google',
   },
   zh: {
     // 通用
@@ -93,6 +120,33 @@ const translations = {
     // 新增 SavedPrompts 页面文案
     totalPrompts: '提示词总数',
     tryDifferentSearch: '尝试不同的搜索词',
+    
+    // 首页功能介绍卡片
+    promptOptimization: '提示词优化',
+    promptOptimizationDesc: '生成优化的提示词，获得更好的AI回复',
+    devCommandGen: '开发命令生成器',
+    devCommandGenDesc: '为开发任务创建精确的命令',
+    savePrompts: '保存提示词',
+    savePromptsDesc: '存储并组织您喜爱的提示词',
+    
+    // 应用名称和子标题
+    appName: 'AI提示词工程师',
+    promptOptimizer: '提示词优化器',
+    subheading: '高效生成、优化和管理AI提示词',
+    
+    // 如何使用
+    howToUse: '使用方法',
+    describeNeeds: '描述需求',
+    describeNeedsDesc: '解释您希望通过AI实现的目标',
+    chooseParams: '调整参数',
+    chooseParamsDesc: '根据需求设置风格、长度和复杂度',
+    getResults: '获取结果',
+    getResultsDesc: '复制、保存或进一步优化生成的提示词',
+    
+    // 其它按钮和标签
+    optimizePrompt: '优化提示词',
+    githubLogin: '使用GitHub登录',
+    googleLogin: '使用Google登录',
   }
 };
 
