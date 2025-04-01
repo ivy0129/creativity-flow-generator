@@ -6,7 +6,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { Slider } from "@/components/ui/slider";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
-import { Wand2 } from 'lucide-react';
+import { Wand2, LogIn } from 'lucide-react';
+import { useAuth } from '@/hooks/useAuth';
+import { useToast } from '@/hooks/use-toast';
 
 interface PromptFormProps {
   onSubmit: (promptData: PromptData) => void;
@@ -21,6 +23,8 @@ export interface PromptData {
 }
 
 const PromptForm: React.FC<PromptFormProps> = ({ onSubmit, isLoading }) => {
+  const { isAuthenticated, login } = useAuth();
+  const { toast } = useToast();
   const [promptData, setPromptData] = useState<PromptData>({
     prompt: '',
     tone: '技术性',
@@ -30,6 +34,15 @@ const PromptForm: React.FC<PromptFormProps> = ({ onSubmit, isLoading }) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!isAuthenticated) {
+      toast({
+        title: "需要登录",
+        description: "请先登录以使用提示词优化功能",
+      });
+      return;
+    }
+    
     onSubmit(promptData);
   };
 
@@ -47,6 +60,13 @@ const PromptForm: React.FC<PromptFormProps> = ({ onSubmit, isLoading }) => {
 
   const handleCreativityChange = (value: number[]) => {
     setPromptData({ ...promptData, creativity: value[0] });
+  };
+
+  const handleOptimizeClick = () => {
+    if (!isAuthenticated) {
+      // 显示登录下拉菜单
+      login('github');
+    }
   };
 
   return (
@@ -126,9 +146,19 @@ const PromptForm: React.FC<PromptFormProps> = ({ onSubmit, isLoading }) => {
           type="submit" 
           className="w-full gradient-bg text-white hover:opacity-90 transition-opacity gap-2"
           disabled={isLoading}
+          onClick={!isAuthenticated ? handleOptimizeClick : undefined}
         >
-          <Wand2 className="h-4 w-4" />
-          {isLoading ? "优化中..." : "优化提示词"}
+          {!isAuthenticated ? (
+            <LogIn className="h-4 w-4" />
+          ) : (
+            <Wand2 className="h-4 w-4" />
+          )}
+          {isLoading 
+            ? "优化中..." 
+            : !isAuthenticated 
+              ? "登录以优化提示词" 
+              : "优化提示词"
+          }
         </Button>
       </form>
     </Card>
