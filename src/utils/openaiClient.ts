@@ -1,6 +1,6 @@
 
-// OpenAI API 客户端
-// 现在使用服务端API，不再需要用户提供自己的API密钥
+// Together.ai API 客户端
+// 用户需要提供自己的 API 密钥
 
 interface OpenAIResponse {
   content: string;
@@ -14,38 +14,70 @@ export async function optimizePrompt(
   creativity: number
 ): Promise<OpenAIResponse> {
   try {
-    // 使用我们自己的API服务端点，而不是直接调用OpenAI
-    const response = await fetch('/api/optimize-prompt', {
+    // 从localStorage获取 Together.ai API 密钥
+    const togetherApiKey = localStorage.getItem('together_api_key');
+    
+    if (!togetherApiKey) {
+      return {
+        content: '',
+        error: '请在设置页面配置您的 Together.ai API 密钥'
+      };
+    }
+
+    // 构建给模型的系统提示词
+    const systemPrompt = `你是一个专业的提示词优化专家。请根据用户的原始提示，创建一个优化后的提示词，使其能更好地被AI理解和执行。
+    
+    遵循以下要求：
+    - 风格：${tone}
+    - 长度：约${length}字
+    - 创意度：${creativity}%（0%为非常保守，100%为非常有创意）
+    
+    你必须保持用户原始提示的核心意图和需求不变，同时使其更加结构化、清晰和有效。`;
+
+    // 构建完整的提示词优化请求
+    const messages = [
+      {
+        role: "system",
+        content: systemPrompt
+      },
+      {
+        role: "user",
+        content: prompt
+      }
+    ];
+
+    // 设置温度参数（基于创意度）
+    const temperature = creativity / 100;
+
+    // 调用 Together.ai API
+    const response = await fetch('https://api.together.xyz/v1/chat/completions', {
       method: 'POST',
       headers: {
+        'Authorization': `Bearer ${togetherApiKey}`,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        prompt,
-        tone,
-        length,
-        creativity
+        model: "meta-llama/Llama-3-70b-chat-hf", // 可以根据需要更换为其他模型
+        messages: messages,
+        temperature: temperature,
+        max_tokens: Math.min(2000, length * 3), // 设置合理的最大token数
+        top_p: 0.9
       })
     });
 
-    // 模拟API调用 - 实际实现中应替换为真实的API调用
-    // 这里我们使用延迟和示例响应来模拟API行为
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        // 模拟成功响应
-        if (Math.random() > 0.05) { // 5%的概率返回错误
-          resolve({
-            content: `这是优化后的提示词，基于以下参数：\n- 原始提示：${prompt}\n- 风格：${tone}\n- 长度：约${length}字\n- 创意度：${creativity}%\n\n${prompt}\n\n这个提示词已经按照要求进行了优化，使其更加清晰、具体和有效。`
-          });
-        } else {
-          // 模拟错误响应
-          resolve({
-            content: '',
-            error: '服务暂时不可用，请稍后再试'
-          });
-        }
-      }, 1500); // 1.5秒延迟
-    });
+    if (!response.ok) {
+      const errorData = await response.json();
+      console.error('Together.ai API 错误:', errorData);
+      return {
+        content: '',
+        error: `API 调用失败: ${errorData.error?.message || response.statusText}`
+      };
+    }
+
+    const data = await response.json();
+    return {
+      content: data.choices[0].message.content
+    };
   } catch (error) {
     console.error('调用提示词优化API失败:', error);
     return {
