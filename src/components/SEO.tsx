@@ -13,7 +13,7 @@ const SEO: React.FC<SEOProps> = ({
   title,
   description,
   image = 'https://lovable.dev/opengraph-image-p98pqg.png',
-  url = 'https://mypromptdoctor.com',
+  url = 'https://lovable.dev/projects/4c473410-d2b7-46f5-9e02-22750b1e08e9',
   type = 'website'
 }) => {
   const { t, language } = useLanguage();
