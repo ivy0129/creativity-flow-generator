@@ -1,21 +1,35 @@
+
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml"
+        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+  <!-- 主页 -->
   <url>
-    <loc>https://lovable.dev/projects/4c473410-d2b7-46f5-9e02-22750b1e08e9</loc>
-    <lastmod>2024-03-21</lastmod>
+    <loc>https://myprompt.ai/</loc>
+    <lastmod>2024-06-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://myprompt.ai/?lang=zh"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://myprompt.ai/?lang=en"/>
   </url>
+  <!-- 已保存提示词页面 -->
   <url>
-    <loc>https://lovable.dev/projects/4c473410-d2b7-46f5-9e02-22750b1e08e9/saved</loc>
-    <lastmod>2024-03-21</lastmod>
+    <loc>https://myprompt.ai/saved</loc>
+    <lastmod>2024-06-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://myprompt.ai/saved?lang=zh"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://myprompt.ai/saved?lang=en"/>
   </url>
+  <!-- 设置页面 -->
   <url>
-    <loc>https://lovable.dev/projects/4c473410-d2b7-46f5-9e02-22750b1e08e9/settings</loc>
-    <lastmod>2024-03-21</lastmod>
+    <loc>https://myprompt.ai/settings</loc>
+    <lastmod>2024-06-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://myprompt.ai/settings?lang=zh"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://myprompt.ai/settings?lang=en"/>
   </url>
 </urlset>

@@ -1,5 +1,13 @@
+
 User-agent: *
 Allow: /
+Allow: /saved
 Disallow: /auth
 Disallow: /settings
-Sitemap: https://lovable.dev/projects/4c473410-d2b7-46f5-9e02-22750b1e08e9/sitemap.xml
+
+# 爬虫延迟设置
+Crawl-delay: 10
+
+# 提高索引效率
+Sitemap: https://myprompt.ai/sitemap.xml
+
