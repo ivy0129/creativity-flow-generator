@@ -5,9 +5,15 @@ Allow: /saved
 Disallow: /auth
 Disallow: /settings
 
+# Google爬虫特定指令
+User-agent: Googlebot
+Allow: /
+Allow: /saved
+Disallow: /auth
+Disallow: /settings
+
 # 爬虫延迟设置
 Crawl-delay: 10
 
 # 提高索引效率
 Sitemap: https://myprompt.ai/sitemap.xml
-
