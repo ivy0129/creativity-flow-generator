@@ -10,7 +10,7 @@ import { Lightbulb, BookOpen, Save } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import SavePromptForm from '@/components/SavePromptForm';
 import { useAuth } from '@/hooks/useAuth';
-import { Helmet } from 'react-helmet';
+import SEO from '@/components/SEO';
 
 const Index = () => {
   const { 
@@ -26,6 +26,10 @@ const Index = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-background hero-gradient">
+      <SEO 
+        title={t('promptOptimizer')}
+        description={t('subheading')}
+      />
       <Header />
       
       <main className="flex-1 container mx-auto px-4 py-4">

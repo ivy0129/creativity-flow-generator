@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import Header from '@/components/Header';
@@ -10,6 +9,7 @@ import { useSavedPrompts } from '@/hooks/useSavedPrompts';
 import { useToast } from '@/hooks/use-toast';
 import { useLanguage } from '@/hooks/useLanguage';
 import TagInput from '@/components/TagInput';
+import SEO from '@/components/SEO';
 
 const TaggedPrompts = () => {
   const { tag } = useParams<{ tag: string }>();
@@ -32,6 +32,11 @@ const TaggedPrompts = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-background hero-gradient">
+      <SEO 
+        title={`${tag} - ${t('taggedPrompts')}`}
+        description={`${t('promptsTaggedWith')} "${tag}"`}
+        url={`https://mypromptdoctor.com/tags/${tag}`}
+      />
       <Header />
       
       <main className="flex-1 container mx-auto px-4 py-8">

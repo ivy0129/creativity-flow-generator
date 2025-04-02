@@ -11,6 +11,7 @@ import { useToast } from '@/hooks/use-toast';
 import { useLanguage } from '@/hooks/useLanguage';
 import { useAuth } from '@/hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
+import SEO from '@/components/SEO';
 
 const SavedPrompts = () => {
   const { savedPrompts, removeSavedPrompt, updatePromptTags } = useSavedPrompts();
@@ -35,21 +36,26 @@ const SavedPrompts = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-background hero-gradient">
+      <SEO 
+        title={t('savedPrompts')}
+        description={t('savedPromptsDesc')}
+        url="https://mypromptdoctor.com/saved"
+      />
       <Header />
       
       <main className="flex-1 container mx-auto px-4 py-8">
         <section className="max-w-4xl mx-auto">
-          <h1 className="text-3xl sm:text-4xl font-bold mb-6 gradient-text text-center">
+          <h1 className="text-3xl sm:text-4xl font-bold mb-6 gradient-text">
             {t('savedPrompts')}
           </h1>
           
           {!isAuthenticated ? (
-            <Card className="p-8 text-center mb-8">
+            <Card className="p-8 text-center">
               <p className="text-muted-foreground mb-4">
-                {t('loginToViewSavedPrompts')}
+                {t('loginToSavePrompts')}
               </p>
-              <Button onClick={() => navigate('/auth')} className="gradient-bg text-white gap-2">
-                <LogIn className="h-4 w-4" />
+              <Button onClick={() => navigate('/auth')}>
+                <LogIn className="mr-2 h-4 w-4" />
                 {t('login')}
               </Button>
             </Card>
