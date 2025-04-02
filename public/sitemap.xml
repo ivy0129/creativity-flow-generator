@@ -7,32 +7,32 @@
         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
   <!-- 主页 -->
   <url>
-    <loc>https://myprompt.ai/</loc>
+    <loc>https://mypromptdoctor.com/</loc>
     <lastmod>2024-07-10</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
-    <xhtml:link rel="alternate" hreflang="zh" href="https://myprompt.ai/?lang=zh"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://myprompt.ai/?lang=en"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://myprompt.ai/"/>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://mypromptdoctor.com/?lang=zh"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mypromptdoctor.com/?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mypromptdoctor.com/"/>
   </url>
   <!-- 已保存提示词页面 -->
   <url>
-    <loc>https://myprompt.ai/saved</loc>
+    <loc>https://mypromptdoctor.com/saved</loc>
     <lastmod>2024-07-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="zh" href="https://myprompt.ai/saved?lang=zh"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://myprompt.ai/saved?lang=en"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://myprompt.ai/saved"/>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://mypromptdoctor.com/saved?lang=zh"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mypromptdoctor.com/saved?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mypromptdoctor.com/saved"/>
   </url>
   <!-- 设置页面 -->
   <url>
-    <loc>https://myprompt.ai/settings</loc>
+    <loc>https://mypromptdoctor.com/settings</loc>
     <lastmod>2024-07-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
-    <xhtml:link rel="alternate" hreflang="zh" href="https://myprompt.ai/settings?lang=zh"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://myprompt.ai/settings?lang=en"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://myprompt.ai/settings"/>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://mypromptdoctor.com/settings?lang=zh"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mypromptdoctor.com/settings?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mypromptdoctor.com/settings"/>
   </url>
 </urlset>

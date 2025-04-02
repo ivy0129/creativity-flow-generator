@@ -16,4 +16,4 @@ Disallow: /settings
 Crawl-delay: 10
 
 # 提高索引效率
-Sitemap: https://myprompt.ai/sitemap.xml
+Sitemap: https://mypromptdoctor.com/sitemap.xml

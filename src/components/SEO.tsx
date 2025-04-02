@@ -34,7 +34,7 @@ const SEO: React.FC<SEOProps> = ({
   const pageKeywords = keywords || defaultKeywords;
   
   // 构建完整URL
-  const baseUrl = 'https://myprompt.ai';
+  const baseUrl = 'https://mypromptdoctor.com';
   const pageUrl = url || `${baseUrl}${location.pathname}`;
   const pageCanonical = canonical || pageUrl;
   
