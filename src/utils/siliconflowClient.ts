@@ -1,7 +1,46 @@
-
 // SiliconFlow API客户端
 
-import { generateWithSiliconFlow, generateWithSiliconFlowProxy, hasSiliconFlowApiKey } from '@/api/siliconFlowApi';
+interface SiliconFlowRequestMessage {
+  role: 'system' | 'user' | 'assistant';
+  content: string;
+}
+
+interface SiliconFlowRequestBody {
+  model: string;
+  messages: SiliconFlowRequestMessage[];
+  temperature?: number;
+  top_p?: number;
+  max_tokens?: number;
+}
+
+interface SiliconFlowResponseChoice {
+  index: number;
+  message: {
+    role: string;
+    content: string;
+  };
+  finish_reason: string;
+}
+
+interface SiliconFlowResponse {
+  id: string;
+  object: string;
+  created: number;
+  model: string;
+  choices: SiliconFlowResponseChoice[];
+  usage: {
+    prompt_tokens: number;
+    completion_tokens: number;
+    total_tokens: number;
+  };
+}
+
+interface OptimizePromptRequestBody {
+  prompt: string;
+  tone: string;
+  length: number;
+  creativity: number;
+}
 
 interface OptimizePromptResponse {
   content: string;
@@ -12,7 +51,7 @@ interface OptimizePromptResponse {
 const exampleOptimizedPrompts = [
   `我想创建一个用户登录页面，需要包含如下功能和特性：
 
-1. 基本表单元素:
+1. ���本表单元素:
    - 用户名/邮箱输入框，带有验证
    - 密码输入框，带有显示/隐藏密码的功能
    - 记住登录状态的复选框
@@ -52,48 +91,6 @@ const exampleOptimizedPrompts = [
    - 支持按星标数量、更新时间等进行排序`
 ];
 
-// 增加更多与支付相关的示例提示词，用于处理付费功能相关请求
-const paymentRelatedPrompts = [
-  `我想实现一个基于次数限制的付费API访问功能，具有以下特点：
-
-1. 用户访问限制：
-   - 免费用户每天限制调用API 10次
-   - 付费用户每天可调用API 100次
-   - 超出限制时提示用户升级账户
-
-2. 付费系统实现：
-   - 接入Stripe支付网关
-   - 支持月度/年度订阅计划
-   - 实现一次性购买额外调用次数的功能
-
-3. 技术要点：
-   - 在后端使用Redis/数据库记录和限制API调用次数
-   - 实现JWT令牌验证用户身份和权限
-   - 前端显示剩余可用次数和使用统计
-   - 设计合理的降级策略处理API超限情况`,
-
-  `实现一个SaaS应用的分级付费功能，包括以下内容：
-
-1. 会员等级设计：
-   - 免费层：基础功能，使用次数有限制
-   - 标准会员：增加使用次数和额外功能
-   - 高级会员：无限使用次数和全部功能
-
-2. 付费功能控制：
-   - 基于用户等级的功能访问控制
-   - 实现功能锁定和提示升级的UI
-   - 平滑的付费转化流程设计
-
-3. 技术实现：
-   - 用户权限系统设计
-   - 与支付网关的集成
-   - 订阅状态管理和自动续费
-   - 使用计数器追踪使用情况`
-];
-
-/**
- * 生成优化后的提示词
- */
 export async function generateOptimizedPrompt(
   originalPrompt: string,
   tone: string,
@@ -101,67 +98,83 @@ export async function generateOptimizedPrompt(
   creativity: number
 ): Promise<OptimizePromptResponse> {
   try {
-    console.log("正在准备优化提示词");
+    console.log("正在准备请求API优化提示词");
     
-    // 首先尝试使用代理服务
-    try {
-      console.log("尝试使用代理服务...");
-      const content = await generateWithSiliconFlowProxy(
-        `你是一名提示词优化专家。请根据用户提供的原始提示词进行优化，使其更加结构化、详细和明确。优化后的提示词应该保持原始意图，但更加清晰和有效。使用${tone}的风格，保持内容长度约${length}个字符，创意度为${creativity}%。`,
-        originalPrompt,
-        creativity / 100,
-        Math.floor(length * 1.5)
-      );
-      return { content };
-    } catch (proxyError) {
-      console.warn("代理服务调用失败，尝试直接调用API:", proxyError);
+    // 构建请求体
+    const requestBody: OptimizePromptRequestBody = {
+      prompt: originalPrompt,
+      tone: tone,
+      length: length,
+      creativity: creativity
+    };
+
+    console.log("API请求参数:", JSON.stringify(requestBody));
+
+    // 修改为使用POST请求访问提供的端点
+    const response = await fetch("https://myapi-livid.vercel.app/api/optimize", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(requestBody)
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.warn("API调用失败，响应状态:", response.status);
+      console.warn("API错误信息:", errorText);
       
-      // 如果代理服务失败，检查是否有API密钥可以直接调用
-      if (hasSiliconFlowApiKey()) {
-        console.log("尝试直接调用API...");
-        const content = await generateWithSiliconFlow(
-          `你是一名提示词优化专家。请根据用户提供的原始提示词进行优化，使其更加结构化、详细和明确。优化后的提示词应该保持原始意图，但更加清晰和有效。使用${tone}的风格，保持内容长度约${length}个字符，创意度为${creativity}%。`,
-          originalPrompt,
-          creativity / 100,
-          Math.floor(length * 1.5)
-        );
-        return { content };
-      } else {
-        console.warn("没有设置API密钥，回退到本地生成");
-        return selectAppropriatePrompt(
-          originalPrompt, 
-          tone, 
-          length, 
-          creativity, 
-          "API密钥未设置或API服务不可用"
-        );
-      }
+      return handleLocalOptimization(
+        originalPrompt, 
+        tone, 
+        length, 
+        creativity, 
+        `HTTP错误: ${response.status} - ${errorText}`
+      );
     }
+
+    const data = await response.json();
+    console.log("API响应数据:", data);
+
+    // 检查API响应
+    if (data.error) {
+      console.warn("API返回错误:", data.error);
+      return handleLocalOptimization(originalPrompt, tone, length, creativity, data.error);
+    }
+
+    // 提取生成的内容
+    const generatedContent = data.content;
+    
+    if (!generatedContent) {
+      console.warn("API响应中找不到有效内容:", data);
+      return handleLocalOptimization(
+        originalPrompt, 
+        tone, 
+        length, 
+        creativity, 
+        "API响应格式异常，找不到内容"
+      );
+    }
+    
+    return { content: generatedContent };
   } catch (error) {
-    console.warn("提示词优化失败:", error);
+    console.warn("调用优化API失败:", error);
     const errorMsg = error instanceof Error ? error.message : String(error);
-    return selectAppropriatePrompt(originalPrompt, tone, length, creativity, errorMsg);
+    return handleLocalOptimization(originalPrompt, tone, length, creativity, errorMsg);
   }
 }
 
-// 根据原始提示选择最合适的本地示例
-function selectAppropriatePrompt(
+// 本地优化逻辑，当API不可用时使用
+function handleLocalOptimization(
   originalPrompt: string,
   tone: string,
   length: number,
   creativity: number,
   errorMsg: string
 ): OptimizePromptResponse {
-  // 分析原始提示，确定是否与支付/付费功能相关
-  const paymentKeywords = ['付费', '支付', '订阅', '价格', '会员', 'vip', '购买', '免费', '次数', '限制'];
-  const isPaymentRelated = paymentKeywords.some(keyword => originalPrompt.toLowerCase().includes(keyword));
-  
-  // 根据提示内容选择合适的示例库
-  const promptLibrary = isPaymentRelated ? paymentRelatedPrompts : exampleOptimizedPrompts;
-  
   // 选择一个示例提示词
-  const randomIndex = Math.floor(Math.random() * promptLibrary.length);
-  let responseContent = promptLibrary[randomIndex];
+  const randomIndex = Math.floor(Math.random() * exampleOptimizedPrompts.length);
+  let responseContent = exampleOptimizedPrompts[randomIndex];
   
   // 添加一个提示，说明这是本地生成的内容
   const localGenerationNotice = `[注意: 由于API服务暂不可用，以下是自动生成的示例内容]\n[错误信息: ${errorMsg}]\n\n`;

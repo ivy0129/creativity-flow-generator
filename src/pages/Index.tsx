@@ -12,8 +12,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import SavePromptForm from '@/components/SavePromptForm';
 import { useAuth } from '@/hooks/useAuth';
 import SEO from '@/components/SEO';
-import ApiKeyInput from '@/components/ApiKeyInput';
-import { hasSiliconFlowApiKey } from '@/api/siliconFlowApi';
 
 const Index = () => {
   const { 
@@ -72,9 +70,6 @@ const Index = () => {
               </article>
             )}
           </div>
-          
-          {/* API密钥输入组件 */}
-          {!hasSiliconFlowApiKey() && <ApiKeyInput />}
           
           <Tabs defaultValue="optimize" className="w-full">
             <TabsList className="grid w-full grid-cols-2 mb-6">
