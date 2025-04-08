@@ -1,3 +1,4 @@
+
 import { useState, useEffect, createContext, useContext, ReactNode } from 'react';
 import { toast } from "@/hooks/use-toast";
 import { useLanguage } from "./useLanguage";
@@ -9,14 +10,12 @@ import {
   GithubAuthProvider,
   signOut,
   onAuthStateChanged,
-  User as FirebaseUser,
-  fetchSignInMethodsForEmail,
   updateProfile,
+  fetchSignInMethodsForEmail,
   sendPasswordResetEmail
 } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
-
-const ADMIN_EMAIL = "ivyhan0129@gmail.com";
+import { checkIsAdmin } from '@/utils/securityUtils';
 
 interface AuthContextType {
   isAuthenticated: boolean;
@@ -44,12 +43,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [user, setUser] = useState<AppUser | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
-  const { t, language } = useLanguage();
+  const { language } = useLanguage();
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       if (firebaseUser) {
-        const isAdmin = firebaseUser.email === ADMIN_EMAIL;
+        // 使用新的安全工具检查管理员状态
+        const isAdmin = await checkIsAdmin(firebaseUser.email || undefined);
         
         const userData: AppUser = {
           id: firebaseUser.uid,

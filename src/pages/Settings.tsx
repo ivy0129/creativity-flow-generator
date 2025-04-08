@@ -8,10 +8,16 @@ import { Separator } from "@/components/ui/separator";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from '@/hooks/useAuth';
 import { useLanguage } from '@/hooks/useLanguage';
-import { API_KEY_STORAGE_KEY, getLocalApiKey, saveApiKey, getGlobalApiKey } from '@/utils/siliconflowClient';
-import { EyeIcon, EyeOffIcon, ShieldCheck } from 'lucide-react';
-import { doc, setDoc, getDoc } from 'firebase/firestore';
-import { db } from '@/lib/firebase';
+import { 
+  API_KEY_STORAGE_KEY, 
+  getLocalApiKey, 
+  saveApiKey, 
+  getGlobalApiKey,
+  saveGlobalApiKey
+} from '@/utils/siliconflowClient';
+import { EyeIcon, EyeOffIcon, ShieldCheck, RefreshCw } from 'lucide-react';
+import { doc, setDoc, getDoc, Timestamp } from 'firebase/firestore';
+import { db, COLLECTIONS } from '@/lib/firebase';
 
 const DAILY_FREE_LIMIT = 10; // 免费用户每天10次
 const DAILY_PREMIUM_LIMIT = 100; // 高级用户每天100次
@@ -20,7 +26,7 @@ const PREMIUM_PRICE = 20; // 高级账户每月20美元
 const Settings = () => {
   const { toast } = useToast();
   const { isAuthenticated, user } = useAuth();
-  const { t, language } = useLanguage();
+  const { language } = useLanguage();
   const [usageCount, setUsageCount] = useState(0);
   const [usageLimit, setUsageLimit] = useState(DAILY_FREE_LIMIT);
   const [localApiKey, setLocalApiKey] = useState('');
@@ -28,11 +34,11 @@ const Settings = () => {
   const [showLocalApiKey, setShowLocalApiKey] = useState(false);
   const [showGlobalApiKey, setShowGlobalApiKey] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [keyExpiry, setKeyExpiry] = useState<Date | null>(null);
+  const [isRotating, setIsRotating] = useState(false);
   
-  // 加载使用情况和API密钥
   useEffect(() => {
     if (isAuthenticated && user) {
-      // 获取当前日期作为使用记录的键
       const today = new Date().toISOString().split('T')[0]; // 格式: YYYY-MM-DD
       const usageKey = `prompt_optimizer_usage_${user.id}_${today}`;
       
@@ -43,31 +49,32 @@ const Settings = () => {
         setUsageCount(0);
       }
       
-      // 设置用户限制
       if (user.isPremium) {
         setUsageLimit(DAILY_PREMIUM_LIMIT);
       } else {
         setUsageLimit(DAILY_FREE_LIMIT);
       }
 
-      // 加载本地API密钥
       const savedLocalApiKey = getLocalApiKey();
       if (savedLocalApiKey) {
         setLocalApiKey(savedLocalApiKey);
       }
 
-      // 如果用户是管理员，加载全局API密钥
       if (user.isAdmin) {
         loadGlobalApiKey();
       }
     }
   }, [isAuthenticated, user]);
 
-  // 加载全局API密钥
   const loadGlobalApiKey = async () => {
     try {
       const key = await getGlobalApiKey();
       setGlobalApiKey(key);
+      
+      const apiKeyDoc = await getDoc(doc(db, COLLECTIONS.APP_SETTINGS, "apiKeys"));
+      if (apiKeyDoc.exists() && apiKeyDoc.data().expiresAt) {
+        setKeyExpiry(apiKeyDoc.data().expiresAt.toDate());
+      }
     } catch (error) {
       console.error("加载全局API密钥时出错:", error);
     }
@@ -97,18 +104,20 @@ const Settings = () => {
     
     setLoading(true);
     try {
-      await setDoc(doc(db, "appSettings", "apiKeys"), {
-        siliconflowApiKey: globalApiKey.trim(),
-        updatedAt: new Date(),
-        updatedBy: user?.id
-      });
+      const success = await saveGlobalApiKey(globalApiKey.trim(), user.id);
       
-      toast({
-        title: language === 'en' ? "Global API Key Saved" : "全局API密钥已保存",
-        description: language === 'en' 
-          ? "The global SiliconFlow API key has been saved successfully" 
-          : "全局硅基流动API密钥已成功保存",
-      });
+      if (success) {
+        await loadGlobalApiKey();
+        
+        toast({
+          title: language === 'en' ? "Global API Key Saved" : "全局API密钥已保存",
+          description: language === 'en' 
+            ? "The global SiliconFlow API key has been saved successfully" 
+            : "全局硅基流动API密钥已成功保存",
+        });
+      } else {
+        throw new Error("Failed to save API key");
+      }
     } catch (error) {
       console.error("保存全局API密钥时出错:", error);
       toast({
@@ -120,6 +129,66 @@ const Settings = () => {
       });
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleRotateGlobalApiKey = async () => {
+    if (!user?.isAdmin) {
+      toast({
+        title: language === 'en' ? "Permission Denied" : "权限不足",
+        description: language === 'en' 
+          ? "You need admin permissions to rotate the global API key" 
+          : "您需要管理员权限来轮换全局API密钥",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    if (!globalApiKey) {
+      toast({
+        title: language === 'en' ? "No API Key" : "没有API密钥",
+        description: language === 'en' 
+          ? "Please set a global API key first" 
+          : "请先设置全局API密钥",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    setIsRotating(true);
+    try {
+      const now = new Date();
+      const expiryDate = new Date(now);
+      expiryDate.setDate(expiryDate.getDate() + 30);
+      
+      const rotationId = `rot_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
+      
+      await setDoc(doc(db, COLLECTIONS.APP_SETTINGS, "apiKeys"), {
+        expiresAt: Timestamp.fromDate(expiryDate),
+        rotationId: rotationId,
+        updatedAt: Timestamp.fromDate(now),
+        updatedBy: user.id
+      }, { merge: true });
+      
+      await loadGlobalApiKey();
+      
+      toast({
+        title: language === 'en' ? "API Key Rotated" : "API密钥已轮换",
+        description: language === 'en' 
+          ? "The global API key rotation has been scheduled successfully" 
+          : "全局API密钥轮换已成功安排",
+      });
+    } catch (error) {
+      console.error("轮换API密钥时出错:", error);
+      toast({
+        title: language === 'en' ? "Rotation Failed" : "轮换失败",
+        description: language === 'en' 
+          ? "Failed to rotate the global API key" 
+          : "轮换全局API密钥失败",
+        variant: "destructive",
+      });
+    } finally {
+      setIsRotating(false);
     }
   };
 
@@ -245,7 +314,7 @@ const Settings = () => {
                     />
                     <button 
                       type="button"
-                      onClick={toggleShowGlobalApiKey}
+                      onClick={() => setShowGlobalApiKey(!showGlobalApiKey)}
                       className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
                     >
                       {showGlobalApiKey ? (
@@ -264,7 +333,25 @@ const Settings = () => {
                       ? (language === 'en' ? "Saving..." : "保存中...") 
                       : (language === 'en' ? "Save Global" : "保存全局密钥")}
                   </Button>
+                  <Button
+                    onClick={handleRotateGlobalApiKey}
+                    variant="outline"
+                    className="ml-2"
+                    disabled={isRotating || !globalApiKey}
+                  >
+                    <RefreshCw className={`h-4 w-4 mr-1 ${isRotating ? 'animate-spin' : ''}`} />
+                    {language === 'en' ? "Rotate" : "轮换"}
+                  </Button>
                 </div>
+                
+                {keyExpiry && (
+                  <p className="text-xs text-amber-600 dark:text-amber-400">
+                    {language === 'en' 
+                      ? `This key expires on: ${keyExpiry.toLocaleDateString()}`
+                      : `此密钥过期日期：${keyExpiry.toLocaleDateString()}`}
+                  </p>
+                )}
+                
                 <p className="text-xs text-muted-foreground">
                   {language === 'en' 
                     ? "This global API key will be used for all users who don't have their own API key. It is stored securely in Firebase."
@@ -275,6 +362,26 @@ const Settings = () => {
                     ? "Note: The global API key usage will count against your API provider's quota."
                     : "注意：全局API密钥的使用将计入您的API提供商配额。"}
                 </p>
+                
+                <div className="mt-4 p-3 bg-blue-50 dark:bg-blue-900/30 rounded-md">
+                  <h3 className="text-sm font-medium text-blue-800 dark:text-blue-300">
+                    {language === 'en' ? "Security Best Practices" : "安全最佳实践"}
+                  </h3>
+                  <ul className="mt-2 text-xs text-blue-700 dark:text-blue-400 list-disc list-inside">
+                    <li>{language === 'en' 
+                      ? "Rotate your API key regularly (every 30 days)"
+                      : "定期轮换您的API密钥（每30天）"}
+                    </li>
+                    <li>{language === 'en' 
+                      ? "Monitor API usage for unusual patterns"
+                      : "监控API使用情况，发现异常模式"}
+                    </li>
+                    <li>{language === 'en' 
+                      ? "Keep your admin credentials secure"
+                      : "确保您的管理员凭据安全"}
+                    </li>
+                  </ul>
+                </div>
               </div>
             )}
           </div>
