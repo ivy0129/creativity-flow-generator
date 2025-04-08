@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { 
   collection, 
@@ -30,6 +31,7 @@ export const useFirestorePrompts = () => {
   const { language } = useLanguage();
   const [prompts, setPrompts] = useState<FirestorePrompt[]>([]);
   const [loading, setLoading] = useState(true);
+  const [indexError, setIndexError] = useState(false);
 
   // 从 Firestore 加载提示词
   const loadPrompts = async () => {
@@ -40,20 +42,63 @@ export const useFirestorePrompts = () => {
     }
 
     try {
-      // 使用用户ID过滤查询
-      const q = query(
-        collection(db, 'prompts'),
-        where('userId', '==', user.id),
-        orderBy('createdAt', 'desc')
-      );
-      
-      const querySnapshot = await getDocs(q);
-      const loadedPrompts = querySnapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-      })) as FirestorePrompt[];
-      
-      setPrompts(loadedPrompts);
+      // 首先尝试使用复合排序查询
+      try {
+        const q = query(
+          collection(db, 'prompts'),
+          where('userId', '==', user.id),
+          orderBy('createdAt', 'desc')
+        );
+        
+        const querySnapshot = await getDocs(q);
+        const loadedPrompts = querySnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        })) as FirestorePrompt[];
+        
+        setPrompts(loadedPrompts);
+        setIndexError(false);
+      } catch (error: any) {
+        // 检查是否是索引错误
+        if (error?.code === 'failed-precondition' && error?.message?.includes('index')) {
+          // 记录索引错误状态
+          setIndexError(true);
+          console.warn('Firebase索引错误，尝试不使用排序...');
+          
+          // 退回到不使用 orderBy 的简单查询
+          const fallbackQuery = query(
+            collection(db, 'prompts'),
+            where('userId', '==', user.id)
+          );
+          
+          const querySnapshot = await getDocs(fallbackQuery);
+          const loadedPrompts = querySnapshot.docs.map(doc => ({
+            id: doc.id,
+            ...doc.data()
+          })) as FirestorePrompt[];
+          
+          // 在客户端手动排序
+          loadedPrompts.sort((a, b) => {
+            const timeA = a.createdAt?.toDate?.() || new Date(0);
+            const timeB = b.createdAt?.toDate?.() || new Date(0);
+            return timeB.getTime() - timeA.getTime(); // 降序排列
+          });
+          
+          setPrompts(loadedPrompts);
+          
+          // 通知用户创建索引
+          toast({
+            title: language === 'zh' ? '需要创建索引' : 'Index Creation Required',
+            description: language === 'zh' 
+              ? '请访问Firebase控制台创建推荐的索引，以启用高级排序功能' 
+              : 'Please visit Firebase Console to create the recommended index for advanced sorting',
+            variant: 'default',
+          });
+        } else {
+          // 其他错误则直接抛出
+          throw error;
+        }
+      }
     } catch (error) {
       console.error('加载提示词失败:', error);
       toast({
@@ -88,7 +133,13 @@ export const useFirestorePrompts = () => {
       const docRef = await addDoc(collection(db, 'prompts'), newPrompt);
       const savedPrompt = { ...newPrompt, id: docRef.id };
       
-      setPrompts(prev => [savedPrompt, ...prev]);
+      // 如果有索引错误，我们需要手动将新添加的提示词放在顶部
+      if (indexError) {
+        setPrompts(prev => [savedPrompt, ...prev]);
+      } else {
+        // 如果索引正常工作，重新加载以保持一致
+        await loadPrompts();
+      }
       
       toast({
         title: language === 'zh' ? '保存成功' : 'Saved Successfully',
@@ -214,6 +265,7 @@ export const useFirestorePrompts = () => {
   return {
     prompts,
     loading,
+    indexError,
     savePrompt,
     deletePrompt,
     updatePromptTags,
@@ -221,4 +273,4 @@ export const useFirestorePrompts = () => {
     importPrompts,
     refreshPrompts: loadPrompts
   };
-}; 
+};

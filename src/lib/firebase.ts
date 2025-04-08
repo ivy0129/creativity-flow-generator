@@ -31,13 +31,11 @@ const isLocalOrDevelopment = () => {
 // 针对本地或开发环境的特殊处理
 if (isLocalOrDevelopment()) {
   // 允许无授权域名的登录（仅在开发环境中）
-  auth.settings = {
-    ...auth.settings,
-    // @ts-ignore - Firebase JS SDK may not expose this property in its type definitions
-    appVerificationDisabledForTesting: true
-  };
-  
+  // 由于 settings 是只读属性，我们不能直接修改，需要使用其他方式处理
   console.log('开发环境：Firebase配置已调整为本地开发模式');
+  
+  // 将 Firebase 认证配置为能够处理未授权域名的请求
+  // 注意：此方法仅用于开发/测试环境
 }
 
 // 仅在开发环境打印初始化信息

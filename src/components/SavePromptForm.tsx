@@ -1,21 +1,23 @@
+
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Save, LogIn } from 'lucide-react';
+import { Save, LogIn, AlertTriangle } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/hooks/use-toast';
 import { useLanguage } from '@/hooks/useLanguage';
 import { useFirestorePrompts } from '@/hooks/useFirestorePrompts';
 import { useNavigate } from 'react-router-dom';
+import { Alert, AlertDescription } from "@/components/ui/alert";
 
 const SavePromptForm: React.FC = () => {
   const { isAuthenticated, user } = useAuth();
   const { toast } = useToast();
   const { t, language } = useLanguage();
-  const { savePrompt } = useFirestorePrompts();
+  const { savePrompt, indexError } = useFirestorePrompts();
   const navigate = useNavigate();
   
   const [promptContent, setPromptContent] = useState('');
@@ -87,6 +89,24 @@ const SavePromptForm: React.FC = () => {
 
   return (
     <Card className="w-full p-6 shadow-lg prompt-shadow animate-fade-in">
+      {indexError && isAuthenticated && (
+        <Alert variant="warning" className="mb-4 border-amber-500 bg-amber-50 dark:bg-amber-950">
+          <AlertTriangle className="h-4 w-4 text-amber-500" />
+          <AlertDescription className="text-amber-700 dark:text-amber-300">
+            {language === 'zh' 
+              ? '需要创建 Firebase 索引以使用高级排序功能。' 
+              : 'Firebase index required for advanced sorting.'}
+            <Button 
+              variant="link" 
+              className="p-0 h-auto text-amber-700 underline"
+              onClick={() => window.open('https://console.firebase.google.com/project/myprompt-5a0c4/firestore/indexes', '_blank')}
+            >
+              {language === 'zh' ? '点击此处创建索引' : 'Click here to create index'}
+            </Button>
+          </AlertDescription>
+        </Alert>
+      )}
+
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="space-y-2">
           <Label htmlFor="prompt-content" className="text-base font-medium">
