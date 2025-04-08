@@ -106,6 +106,7 @@ export const usePromptGenerator = () => {
   const [isResultVisible, setIsResultVisible] = useState(false);
   const [usageCount, setUsageCount] = useState(0);
   const [usageLimit, setUsageLimit] = useState(DAILY_FREE_LIMIT);
+  const [apiErrorMessage, setApiErrorMessage] = useState<string | null>(null);
   const { toast } = useToast();
   const { isAuthenticated, user } = useAuth();
 
@@ -165,6 +166,7 @@ export const usePromptGenerator = () => {
     
     setIsLoading(true);
     setIsResultVisible(false); // 清除之前的结果，直到新结果加载完成
+    setApiErrorMessage(null); // 重置API错误消息
     
     try {
       // 调用API优化提示词
@@ -176,19 +178,19 @@ export const usePromptGenerator = () => {
       );
       
       if (result.error) {
+        // 显示警告信息，但仍然显示生成的内容（可能是本地生成的）
+        setApiErrorMessage(result.error);
         toast({
-          title: "优化失败",
-          description: result.error,
-          variant: "destructive",
+          title: "API服务暂时不可用",
+          description: "使用本地优化逻辑生成内容。" + result.error,
+          variant: "warning",
         });
-        
-        // 如果API调用失败，使用示例响应
-        fallbackToExampleResponse(promptData);
-        return;
+      } else {
+        // 更新使用次数（仅当API正常工作时）
+        if (!result.content.includes("[注意:")) {
+          updateUsageCount();
+        }
       }
-      
-      // 更新使用次数
-      updateUsageCount();
       
       setGeneratedContent(result.content);
       setIsResultVisible(true);
@@ -213,6 +215,10 @@ export const usePromptGenerator = () => {
     const randomIndex = Math.floor(Math.random() * optimizedPrompts.length);
     let response = optimizedPrompts[randomIndex];
     
+    // 添加一个提示，说明这是本地生成的内容
+    const notice = "[注意: 本地生成的示例内容，API服务暂不可用]\n\n";
+    response = notice + response;
+    
     // 根据长度调整响应
     if (promptData.length < 200) {
       response = response.split('\n\n')[0] + '\n\n' + response.split('\n\n')[1];
@@ -222,6 +228,7 @@ export const usePromptGenerator = () => {
     
     setGeneratedContent(response);
     setIsResultVisible(true);
+    setApiErrorMessage("API服务暂不可用，使用本地示例内容");
   };
 
   return {
@@ -231,5 +238,6 @@ export const usePromptGenerator = () => {
     generateContent,
     usageCount,
     usageLimit,
+    apiErrorMessage,
   };
 };
