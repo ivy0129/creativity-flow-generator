@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -10,7 +9,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useAuth } from '@/hooks/useAuth';
 import { useLanguage } from '@/hooks/useLanguage';
 import { API_KEY_STORAGE_KEY, getLocalApiKey, saveApiKey, getGlobalApiKey } from '@/utils/siliconflowClient';
-import { EyeIcon, EyeOffIcon } from 'lucide-react';
+import { EyeIcon, EyeOffIcon, ShieldCheck } from 'lucide-react';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 
@@ -30,6 +29,7 @@ const Settings = () => {
   const [showGlobalApiKey, setShowGlobalApiKey] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [adminCheckComplete, setAdminCheckComplete] = useState(false);
   
   // 加载使用情况和API密钥
   useEffect(() => {
@@ -60,28 +60,30 @@ const Settings = () => {
 
       // 检查用户是否为管理员
       checkIfAdmin();
-      
-      // 如果是管理员，加载全局API密钥
-      if (isAdmin) {
-        loadGlobalApiKey();
-      }
     }
-  }, [isAuthenticated, user, isAdmin]);
+  }, [isAuthenticated, user]);
 
   // 检查用户是否为管理员
   const checkIfAdmin = async () => {
-    if (!isAuthenticated || !user) return;
+    if (!isAuthenticated || !user) {
+      setAdminCheckComplete(true);
+      return;
+    }
     
     try {
       const adminDoc = await getDoc(doc(db, "admins", user.id));
-      setIsAdmin(adminDoc.exists());
+      const adminStatus = adminDoc.exists();
+      setIsAdmin(adminStatus);
       
       // 如果用户是管理员，加载全局API密钥
-      if (adminDoc.exists()) {
+      if (adminStatus) {
         loadGlobalApiKey();
       }
+      
+      setAdminCheckComplete(true);
     } catch (error) {
       console.error("检查管理员状态时出错:", error);
+      setAdminCheckComplete(true);
     }
   };
 
@@ -177,6 +179,31 @@ const Settings = () => {
       
       <main className="flex-1 container mx-auto px-4 py-8">
         <h1 className="text-3xl font-bold mb-6">{language === 'en' ? "Settings" : "设置"}</h1>
+        
+        {isAuthenticated && adminCheckComplete && (
+          <div className="mb-6">
+            <div className={`flex items-center p-4 rounded-md ${isAdmin ? 'bg-purple-50 dark:bg-purple-950' : 'bg-gray-50 dark:bg-gray-800'}`}>
+              <div className={`p-2 rounded-full mr-3 ${isAdmin ? 'bg-purple-100 dark:bg-purple-900' : 'bg-gray-100 dark:bg-gray-700'}`}>
+                <ShieldCheck className={`h-5 w-5 ${isAdmin ? 'text-purple-700 dark:text-purple-300' : 'text-gray-500 dark:text-gray-400'}`} />
+              </div>
+              <div>
+                <p className="font-medium">
+                  {language === 'en' ? "Account Status: " : "账户状态："} 
+                  <span className={isAdmin ? 'text-purple-700 dark:text-purple-300' : 'text-gray-600 dark:text-gray-300'}>
+                    {isAdmin 
+                      ? (language === 'en' ? "Administrator" : "管理员") 
+                      : (language === 'en' ? "Regular User" : "普通用户")}
+                  </span>
+                </p>
+                <p className="text-sm text-muted-foreground">
+                  {isAdmin 
+                    ? (language === 'en' ? "You have administrator privileges and can set global API keys." : "您拥有管理员权限，可以设置全局API密钥。") 
+                    : (language === 'en' ? "You have standard user permissions." : "您拥有标准用户权限。")}
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
         
         <Card className="p-6 mb-6">
           <h2 className="text-xl font-semibold mb-4">
