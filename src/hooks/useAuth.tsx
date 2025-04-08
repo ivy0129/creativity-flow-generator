@@ -148,7 +148,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           displayName: credentials.name
         });
 
-        const isAdmin = credentials.email === ADMIN_EMAIL;
+        // Check if this user is an admin by checking with the security function
+        const isAdmin = await checkIsAdmin(credentials.email);
 
         const userData: AppUser = {
           id: userCredential.user.uid,
