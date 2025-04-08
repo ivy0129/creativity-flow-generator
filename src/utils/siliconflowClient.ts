@@ -1,8 +1,6 @@
 
 // SiliconFlow API客户端
 
-import { hasSiliconFlowApiKey, setTemporarySiliconFlowApiKey, generateWithSiliconFlow } from "../api/siliconFlowApi";
-
 interface SiliconFlowRequestMessage {
   role: 'system' | 'user' | 'assistant';
   content: string;
@@ -133,21 +131,6 @@ const paymentRelatedPrompts = [
    - 使用计数器追踪使用情况`
 ];
 
-// 直接调用SiliconFlow API的系统提示词
-const OPTIMIZE_PROMPT_SYSTEM_PROMPT = `
-你是一个AI提示词优化专家，帮助用户优化他们的提示词，使其更加清晰、结构化和有效。
-请根据用户的原始提示词、语调要求、长度和创造性参数，生成一个优化后的提示词。
-
-根据以下参数调整你的输出:
-- 语调: 如果是"技术性"，使用更多技术术语和结构化格式；如果是"创意性"，使用更流畅、有创意的表达
-- 长度: 数值越大，生成的提示词应该越详细
-- 创造性: 数值越高，优化后的提示词应该包含更多原创想法和建议
-
-输出应当保持用户原始提示词的核心意图，但使其更加结构化、明确和有效。
-使用适当的分点、小标题等格式来组织内容。
-不要在回复中包含任何解释或额外的文本，只提供优化后的提示词内容。
-`;
-
 export async function generateOptimizedPrompt(
   originalPrompt: string,
   tone: string,
@@ -157,36 +140,6 @@ export async function generateOptimizedPrompt(
   try {
     console.log("正在准备请求API优化提示词");
     
-    // 首先尝试使用SiliconFlow API直接生成
-    if (hasSiliconFlowApiKey()) {
-      try {
-        console.log("使用SiliconFlow API生成优化提示词");
-        
-        // 构建用户提示词
-        const userPrompt = `
-原始提示词: "${originalPrompt}"
-语调要求: ${tone === 'technical' ? '技术性' : '创意性'}
-详细程度: ${length} (1-300, 越大越详细)
-创造性: ${creativity} (1-100, 越大越有创意)
-
-请优化上面的提示词，使其更加有效。
-`;
-        
-        // 调用SiliconFlow API
-        const optimizedContent = await generateWithSiliconFlow(
-          OPTIMIZE_PROMPT_SYSTEM_PROMPT,
-          userPrompt,
-          creativity / 100, // 将创造性参数转换为0-1范围的temperature
-          length * 2 // 根据长度参数调整max_tokens
-        );
-        
-        return { content: optimizedContent };
-      } catch (siliconFlowError) {
-        console.warn("SiliconFlow API调用失败:", siliconFlowError);
-        // 如果SiliconFlow API调用失败，尝试备用API
-      }
-    }
-
     // 构建请求体
     const requestBody: OptimizePromptRequestBody = {
       prompt: originalPrompt,
@@ -197,11 +150,8 @@ export async function generateOptimizedPrompt(
 
     console.log("API请求参数:", JSON.stringify(requestBody));
 
-    // 添加CORS参数到URL，尝试解决CORS问题
-    const url = "https://myapi-livid.vercel.app/api/optimize";
-    
     // 使用POST请求访问提供的端点
-    const response = await fetch(url, {
+    const response = await fetch("https://myapi-livid.vercel.app/api/optimize", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -299,3 +249,4 @@ function selectAppropriatePrompt(
   
   return { content: responseContent, error: errorMsg };
 }
+

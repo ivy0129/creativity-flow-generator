@@ -144,23 +144,6 @@ const ResultDisplay: React.FC<ResultDisplayProps> = ({
           </Alert>
         )}
         
-        {/* 添加CORS错误提示 */}
-        {apiErrorMessage && (apiErrorMessage.includes("Failed to fetch") || apiErrorMessage.includes("CORS")) && (
-          <Alert className="mb-4 bg-blue-50 border-blue-300 dark:bg-blue-900/30 dark:border-blue-800">
-            <Info className="h-4 w-4 text-blue-600 dark:text-blue-400" />
-            <AlertDescription className="ml-2 text-blue-700 dark:text-blue-300">
-              {language === 'zh' 
-                ? '可能原因: 跨域资源共享(CORS)问题。API服务器需要允许来自此网站的请求。这通常需要在API服务器端配置正确的CORS头。'
-                : 'Possible cause: Cross-Origin Resource Sharing (CORS) issue. The API server needs to allow requests from this website. This typically requires proper CORS headers to be configured on the API server.'}
-              <div className="mt-2 p-3 bg-gray-100 dark:bg-gray-800 rounded text-xs font-mono overflow-x-auto">
-                {language === 'zh' 
-                  ? 'Access-Control-Allow-Origin: *\nAccess-Control-Allow-Methods: GET, POST, OPTIONS\nAccess-Control-Allow-Headers: Content-Type, Authorization'
-                  : 'Access-Control-Allow-Origin: *\nAccess-Control-Allow-Methods: GET, POST, OPTIONS\nAccess-Control-Allow-Headers: Content-Type, Authorization'}
-              </div>
-            </AlertDescription>
-          </Alert>
-        )}
-        
         <div className="bg-muted/50 border p-4 rounded-md whitespace-pre-wrap text-sm overflow-auto max-h-[60vh]">
           {content}
         </div>

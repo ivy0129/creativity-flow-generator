@@ -25,4 +25,4 @@ const Footer: React.FC = () => {
   );
 };
 
-export default Footer; // Changed to default export
+export default Footer;
