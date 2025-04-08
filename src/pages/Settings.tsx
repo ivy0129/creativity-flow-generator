@@ -4,10 +4,13 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from '@/hooks/useAuth';
 import { useLanguage } from '@/hooks/useLanguage';
+import { API_KEY_STORAGE_KEY, getApiKey, saveApiKey } from '@/utils/siliconflowClient';
+import { EyeIcon, EyeOffIcon } from 'lucide-react';
 
 const DAILY_FREE_LIMIT = 10; // 免费用户每天10次
 const DAILY_PREMIUM_LIMIT = 100; // 高级用户每天100次
@@ -19,8 +22,10 @@ const Settings = () => {
   const { t, language } = useLanguage();
   const [usageCount, setUsageCount] = useState(0);
   const [usageLimit, setUsageLimit] = useState(DAILY_FREE_LIMIT);
+  const [apiKey, setApiKey] = useState('');
+  const [showApiKey, setShowApiKey] = useState(false);
   
-  // 加载使用情况
+  // 加载使用情况和API密钥
   useEffect(() => {
     if (isAuthenticated && user) {
       // 获取当前日期作为使用记录的键
@@ -40,8 +45,28 @@ const Settings = () => {
       } else {
         setUsageLimit(DAILY_FREE_LIMIT);
       }
+
+      // 加载API密钥
+      const savedApiKey = getApiKey();
+      if (savedApiKey) {
+        setApiKey(savedApiKey);
+      }
     }
   }, [isAuthenticated, user]);
+
+  const handleSaveApiKey = () => {
+    saveApiKey(apiKey.trim());
+    toast({
+      title: language === 'en' ? "API Key Saved" : "API密钥已保存",
+      description: language === 'en' 
+        ? "Your SiliconFlow API key has been saved securely" 
+        : "您的硅基流动API密钥已安全保存",
+    });
+  };
+
+  const toggleShowApiKey = () => {
+    setShowApiKey(!showApiKey);
+  };
 
   const handleUpgrade = () => {
     if (!isAuthenticated) {
@@ -64,7 +89,55 @@ const Settings = () => {
       <Header />
       
       <main className="flex-1 container mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold mb-6">{language === 'en' ? "About Us" : "关于我们"}</h1>
+        <h1 className="text-3xl font-bold mb-6">{language === 'en' ? "Settings" : "设置"}</h1>
+        
+        <Card className="p-6 mb-6">
+          <h2 className="text-xl font-semibold mb-4">
+            {language === 'en' ? "API Configuration" : "API配置"}
+          </h2>
+          
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <label htmlFor="apiKey" className="text-sm font-medium">
+                {language === 'en' ? "SiliconFlow API Key" : "硅基流动API密钥"}
+              </label>
+              <div className="flex">
+                <div className="relative flex-1">
+                  <Input
+                    id="apiKey"
+                    type={showApiKey ? "text" : "password"}
+                    value={apiKey}
+                    onChange={(e) => setApiKey(e.target.value)}
+                    placeholder={language === 'en' ? "Enter your API key" : "输入您的API密钥"}
+                    className="pr-10"
+                  />
+                  <button 
+                    type="button"
+                    onClick={toggleShowApiKey}
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
+                  >
+                    {showApiKey ? (
+                      <EyeOffIcon className="h-4 w-4" />
+                    ) : (
+                      <EyeIcon className="h-4 w-4" />
+                    )}
+                  </button>
+                </div>
+                <Button 
+                  onClick={handleSaveApiKey} 
+                  className="ml-2"
+                >
+                  {language === 'en' ? "Save" : "保存"}
+                </Button>
+              </div>
+              <p className="text-xs text-muted-foreground">
+                {language === 'en' 
+                  ? "Your API key is stored securely in your browser's local storage. It is never sent to our servers."
+                  : "您的API密钥安全地存储在浏览器的本地存储中，从不发送到我们的服务器。"}
+              </p>
+            </div>
+          </div>
+        </Card>
         
         <Card className="p-6 mb-6">
           <h2 className="text-xl font-semibold mb-4">{language === 'en' ? "Our Mission" : "我们的使命"}</h2>

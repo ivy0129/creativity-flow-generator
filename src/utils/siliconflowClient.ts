@@ -17,6 +17,25 @@ interface SiliconflowResponse {
   error?: string;
 }
 
+// API密钥存储键名
+export const API_KEY_STORAGE_KEY = 'siliconflow_api_key';
+
+// 获取API密钥
+export function getApiKey(): string {
+  return localStorage.getItem(API_KEY_STORAGE_KEY) || '';
+}
+
+// 保存API密钥
+export function saveApiKey(apiKey: string): void {
+  localStorage.setItem(API_KEY_STORAGE_KEY, apiKey);
+}
+
+// 检查API密钥是否已设置
+export function hasApiKey(): boolean {
+  const key = getApiKey();
+  return key !== null && key.length > 0;
+}
+
 export async function generateOptimizedPrompt(
   originalPrompt: string,
   tone: string,
@@ -24,8 +43,15 @@ export async function generateOptimizedPrompt(
   creativity: number
 ): Promise<SiliconflowResponse> {
   try {
-    // API密钥 - 实际应用中应从环境变量获取
-    const apiKey = ""; // 这里需要填入您的API密钥
+    // 从localStorage获取API密钥
+    const apiKey = getApiKey();
+    
+    if (!apiKey) {
+      return {
+        content: '',
+        error: '未设置API密钥。请在设置页面中配置您的硅基流动API密钥。'
+      };
+    }
     
     // 构建API请求体
     const systemMessage = `你是提示词优化专家，请优化用户的提示词，使其更加清晰、详细和有效。提示词风格为${tone}，长度约为${length}字，复杂度为${creativity}。`;
@@ -51,7 +77,7 @@ export async function generateOptimizedPrompt(
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${apiKey}` // 添加API密钥到请求头
+        "Authorization": `Bearer ${apiKey}` // 使用从localStorage获取的API密钥
       },
       body: JSON.stringify(requestBody)
     });
