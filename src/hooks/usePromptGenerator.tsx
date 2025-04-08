@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { PromptData } from '@/components/PromptForm';
 import { useToast } from '@/hooks/use-toast';
@@ -163,6 +164,7 @@ export const usePromptGenerator = () => {
     if (!checkUsageLimit()) return;
     
     setIsLoading(true);
+    setIsResultVisible(false); // 清除之前的结果，直到新结果加载完成
     
     try {
       // 调用API优化提示词

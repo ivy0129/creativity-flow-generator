@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -5,7 +6,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Slider } from "@/components/ui/slider";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
-import { Wand2, LogIn } from 'lucide-react';
+import { Wand2, LogIn, Loader } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/hooks/use-toast';
 import { useLanguage } from '@/hooks/useLanguage';
@@ -211,6 +212,8 @@ const PromptForm: React.FC<PromptFormProps> = ({ onSubmit, isLoading }) => {
         >
           {!isAuthenticated ? (
             <LogIn className="h-4 w-4" />
+          ) : isLoading ? (
+            <Loader className="h-4 w-4 animate-spin" />
           ) : (
             <Wand2 className="h-4 w-4" />
           )}

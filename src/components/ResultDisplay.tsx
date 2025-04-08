@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -7,13 +8,15 @@ import { useFirestorePrompts } from '@/hooks/useFirestorePrompts';
 import { usePromptGenerator } from '@/hooks/usePromptGenerator';
 import { useLanguage } from '@/hooks/useLanguage';
 import { Link } from 'react-router-dom';
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface ResultDisplayProps {
   content: string;
   isVisible: boolean;
+  isLoading?: boolean;
 }
 
-const ResultDisplay: React.FC<ResultDisplayProps> = ({ content, isVisible }) => {
+const ResultDisplay: React.FC<ResultDisplayProps> = ({ content, isVisible, isLoading = false }) => {
   const { toast } = useToast();
   const { savePrompt } = useFirestorePrompts();
   const { usageCount, usageLimit } = usePromptGenerator();
@@ -22,6 +25,24 @@ const ResultDisplay: React.FC<ResultDisplayProps> = ({ content, isVisible }) => 
   const [feedbackGiven, setFeedbackGiven] = useState(false);
   const [saved, setSaved] = useState(false);
   
+  // 如果在加载中，显示加载骨架屏
+  if (isLoading) {
+    return (
+      <Card className="w-full mt-8 p-6 shadow-lg prompt-shadow animate-fade-in">
+        <div className="flex justify-between items-center mb-4">
+          <Skeleton className="h-8 w-40" />
+          <div className="flex items-center gap-2">
+            <Skeleton className="h-8 w-20" />
+            <Skeleton className="h-8 w-20" />
+            <Skeleton className="h-8 w-20" />
+          </div>
+        </div>
+        <Skeleton className="h-48 w-full" />
+      </Card>
+    );
+  }
+  
+  // 如果内容不可见或为空，不显示任何内容
   if (!isVisible || !content) return null;
   
   const copyToClipboard = () => {
