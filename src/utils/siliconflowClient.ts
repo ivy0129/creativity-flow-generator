@@ -1,5 +1,7 @@
 
 // 硅基流动API客户端
+import { db } from '@/lib/firebase';
+import { doc, getDoc } from 'firebase/firestore';
 
 interface SiliconflowRequestBody {
   model: string;
@@ -20,20 +22,45 @@ interface SiliconflowResponse {
 // API密钥存储键名
 export const API_KEY_STORAGE_KEY = 'siliconflow_api_key';
 
-// 获取API密钥
-export function getApiKey(): string {
+// 从本地存储获取API密钥
+export function getLocalApiKey(): string {
   return localStorage.getItem(API_KEY_STORAGE_KEY) || '';
 }
 
-// 保存API密钥
+// 保存API密钥到本地存储
 export function saveApiKey(apiKey: string): void {
   localStorage.setItem(API_KEY_STORAGE_KEY, apiKey);
 }
 
-// 检查API密钥是否已设置
-export function hasApiKey(): boolean {
-  const key = getApiKey();
+// 检查本地API密钥是否已设置
+export function hasLocalApiKey(): boolean {
+  const key = getLocalApiKey();
   return key !== null && key.length > 0;
+}
+
+// 从Firebase获取全局API密钥
+export async function getGlobalApiKey(): Promise<string> {
+  try {
+    const apiKeyDoc = await getDoc(doc(db, "appSettings", "apiKeys"));
+    if (apiKeyDoc.exists()) {
+      return apiKeyDoc.data().siliconflowApiKey || '';
+    }
+    return '';
+  } catch (error) {
+    console.error("获取全局API密钥时出错:", error);
+    return '';
+  }
+}
+
+// 获取API密钥 (优先使用本地密钥，如果没有则尝试获取全局密钥)
+export async function getApiKey(): Promise<string> {
+  const localKey = getLocalApiKey();
+  if (localKey) {
+    return localKey; // 优先使用本地存储的密钥
+  }
+  
+  // 如果本地没有密钥，尝试获取全局密钥
+  return await getGlobalApiKey();
 }
 
 export async function generateOptimizedPrompt(
@@ -43,13 +70,13 @@ export async function generateOptimizedPrompt(
   creativity: number
 ): Promise<SiliconflowResponse> {
   try {
-    // 从localStorage获取API密钥
-    const apiKey = getApiKey();
+    // 获取API密钥，优先使用本地密钥，否则尝试使用全局密钥
+    const apiKey = await getApiKey();
     
     if (!apiKey) {
       return {
         content: '',
-        error: '未设置API密钥。请在设置页面中配置您的硅基流动API密钥。'
+        error: '未设置API密钥。请在设置页面中配置您的硅基流动API密钥或联系管理员。'
       };
     }
     
@@ -77,7 +104,7 @@ export async function generateOptimizedPrompt(
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${apiKey}` // 使用从localStorage获取的API密钥
+        "Authorization": `Bearer ${apiKey}` // 使用获取到的API密钥
       },
       body: JSON.stringify(requestBody)
     });

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { PromptData } from '@/components/PromptForm';
 import { useToast } from '@/hooks/use-toast';
-import { generateOptimizedPrompt, hasApiKey } from '@/utils/siliconflowClient';
+import { generateOptimizedPrompt, getApiKey } from '@/utils/siliconflowClient';
 import { useAuth } from '@/hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '@/hooks/useLanguage';
@@ -110,6 +110,7 @@ export const usePromptGenerator = () => {
   const { isAuthenticated, user } = useAuth();
   const navigate = useNavigate();
   const { language } = useLanguage();
+  const [apiKeyAvailable, setApiKeyAvailable] = useState<boolean | null>(null);
 
   useEffect(() => {
     if (isAuthenticated && user) {
@@ -130,7 +131,19 @@ export const usePromptGenerator = () => {
         setUsageLimit(DAILY_FREE_LIMIT);
       }
     }
+
+    checkApiKeyAvailability();
   }, [isAuthenticated, user]);
+
+  const checkApiKeyAvailability = async () => {
+    try {
+      const key = await getApiKey();
+      setApiKeyAvailable(key !== null && key.length > 0);
+    } catch (error) {
+      console.error('检查API密钥可用性时出错:', error);
+      setApiKeyAvailable(false);
+    }
+  };
 
   const updateUsageCount = () => {
     if (isAuthenticated && user) {
@@ -158,12 +171,12 @@ export const usePromptGenerator = () => {
   };
 
   const generateContent = async (promptData: PromptData) => {
-    if (!hasApiKey()) {
+    if (apiKeyAvailable === false) {
       toast({
-        title: language === 'en' ? "API Key Not Set" : "API密钥未设置",
+        title: language === 'en' ? "API Key Not Available" : "API密钥不可用",
         description: language === 'en' 
-          ? "Please set your SiliconFlow API key in the Settings page" 
-          : "请在设置页面中配置您的硅基流动API密钥",
+          ? "No API key is available. Please set your SiliconFlow API key in the Settings page or contact the administrator."
+          : "没有可用的API密钥。请在设置页面中配置您的硅基流动API密钥或联系管理员。",
         variant: "destructive",
       });
       navigate("/settings");
@@ -233,5 +246,6 @@ export const usePromptGenerator = () => {
     generateContent,
     usageCount,
     usageLimit,
+    apiKeyAvailable
   };
 };

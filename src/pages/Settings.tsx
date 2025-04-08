@@ -9,8 +9,10 @@ import { Separator } from "@/components/ui/separator";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from '@/hooks/useAuth';
 import { useLanguage } from '@/hooks/useLanguage';
-import { API_KEY_STORAGE_KEY, getApiKey, saveApiKey } from '@/utils/siliconflowClient';
+import { API_KEY_STORAGE_KEY, getLocalApiKey, saveApiKey, getGlobalApiKey } from '@/utils/siliconflowClient';
 import { EyeIcon, EyeOffIcon } from 'lucide-react';
+import { doc, setDoc, getDoc } from 'firebase/firestore';
+import { db } from '@/lib/firebase';
 
 const DAILY_FREE_LIMIT = 10; // 免费用户每天10次
 const DAILY_PREMIUM_LIMIT = 100; // 高级用户每天100次
@@ -22,8 +24,12 @@ const Settings = () => {
   const { t, language } = useLanguage();
   const [usageCount, setUsageCount] = useState(0);
   const [usageLimit, setUsageLimit] = useState(DAILY_FREE_LIMIT);
-  const [apiKey, setApiKey] = useState('');
-  const [showApiKey, setShowApiKey] = useState(false);
+  const [localApiKey, setLocalApiKey] = useState('');
+  const [globalApiKey, setGlobalApiKey] = useState('');
+  const [showLocalApiKey, setShowLocalApiKey] = useState(false);
+  const [showGlobalApiKey, setShowGlobalApiKey] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [loading, setLoading] = useState(false);
   
   // 加载使用情况和API密钥
   useEffect(() => {
@@ -46,26 +52,107 @@ const Settings = () => {
         setUsageLimit(DAILY_FREE_LIMIT);
       }
 
-      // 加载API密钥
-      const savedApiKey = getApiKey();
-      if (savedApiKey) {
-        setApiKey(savedApiKey);
+      // 加载本地API密钥
+      const savedLocalApiKey = getLocalApiKey();
+      if (savedLocalApiKey) {
+        setLocalApiKey(savedLocalApiKey);
+      }
+
+      // 检查用户是否为管理员
+      checkIfAdmin();
+      
+      // 如果是管理员，加载全局API密钥
+      if (isAdmin) {
+        loadGlobalApiKey();
       }
     }
-  }, [isAuthenticated, user]);
+  }, [isAuthenticated, user, isAdmin]);
 
-  const handleSaveApiKey = () => {
-    saveApiKey(apiKey.trim());
+  // 检查用户是否为管理员
+  const checkIfAdmin = async () => {
+    if (!isAuthenticated || !user) return;
+    
+    try {
+      const adminDoc = await getDoc(doc(db, "admins", user.id));
+      setIsAdmin(adminDoc.exists());
+      
+      // 如果用户是管理员，加载全局API密钥
+      if (adminDoc.exists()) {
+        loadGlobalApiKey();
+      }
+    } catch (error) {
+      console.error("检查管理员状态时出错:", error);
+    }
+  };
+
+  // 加载全局API密钥
+  const loadGlobalApiKey = async () => {
+    if (!isAdmin) return;
+    
+    try {
+      const key = await getGlobalApiKey();
+      setGlobalApiKey(key);
+    } catch (error) {
+      console.error("加载全局API密钥时出错:", error);
+    }
+  };
+
+  const handleSaveLocalApiKey = () => {
+    saveApiKey(localApiKey.trim());
     toast({
       title: language === 'en' ? "API Key Saved" : "API密钥已保存",
       description: language === 'en' 
-        ? "Your SiliconFlow API key has been saved securely" 
-        : "您的硅基流动API密钥已安全保存",
+        ? "Your SiliconFlow API key has been saved securely in this browser" 
+        : "您的硅基流动API密钥已安全保存在此浏览器中",
     });
   };
 
-  const toggleShowApiKey = () => {
-    setShowApiKey(!showApiKey);
+  const handleSaveGlobalApiKey = async () => {
+    if (!isAdmin) {
+      toast({
+        title: language === 'en' ? "Permission Denied" : "权限不足",
+        description: language === 'en' 
+          ? "You need admin permissions to set the global API key" 
+          : "您需要管理员权限来设置全局API密钥",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    setLoading(true);
+    try {
+      await setDoc(doc(db, "appSettings", "apiKeys"), {
+        siliconflowApiKey: globalApiKey.trim(),
+        updatedAt: new Date(),
+        updatedBy: user?.id
+      });
+      
+      toast({
+        title: language === 'en' ? "Global API Key Saved" : "全局API密钥已保存",
+        description: language === 'en' 
+          ? "The global SiliconFlow API key has been saved successfully" 
+          : "全局硅基流动API密钥已成功保存",
+      });
+    } catch (error) {
+      console.error("保存全局API密钥时出错:", error);
+      toast({
+        title: language === 'en' ? "Save Failed" : "保存失败",
+        description: language === 'en' 
+          ? "Failed to save the global API key" 
+          : "保存全局API密钥失败",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const toggleShowLocalApiKey = () => {
+    setShowLocalApiKey(!showLocalApiKey);
+  };
+
+  const toggleShowGlobalApiKey = () => {
+    setShowGlobalApiKey(!showGlobalApiKey);
   };
 
   const handleUpgrade = () => {
@@ -96,27 +183,27 @@ const Settings = () => {
             {language === 'en' ? "API Configuration" : "API配置"}
           </h2>
           
-          <div className="space-y-4">
+          <div className="space-y-6">
             <div className="space-y-2">
-              <label htmlFor="apiKey" className="text-sm font-medium">
-                {language === 'en' ? "SiliconFlow API Key" : "硅基流动API密钥"}
+              <label htmlFor="localApiKey" className="text-sm font-medium">
+                {language === 'en' ? "Your Local SiliconFlow API Key" : "您的本地硅基流动API密钥"}
               </label>
               <div className="flex">
                 <div className="relative flex-1">
                   <Input
-                    id="apiKey"
-                    type={showApiKey ? "text" : "password"}
-                    value={apiKey}
-                    onChange={(e) => setApiKey(e.target.value)}
+                    id="localApiKey"
+                    type={showLocalApiKey ? "text" : "password"}
+                    value={localApiKey}
+                    onChange={(e) => setLocalApiKey(e.target.value)}
                     placeholder={language === 'en' ? "Enter your API key" : "输入您的API密钥"}
                     className="pr-10"
                   />
                   <button 
                     type="button"
-                    onClick={toggleShowApiKey}
+                    onClick={toggleShowLocalApiKey}
                     className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
                   >
-                    {showApiKey ? (
+                    {showLocalApiKey ? (
                       <EyeOffIcon className="h-4 w-4" />
                     ) : (
                       <EyeIcon className="h-4 w-4" />
@@ -124,7 +211,7 @@ const Settings = () => {
                   </button>
                 </div>
                 <Button 
-                  onClick={handleSaveApiKey} 
+                  onClick={handleSaveLocalApiKey} 
                   className="ml-2"
                 >
                   {language === 'en' ? "Save" : "保存"}
@@ -136,6 +223,59 @@ const Settings = () => {
                   : "您的API密钥安全地存储在浏览器的本地存储中，从不发送到我们的服务器。"}
               </p>
             </div>
+            
+            {isAdmin && (
+              <div className="space-y-2 pt-4 border-t">
+                <label htmlFor="globalApiKey" className="text-sm font-medium flex items-center">
+                  <span className="bg-purple-100 text-purple-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-purple-900 dark:text-purple-300">
+                    {language === 'en' ? "Admin" : "管理员"}
+                  </span>
+                  {language === 'en' ? "Global SiliconFlow API Key" : "全局硅基流动API密钥"}
+                </label>
+                <div className="flex">
+                  <div className="relative flex-1">
+                    <Input
+                      id="globalApiKey"
+                      type={showGlobalApiKey ? "text" : "password"}
+                      value={globalApiKey}
+                      onChange={(e) => setGlobalApiKey(e.target.value)}
+                      placeholder={language === 'en' ? "Enter global API key" : "输入全局API密钥"}
+                      className="pr-10"
+                    />
+                    <button 
+                      type="button"
+                      onClick={toggleShowGlobalApiKey}
+                      className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
+                    >
+                      {showGlobalApiKey ? (
+                        <EyeOffIcon className="h-4 w-4" />
+                      ) : (
+                        <EyeIcon className="h-4 w-4" />
+                      )}
+                    </button>
+                  </div>
+                  <Button 
+                    onClick={handleSaveGlobalApiKey} 
+                    className="ml-2"
+                    disabled={loading}
+                  >
+                    {loading 
+                      ? (language === 'en' ? "Saving..." : "保存中...") 
+                      : (language === 'en' ? "Save Global" : "保存全局密钥")}
+                  </Button>
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  {language === 'en' 
+                    ? "This global API key will be used for all users who don't have their own API key. It is stored securely in Firebase."
+                    : "此全局API密钥将用于所有没有设置自己API密钥的用户。它安全地存储在Firebase中。"}
+                </p>
+                <p className="text-xs font-medium text-amber-600 dark:text-amber-400 mt-1">
+                  {language === 'en'
+                    ? "Note: The global API key usage will count against your API provider's quota."
+                    : "注意：全局API密钥的使用将计入您的API提供商配额。"}
+                </p>
+              </div>
+            )}
           </div>
         </Card>
         
