@@ -14,14 +14,15 @@ import Settings from "./pages/Settings";
 import NotFound from "./pages/NotFound";
 import Auth from "./pages/Auth";
 
+// Create a new QueryClient instance
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <HelmetProvider>
-      <BrowserRouter>
-        <LanguageProvider>
-          <AuthProvider>
+    <BrowserRouter>
+      <HelmetProvider>
+        <AuthProvider>
+          <LanguageProvider>
             <TooltipProvider>
               <Toaster />
               <Sonner />
@@ -35,10 +36,10 @@ const App = () => (
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </TooltipProvider>
-          </AuthProvider>
-        </LanguageProvider>
-      </BrowserRouter>
-    </HelmetProvider>
+          </LanguageProvider>
+        </AuthProvider>
+      </HelmetProvider>
+    </BrowserRouter>
   </QueryClientProvider>
 );
 
