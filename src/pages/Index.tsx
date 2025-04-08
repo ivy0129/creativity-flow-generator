@@ -1,8 +1,9 @@
+
 import React from 'react';
-import { SEO } from "@/components/SEO";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
-import { PromptForm } from "@/components/PromptForm";
+import SEO from "@/components/SEO"; // Changed from named import to default import
+import Header from "@/components/Header"; // Changed from named import to default import
+import Footer from "@/components/Footer"; // Changed from named import to default import
+import PromptForm from "@/components/PromptForm"; // Changed from named import to default import
 import ResultDisplay from "@/components/ResultDisplay";
 import { usePromptGenerator } from "@/hooks/usePromptGenerator";
 import { useLanguage } from '@/hooks/useLanguage';

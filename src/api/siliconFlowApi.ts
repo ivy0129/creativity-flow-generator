@@ -36,6 +36,13 @@ interface SiliconFlowResponse {
   };
 }
 
+// Add type to window object to recognize SILICON_FLOW_API_KEY
+declare global {
+  interface Window {
+    SILICON_FLOW_API_KEY?: string;
+  }
+}
+
 /**
  * 使用SiliconFlow API生成内容
  * 
@@ -123,7 +130,7 @@ export async function generateWithSiliconFlow(
  * @param {string} apiKey - SiliconFlow API密钥
  */
 export function setTemporarySiliconFlowApiKey(apiKey: string): void {
-  (window as any).SILICON_FLOW_API_KEY = apiKey;
+  window.SILICON_FLOW_API_KEY = apiKey;
 }
 
 /**
@@ -132,5 +139,5 @@ export function setTemporarySiliconFlowApiKey(apiKey: string): void {
  * @returns {boolean} 是否已设置API密钥
  */
 export function hasSiliconFlowApiKey(): boolean {
-  return Boolean(process.env.SILICON_FLOW_API_KEY || (window as any).SILICON_FLOW_API_KEY);
+  return Boolean(process.env.SILICON_FLOW_API_KEY || window.SILICON_FLOW_API_KEY);
 }
