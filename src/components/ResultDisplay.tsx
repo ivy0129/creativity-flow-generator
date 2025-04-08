@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { CopyIcon, ThumbsUpIcon, ThumbsDownIcon, SaveIcon, AlertTriangle, Loader2 } from 'lucide-react';
+import { CopyIcon, ThumbsUpIcon, ThumbsDownIcon, SaveIcon, AlertTriangle, Loader2, Info } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { useLanguage } from '@/hooks/useLanguage';
 
@@ -107,7 +107,15 @@ const ResultDisplay: React.FC<ResultDisplayProps> = ({
               {language === 'zh' 
                 ? 'API服务暂时不可用，展示的是本地生成的示例内容'
                 : 'API service is temporarily unavailable. Showing locally generated example content.'}
-              {apiErrorMessage && ` (${apiErrorMessage})`}
+            </AlertDescription>
+          </Alert>
+        )}
+        
+        {apiErrorMessage && (
+          <Alert variant="info" className="mb-4">
+            <Info className="h-4 w-4" />
+            <AlertDescription>
+              {language === 'zh' ? '错误详情: ' : 'Error details: '}{apiErrorMessage}
             </AlertDescription>
           </Alert>
         )}

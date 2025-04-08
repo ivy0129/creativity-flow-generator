@@ -72,6 +72,9 @@ export async function generateOptimizedPrompt(
       creativity: creativity
     };
 
+    console.log("正在调用API: https://myapi-livid.vercel.app/api/optimize");
+    console.log("请求参数:", JSON.stringify(requestBody));
+
     const response = await fetch("https://myapi-livid.vercel.app/api/optimize", {
       method: "POST",
       headers: {
@@ -84,8 +87,11 @@ export async function generateOptimizedPrompt(
 
     // 检查API响应
     if (!response.ok || data.error) {
-      console.warn("API调用失败，使用本地优化逻辑:", data.error || '未知错误');
-      return handleLocalOptimization(originalPrompt, tone, length, creativity);
+      console.warn("API调用失败，响应状态:", response.status);
+      console.warn("API返回数据:", data);
+      
+      const errorMsg = data.error || `HTTP错误: ${response.status}`;
+      return handleLocalOptimization(originalPrompt, tone, length, creativity, errorMsg);
     }
 
     // 提取生成的内容
@@ -93,8 +99,9 @@ export async function generateOptimizedPrompt(
     
     return { content: generatedContent };
   } catch (error) {
-    console.warn("调用优化API失败，使用本地优化逻辑:", error);
-    return handleLocalOptimization(originalPrompt, tone, length, creativity);
+    console.warn("调用优化API失败:", error);
+    const errorMsg = error instanceof Error ? error.message : String(error);
+    return handleLocalOptimization(originalPrompt, tone, length, creativity, errorMsg);
   }
 }
 
@@ -103,14 +110,15 @@ function handleLocalOptimization(
   originalPrompt: string,
   tone: string,
   length: number,
-  creativity: number
+  creativity: number,
+  errorMsg: string
 ): OptimizePromptResponse {
   // 选择一个示例提示词
   const randomIndex = Math.floor(Math.random() * exampleOptimizedPrompts.length);
   let responseContent = exampleOptimizedPrompts[randomIndex];
   
   // 添加一个提示，说明这是本地生成的内容
-  const localGenerationNotice = `[注意: 由于API服务暂不可用，以下是自动生成的示例内容]\n\n`;
+  const localGenerationNotice = `[注意: 由于API服务暂不可用，以下是自动生成的示例内容]\n[错误信息: ${errorMsg}]\n\n`;
   
   // 根据用户输入的原始提示，对示例内容进行简单调整
   if (originalPrompt.length > 5) {
@@ -132,5 +140,5 @@ function handleLocalOptimization(
     responseContent = `${localGenerationNotice}${responseContent}`;
   }
   
-  return { content: responseContent };
+  return { content: responseContent, error: errorMsg };
 }

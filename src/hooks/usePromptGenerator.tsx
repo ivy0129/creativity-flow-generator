@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { PromptData } from '@/components/PromptForm';
 import { useToast } from '@/hooks/use-toast';
@@ -110,14 +109,11 @@ export const usePromptGenerator = () => {
   const { toast } = useToast();
   const { isAuthenticated, user } = useAuth();
 
-  // 加载用户使用次数
   useEffect(() => {
     if (isAuthenticated && user) {
-      // 获取当前日期作为使用记录的键
-      const today = new Date().toISOString().split('T')[0]; // 格式: YYYY-MM-DD
+      const today = new Date().toISOString().split('T')[0];
       const usageKey = `${USER_LIMIT_KEY}_${user.id}_${today}`;
       
-      // 从localStorage加载用户今日使用次数
       const userUsage = localStorage.getItem(usageKey);
       if (userUsage) {
         setUsageCount(parseInt(userUsage, 10));
@@ -126,28 +122,83 @@ export const usePromptGenerator = () => {
         localStorage.setItem(usageKey, '0');
       }
       
-      // 根据用户类型设置不同的使用限制
       if (user.isPremium) {
-        setUsageLimit(DAILY_PREMIUM_LIMIT); // 付费用户限制
+        setUsageLimit(DAILY_PREMIUM_LIMIT);
       } else {
-        setUsageLimit(DAILY_FREE_LIMIT); // 免费用户限制
+        setUsageLimit(DAILY_FREE_LIMIT);
       }
     }
   }, [isAuthenticated, user]);
 
-  // 更新使用次数
-  const updateUsageCount = () => {
-    if (isAuthenticated && user) {
-      const today = new Date().toISOString().split('T')[0];
-      const usageKey = `${USER_LIMIT_KEY}_${user.id}_${today}`;
+  const generateContent = async (promptData: PromptData) => {
+    if (!checkUsageLimit()) return;
+    
+    setIsLoading(true);
+    setIsResultVisible(false);
+    setApiErrorMessage(null);
+    
+    try {
+      console.log("开始生成内容，提交数据:", promptData);
       
-      const newCount = usageCount + 1;
-      setUsageCount(newCount);
-      localStorage.setItem(usageKey, newCount.toString());
+      const result = await generateOptimizedPrompt(
+        promptData.prompt,
+        promptData.tone,
+        promptData.length,
+        promptData.creativity
+      );
+      
+      if (result.error) {
+        setApiErrorMessage(result.error);
+        toast({
+          title: "API服务暂时不可用",
+          description: "使用本地优化逻辑生成内容。",
+          variant: "default",
+        });
+        
+        console.log("API错误:", result.error);
+        console.log("使用本地生成内容");
+      } else {
+        if (!result.content.includes("[注意:")) {
+          updateUsageCount();
+          console.log("API调用成功，更新使用次数");
+        }
+      }
+      
+      setGeneratedContent(result.content);
+      setIsResultVisible(true);
+    } catch (error) {
+      console.error('Error generating content:', error);
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      setApiErrorMessage(errorMessage);
+      
+      toast({
+        title: "优化失败",
+        description: "提示词优化过程中出现错误，请稍后再试",
+        variant: "destructive",
+      });
+      
+      fallbackToExampleResponse(promptData, errorMessage);
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  // 检查用户是否达到使用限制
+  const fallbackToExampleResponse = (promptData: PromptData, errorMsg: string) => {
+    const randomIndex = Math.floor(Math.random() * optimizedPrompts.length);
+    let response = optimizedPrompts[randomIndex];
+    
+    const notice = `[注意: 本地生成的示例内容，API服务暂不可用]\n[错误信息: ${errorMsg}]\n\n`;
+    response = notice + response;
+    
+    if (promptData.length < 200) {
+      response = response.split('\n\n')[0] + '\n\n' + response.split('\n\n')[1];
+    } else if (promptData.length > 300) {
+    }
+    
+    setGeneratedContent(response);
+    setIsResultVisible(true);
+  };
+
   const checkUsageLimit = () => {
     if (usageCount >= usageLimit) {
       toast({
@@ -160,75 +211,15 @@ export const usePromptGenerator = () => {
     return true;
   };
 
-  const generateContent = async (promptData: PromptData) => {
-    // 检查是否已达到使用限制
-    if (!checkUsageLimit()) return;
-    
-    setIsLoading(true);
-    setIsResultVisible(false); // 清除之前的结果，直到新结果加载完成
-    setApiErrorMessage(null); // 重置API错误消息
-    
-    try {
-      // 调用API优化提示词
-      const result = await generateOptimizedPrompt(
-        promptData.prompt,
-        promptData.tone,
-        promptData.length,
-        promptData.creativity
-      );
+  const updateUsageCount = () => {
+    if (isAuthenticated && user) {
+      const today = new Date().toISOString().split('T')[0];
+      const usageKey = `${USER_LIMIT_KEY}_${user.id}_${today}`;
       
-      if (result.error) {
-        // 显示警告信息，但仍然显示生成的内容（可能是本地生成的）
-        setApiErrorMessage(result.error);
-        toast({
-          title: "API服务暂时不可用",
-          description: "使用本地优化逻辑生成内容。" + result.error,
-          variant: "default",
-        });
-      } else {
-        // 更新使用次数（仅当API正常工作时）
-        if (!result.content.includes("[注意:")) {
-          updateUsageCount();
-        }
-      }
-      
-      setGeneratedContent(result.content);
-      setIsResultVisible(true);
-    } catch (error) {
-      console.error('Error generating content:', error);
-      toast({
-        title: "优化失败",
-        description: "提示词优化过程中出现错误，请稍后再试",
-        variant: "destructive",
-      });
-      
-      // 使用示例响应
-      fallbackToExampleResponse(promptData);
-    } finally {
-      setIsLoading(false);
+      const newCount = usageCount + 1;
+      setUsageCount(newCount);
+      localStorage.setItem(usageKey, newCount.toString());
     }
-  };
-  
-  // 使用示例响应作为备用
-  const fallbackToExampleResponse = (promptData: PromptData) => {
-    // 获取一个随机的优化后提示词
-    const randomIndex = Math.floor(Math.random() * optimizedPrompts.length);
-    let response = optimizedPrompts[randomIndex];
-    
-    // 添加一个提示，说明这是本地生成的内容
-    const notice = "[注意: 本地生成的示例内容，API服务暂不可用]\n\n";
-    response = notice + response;
-    
-    // 根据长度调整响应
-    if (promptData.length < 200) {
-      response = response.split('\n\n')[0] + '\n\n' + response.split('\n\n')[1];
-    } else if (promptData.length > 300) {
-      // 对于较长内容，保持完整响应
-    }
-    
-    setGeneratedContent(response);
-    setIsResultVisible(true);
-    setApiErrorMessage("API服务暂不可用，使用本地示例内容");
   };
 
   return {

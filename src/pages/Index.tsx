@@ -18,7 +18,8 @@ const Index = () => {
     generateContent, 
     generatedContent, 
     isLoading, 
-    isResultVisible 
+    isResultVisible,
+    apiErrorMessage
   } = usePromptGenerator();
   
   const { t, language } = useLanguage();
@@ -83,6 +84,7 @@ const Index = () => {
                 content={generatedContent} 
                 isVisible={isResultVisible} 
                 isLoading={isLoading}
+                apiErrorMessage={apiErrorMessage}
               />
             </TabsContent>
             
