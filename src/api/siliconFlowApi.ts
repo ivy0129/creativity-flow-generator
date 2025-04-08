@@ -54,6 +54,13 @@ export async function generateWithSiliconFlow(
   try {
     const apiUrl = "https://api.siliconflow.cn/v1/chat/completions";
     
+    // 检查是否提供了API密钥
+    if (!process.env.SILICON_FLOW_API_KEY && !window.SILICON_FLOW_API_KEY) {
+      throw new Error("SiliconFlow API密钥未设置，请在环境变量中配置SILICON_FLOW_API_KEY或临时在前端设置window.SILICON_FLOW_API_KEY");
+    }
+    
+    const apiKey = process.env.SILICON_FLOW_API_KEY || window.SILICON_FLOW_API_KEY;
+    
     const requestBody: SiliconFlowRequestBody = {
       model: "llama-3.1-8b", // SiliconFlow推荐模型
       messages: [
@@ -70,12 +77,24 @@ export async function generateWithSiliconFlow(
       max_tokens: maxTokens
     };
 
-    const response = await fetch(apiUrl, {
+    // 使用代理服务器解决CORS问题
+    const useProxy = true; // 设置为true使用代理，false直接调用API
+    const apiEndpoint = useProxy 
+      ? "/api/siliconflow-proxy" // 相对路径，需要在你的服务器上实现此代理
+      : apiUrl;
+    
+    const headers: Record<string, string> = {
+      "Content-Type": "application/json",
+    };
+    
+    // 如果直接调用API而不是通过代理，则需要添加Authorization头
+    if (!useProxy) {
+      headers["Authorization"] = `Bearer ${apiKey}`;
+    }
+
+    const response = await fetch(apiEndpoint, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${process.env.SILICON_FLOW_API_KEY || ''}`
-      },
+      headers: headers,
       body: JSON.stringify(requestBody)
     });
 
@@ -95,4 +114,23 @@ export async function generateWithSiliconFlow(
     console.error("SiliconFlow API调用失败:", error);
     throw error;
   }
+}
+
+/**
+ * 设置前端临时API密钥（仅用于测试）
+ * 注意：在生产环境中，应该通过安全的方式在后端设置API密钥
+ * 
+ * @param {string} apiKey - SiliconFlow API密钥
+ */
+export function setTemporarySiliconFlowApiKey(apiKey: string): void {
+  (window as any).SILICON_FLOW_API_KEY = apiKey;
+}
+
+/**
+ * 检查是否已设置API密钥
+ * 
+ * @returns {boolean} 是否已设置API密钥
+ */
+export function hasSiliconFlowApiKey(): boolean {
+  return Boolean(process.env.SILICON_FLOW_API_KEY || (window as any).SILICON_FLOW_API_KEY);
 }

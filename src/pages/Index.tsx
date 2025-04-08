@@ -1,102 +1,52 @@
-
 import React from 'react';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
-import PromptForm from '@/components/PromptForm';
-import ResultDisplay from '@/components/ResultDisplay';
-import { usePromptGenerator } from '@/hooks/usePromptGenerator';
+import { SEO } from "@/components/SEO";
+import { Header } from "@/components/Header";
+import { Footer } from "@/components/Footer";
+import { PromptForm } from "@/components/PromptForm";
+import ResultDisplay from "@/components/ResultDisplay";
+import { usePromptGenerator } from "@/hooks/usePromptGenerator";
 import { useLanguage } from '@/hooks/useLanguage';
-import { useIsMobile } from '@/hooks/use-mobile';
-import { Lightbulb, BookOpen, Save } from 'lucide-react';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import SavePromptForm from '@/components/SavePromptForm';
-import { useAuth } from '@/hooks/useAuth';
-import SEO from '@/components/SEO';
+import ApiKeyInput from "@/components/ApiKeyInput";
 
 const Index = () => {
-  const { 
-    generateContent, 
-    generatedContent, 
-    isLoading, 
-    isResultVisible,
-    apiErrorMessage
-  } = usePromptGenerator();
+  const { generatedContent, isLoading, isResultVisible, apiErrorMessage } = usePromptGenerator();
+  const { language } = useLanguage();
   
-  const { t, language } = useLanguage();
-  const isMobile = useIsMobile();
-  const { isAuthenticated } = useAuth();
-
   return (
-    <div className="min-h-screen flex flex-col bg-background hero-gradient">
-      <SEO 
-        title={t('promptOptimizer')}
-        description={t('subheading')}
+    <>
+      <SEO
+        title={language === 'zh' ? "提示词优化器" : "Prompt Optimizer"}
+        description={language === 'zh' ? "优化您的AI提示词，获得更好的结果" : "Optimize your AI prompts for better results"}
       />
-      <Header />
-      
-      <main className="flex-1 container mx-auto px-4 py-4">
-        <section className="max-w-4xl mx-auto mb-6 text-center">
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-4 gradient-text">
-            {t('promptOptimizer')}
+      <div className="flex min-h-screen flex-col">
+        <Header />
+        <main className="flex-1 container max-w-6xl mx-auto px-4 py-8">
+          <h1 className="text-3xl font-bold mb-2">
+            {language === 'zh' ? "提示词优化器" : "Prompt Optimizer"}
           </h1>
-          <p className={`text-lg md:text-xl text-muted-foreground ${isMobile ? 'mb-4' : 'mb-8'}`}>
-            {t('subheading')}
+          <p className="text-muted-foreground mb-8">
+            {language === 'zh' 
+              ? "输入您的提示词，我们将帮助您优化它以获得更好的AI生成结果" 
+              : "Enter your prompt, and we'll help you optimize it for better AI-generated results"}
           </p>
           
-          <div className={`grid grid-cols-1 md:grid-cols-3 gap-4 ${isMobile ? 'mb-6' : 'mb-12'}`}>
-            <article className="bg-background rounded-lg p-4 shadow-md border border-border">
-              <Lightbulb className="h-8 w-8 text-purple-500 mb-2 mx-auto" aria-hidden="true" />
-              <h3 className="text-lg font-semibold mb-1">{t('promptOptimization')}</h3>
-              <p className="text-sm text-muted-foreground">
-                {t('promptOptimizationDesc')}
-              </p>
-            </article>
-            
-            <article className="bg-background rounded-lg p-4 shadow-md border border-border">
-              <BookOpen className="h-8 w-8 text-indigo-500 mb-2 mx-auto" aria-hidden="true" />
-              <h3 className="text-lg font-semibold mb-1">{t('devCommandGen')}</h3>
-              <p className="text-sm text-muted-foreground">
-                {t('devCommandGenDesc')}
-              </p>
-            </article>
-            
-            {!isMobile && (
-              <article className="bg-background rounded-lg p-4 shadow-md border border-border">
-                <Save className="h-8 w-8 text-green-500 mb-2 mx-auto" aria-hidden="true" />
-                <h3 className="text-lg font-semibold mb-1">{t('savePrompts')}</h3>
-                <p className="text-sm text-muted-foreground">
-                  {t('savePromptsDesc')}
-                </p>
-              </article>
-            )}
-          </div>
+          {/* API密钥输入组件 */}
+          <ApiKeyInput />
           
-          <Tabs defaultValue="optimize" className="w-full">
-            <TabsList className="grid w-full grid-cols-2 mb-6">
-              <TabsTrigger value="optimize">{t('optimizePrompt')}</TabsTrigger>
-              <TabsTrigger value="save">{t('savePrompt')}</TabsTrigger>
-            </TabsList>
-            
-            <TabsContent value="optimize">
-              <PromptForm onSubmit={generateContent} isLoading={isLoading} />
-              
-              <ResultDisplay 
-                content={generatedContent} 
-                isVisible={isResultVisible} 
-                isLoading={isLoading}
-                apiErrorMessage={apiErrorMessage}
-              />
-            </TabsContent>
-            
-            <TabsContent value="save">
-              <SavePromptForm />
-            </TabsContent>
-          </Tabs>
-        </section>
-      </main>
-      
-      <Footer />
-    </div>
+          <PromptForm />
+          
+          {generatedContent && (
+            <ResultDisplay 
+              content={generatedContent} 
+              isVisible={isResultVisible}
+              isLoading={isLoading}
+              apiErrorMessage={apiErrorMessage}
+            />
+          )}
+        </main>
+        <Footer />
+      </div>
+    </>
   );
 };
 
