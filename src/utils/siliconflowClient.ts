@@ -51,7 +51,7 @@ interface OptimizePromptResponse {
 const exampleOptimizedPrompts = [
   `我想创建一个用户登录页面，需要包含如下功能和特性：
 
-1. 基本表单元素:
+1. ���本表单元素:
    - 用户名/邮箱输入框，带有验证
    - 密码输入框，带有显示/隐藏密码的功能
    - 记住登录状态的复选框
@@ -98,43 +98,25 @@ export async function generateOptimizedPrompt(
   creativity: number
 ): Promise<OptimizePromptResponse> {
   try {
-    // 使用SiliconFlow API格式构建请求
-    const messages: SiliconFlowRequestMessage[] = [
-      {
-        role: 'system',
-        content: `你是一个专业的提示词优化专家。根据用户的原始提示，生成一个更加结构化、清晰的提示词。
-                 风格要求：${tone}
-                 长度要求：${length > 300 ? '详细' : length < 150 ? '简洁' : '标准'}
-                 创意程度：${creativity}%`
-      },
-      {
-        role: 'user',
-        content: `请优化以下提示词：${originalPrompt}`
-      }
-    ];
-
-    const requestBody: SiliconFlowRequestBody = {
-      model: "llama-3.1-8b",  // 使用SiliconFlow提供的模型
-      messages: messages,
-      temperature: creativity / 100,  // 将创意度转换为temperature参数
-      top_p: 0.9,
-      max_tokens: length * 2  // 根据长度参数设置最大token数
+    console.log("正在准备请求API优化提示词");
+    
+    // 构建请求体
+    const requestBody: OptimizePromptRequestBody = {
+      prompt: originalPrompt,
+      tone: tone,
+      length: length,
+      creativity: creativity
     };
 
-    console.log("正在调用SiliconFlow API");
-    console.log("请求参数:", JSON.stringify(requestBody));
+    console.log("API请求参数:", JSON.stringify(requestBody));
 
+    // 修改为使用POST请求访问提供的端点
     const response = await fetch("https://myapi-livid.vercel.app/api/optimize", {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "application/json"
       },
-      body: JSON.stringify({
-        prompt: originalPrompt,
-        tone: tone,
-        length: length,
-        creativity: creativity
-      })
+      body: JSON.stringify(requestBody)
     });
 
     if (!response.ok) {
@@ -152,15 +134,16 @@ export async function generateOptimizedPrompt(
     }
 
     const data = await response.json();
+    console.log("API响应数据:", data);
 
     // 检查API响应
     if (data.error) {
-      console.warn("API返回错��:", data.error);
+      console.warn("API返回错误:", data.error);
       return handleLocalOptimization(originalPrompt, tone, length, creativity, data.error);
     }
 
     // 提取生成的内容
-    const generatedContent = data.content || (data.choices && data.choices[0]?.message?.content);
+    const generatedContent = data.content;
     
     if (!generatedContent) {
       console.warn("API响应中找不到有效内容:", data);
