@@ -16,6 +16,8 @@ import {
 } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 
+const ADMIN_EMAIL = "ivyhan0129@gmail.com";
+
 interface AuthContextType {
   isAuthenticated: boolean;
   user: AppUser | null;
@@ -33,6 +35,7 @@ interface AppUser {
   avatar?: string;
   provider: 'github' | 'google' | 'email';
   isPremium?: boolean;
+  isAdmin?: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -46,13 +49,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
       if (firebaseUser) {
+        const isAdmin = firebaseUser.email === ADMIN_EMAIL;
+        
         const userData: AppUser = {
           id: firebaseUser.uid,
           name: firebaseUser.displayName || '用户',
           email: firebaseUser.email || undefined,
           avatar: firebaseUser.photoURL || undefined,
           provider: 'email',
-          isPremium: false
+          isPremium: false,
+          isAdmin: isAdmin
         };
         setUser(userData);
         setIsAuthenticated(true);
@@ -142,12 +148,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           displayName: credentials.name
         });
 
+        const isAdmin = credentials.email === ADMIN_EMAIL;
+
         const userData: AppUser = {
           id: userCredential.user.uid,
           name: credentials.name,
           email: credentials.email,
           provider: 'email',
-          isPremium: false
+          isPremium: false,
+          isAdmin: isAdmin
         };
         setUser(userData);
       }
