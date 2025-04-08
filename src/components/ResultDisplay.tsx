@@ -47,7 +47,7 @@ const ResultDisplay: React.FC<ResultDisplayProps> = ({
     toast({
       title: language === 'zh' ? '已复制到剪贴板' : 'Copied to clipboard',
       description: language === 'zh' ? '优化的提示词已复制到剪贴板' : 'The optimized prompt has been copied to your clipboard',
-      variant: "success",
+      variant: "default",
     });
     
     setTimeout(() => {
@@ -63,7 +63,7 @@ const ResultDisplay: React.FC<ResultDisplayProps> = ({
       description: type === 'positive'
         ? (language === 'zh' ? '我们很高兴优化的提示词对您有帮助' : 'We are glad that the optimized prompt was helpful')
         : (language === 'zh' ? '我们将努力改进优化算法' : 'We will work to improve our optimization algorithm'),
-      variant: type === 'positive' ? "success" : "default",
+      variant: type === 'positive' ? "default" : "default",
     });
   };
   

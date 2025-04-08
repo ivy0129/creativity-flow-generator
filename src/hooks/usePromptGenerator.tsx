@@ -183,7 +183,7 @@ export const usePromptGenerator = () => {
         toast({
           title: "API服务暂时不可用",
           description: "使用本地优化逻辑生成内容。" + result.error,
-          variant: "warning",
+          variant: "default",
         });
       } else {
         // 更新使用次数（仅当API正常工作时）
