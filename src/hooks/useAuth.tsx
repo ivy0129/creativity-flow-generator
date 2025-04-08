@@ -1,4 +1,3 @@
-
 import { useState, useEffect, createContext, useContext, ReactNode } from 'react';
 import { toast } from "@/hooks/use-toast";
 import { useLanguage } from "./useLanguage";
@@ -10,12 +9,12 @@ import {
   GithubAuthProvider,
   signOut,
   onAuthStateChanged,
-  updateProfile,
+  User as FirebaseUser,
   fetchSignInMethodsForEmail,
+  updateProfile,
   sendPasswordResetEmail
 } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
-import { checkIsAdmin } from '@/utils/securityUtils';
 
 interface AuthContextType {
   isAuthenticated: boolean;
@@ -34,7 +33,6 @@ interface AppUser {
   avatar?: string;
   provider: 'github' | 'google' | 'email';
   isPremium?: boolean;
-  isAdmin?: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -43,22 +41,18 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [user, setUser] = useState<AppUser | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
-  const { language } = useLanguage();
+  const { t, language } = useLanguage();
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
       if (firebaseUser) {
-        // 使用新的安全工具检查管理员状态
-        const isAdmin = await checkIsAdmin(firebaseUser.email || undefined);
-        
         const userData: AppUser = {
           id: firebaseUser.uid,
           name: firebaseUser.displayName || '用户',
           email: firebaseUser.email || undefined,
           avatar: firebaseUser.photoURL || undefined,
           provider: 'email',
-          isPremium: false,
-          isAdmin: isAdmin
+          isPremium: false
         };
         setUser(userData);
         setIsAuthenticated(true);
@@ -148,16 +142,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           displayName: credentials.name
         });
 
-        // Check if this user is an admin by checking with the security function
-        const isAdmin = await checkIsAdmin(credentials.email);
-
         const userData: AppUser = {
           id: userCredential.user.uid,
           name: credentials.name,
           email: credentials.email,
           provider: 'email',
-          isPremium: false,
-          isAdmin: isAdmin
+          isPremium: false
         };
         setUser(userData);
       }

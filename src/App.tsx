@@ -14,13 +14,12 @@ import Settings from "./pages/Settings";
 import NotFound from "./pages/NotFound";
 import Auth from "./pages/Auth";
 
-// Create a new QueryClient instance
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <BrowserRouter>
-      <HelmetProvider>
+    <HelmetProvider>
+      <BrowserRouter>
         <LanguageProvider>
           <AuthProvider>
             <TooltipProvider>
@@ -38,8 +37,8 @@ const App = () => (
             </TooltipProvider>
           </AuthProvider>
         </LanguageProvider>
-      </HelmetProvider>
-    </BrowserRouter>
+      </BrowserRouter>
+    </HelmetProvider>
   </QueryClientProvider>
 );
 

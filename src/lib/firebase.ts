@@ -19,14 +19,6 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-// 集合名称常量
-export const COLLECTIONS = {
-  APP_SETTINGS: 'appSettings',
-  ADMINS: 'admins',
-  API_KEYS: 'apiKeys',
-  USERS: 'users'
-};
-
 // 仅在开发环境打印初始化信息
 if (process.env.NODE_ENV !== 'production') {
   console.log('Firebase 初始化完成');

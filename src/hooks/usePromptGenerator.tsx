@@ -1,11 +1,10 @@
 import { useState, useEffect } from 'react';
 import { PromptData } from '@/components/PromptForm';
 import { useToast } from '@/hooks/use-toast';
-import { generateOptimizedPrompt, getApiKey } from '@/utils/siliconflowClient';
+import { optimizePrompt } from '@/utils/openaiClient';
 import { useAuth } from '@/hooks/useAuth';
-import { useNavigate } from 'react-router-dom';
-import { useLanguage } from '@/hooks/useLanguage';
 
+// 示例响应，作为备用或演示用途
 const optimizedPrompts = [
   `我需要创建一个用户登录表单，具有以下要求：
 
@@ -108,15 +107,15 @@ export const usePromptGenerator = () => {
   const [usageLimit, setUsageLimit] = useState(DAILY_FREE_LIMIT);
   const { toast } = useToast();
   const { isAuthenticated, user } = useAuth();
-  const navigate = useNavigate();
-  const { language } = useLanguage();
-  const [apiKeyAvailable, setApiKeyAvailable] = useState<boolean | null>(null);
 
+  // 加载用户使用次数
   useEffect(() => {
     if (isAuthenticated && user) {
-      const today = new Date().toISOString().split('T')[0];
+      // 获取当前日期作为使用记录的键
+      const today = new Date().toISOString().split('T')[0]; // 格式: YYYY-MM-DD
       const usageKey = `${USER_LIMIT_KEY}_${user.id}_${today}`;
       
+      // 从localStorage加载用户今日使用次数
       const userUsage = localStorage.getItem(usageKey);
       if (userUsage) {
         setUsageCount(parseInt(userUsage, 10));
@@ -125,26 +124,16 @@ export const usePromptGenerator = () => {
         localStorage.setItem(usageKey, '0');
       }
       
+      // 根据用户类型设置不同的使用限制
       if (user.isPremium) {
-        setUsageLimit(DAILY_PREMIUM_LIMIT);
+        setUsageLimit(DAILY_PREMIUM_LIMIT); // 付费用户限制
       } else {
-        setUsageLimit(DAILY_FREE_LIMIT);
+        setUsageLimit(DAILY_FREE_LIMIT); // 免费用户限制
       }
     }
-
-    checkApiKeyAvailability();
   }, [isAuthenticated, user]);
 
-  const checkApiKeyAvailability = async () => {
-    try {
-      const key = await getApiKey();
-      setApiKeyAvailable(key !== null && key.length > 0);
-    } catch (error) {
-      console.error('检查API密钥可用性时出错:', error);
-      setApiKeyAvailable(false);
-    }
-  };
-
+  // 更新使用次数
   const updateUsageCount = () => {
     if (isAuthenticated && user) {
       const today = new Date().toISOString().split('T')[0];
@@ -156,13 +145,12 @@ export const usePromptGenerator = () => {
     }
   };
 
+  // 检查用户是否达到使用限制
   const checkUsageLimit = () => {
     if (usageCount >= usageLimit) {
       toast({
-        title: language === 'en' ? "Usage Limit Reached" : "使用次数已达上限",
-        description: language === 'en' 
-          ? "You have reached your daily usage limit. Please try again tomorrow or upgrade to a premium account for more usage."
-          : "您今日的使用次数已达上限，请明天再试或升级到高级账户获取更多次数",
+        title: "使用次数已达上限",
+        description: "您今日的使用次数已达上限，请明天再试或升级到高级账户获取更多次数",
         variant: "destructive",
       });
       return false;
@@ -171,24 +159,14 @@ export const usePromptGenerator = () => {
   };
 
   const generateContent = async (promptData: PromptData) => {
-    if (apiKeyAvailable === false) {
-      toast({
-        title: language === 'en' ? "API Key Not Available" : "API密钥不可用",
-        description: language === 'en' 
-          ? "No API key is available. Please set your SiliconFlow API key in the Settings page or contact the administrator."
-          : "没有可用的API密钥。请在设置页面中配置您的硅基流动API密钥或联系管理员。",
-        variant: "destructive",
-      });
-      navigate("/settings");
-      return;
-    }
-    
+    // 检查是否已达到使用限制
     if (!checkUsageLimit()) return;
     
     setIsLoading(true);
     
     try {
-      const result = await generateOptimizedPrompt(
+      // 调用优化API
+      const result = await optimizePrompt(
         promptData.prompt,
         promptData.tone,
         promptData.length,
@@ -197,15 +175,17 @@ export const usePromptGenerator = () => {
       
       if (result.error) {
         toast({
-          title: language === 'en' ? "Optimization Failed" : "优化失败",
+          title: "优化失败",
           description: result.error,
           variant: "destructive",
         });
         
+        // 如果API调用失败，使用示例响应
         fallbackToExampleResponse(promptData);
         return;
       }
       
+      // 更新使用次数
       updateUsageCount();
       
       setGeneratedContent(result.content);
@@ -213,26 +193,29 @@ export const usePromptGenerator = () => {
     } catch (error) {
       console.error('Error generating content:', error);
       toast({
-        title: language === 'en' ? "Optimization Failed" : "优化失败",
-        description: language === 'en' 
-          ? "An error occurred during prompt optimization. Please try again later."
-          : "提示词优化过程中出现错误，请稍后再试",
+        title: "优化失败",
+        description: "提示词优化过程中出现错误，请稍后再试",
         variant: "destructive",
       });
       
+      // 使用示例响应
       fallbackToExampleResponse(promptData);
     } finally {
       setIsLoading(false);
     }
   };
-
+  
+  // 使用示例响应作为备用
   const fallbackToExampleResponse = (promptData: PromptData) => {
+    // 获取一个随机的优化后提示词
     const randomIndex = Math.floor(Math.random() * optimizedPrompts.length);
     let response = optimizedPrompts[randomIndex];
     
+    // 根据长度调整响应
     if (promptData.length < 200) {
       response = response.split('\n\n')[0] + '\n\n' + response.split('\n\n')[1];
     } else if (promptData.length > 300) {
+      // 对于较长内容，保持完整响应
     }
     
     setGeneratedContent(response);
@@ -246,6 +229,5 @@ export const usePromptGenerator = () => {
     generateContent,
     usageCount,
     usageLimit,
-    apiKeyAvailable
   };
 };

@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { LogIn, LogOut, Settings, Globe } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
@@ -42,7 +41,7 @@ const Header: React.FC = () => {
               {t('savedPrompts')}
             </Link>
             <Link to="/settings" className="text-sm font-medium text-foreground/80 hover:text-foreground transition-colors">
-              {t('settings')}
+              {language === 'en' ? 'About Us' : '关于我们'}
             </Link>
           </div>
           
@@ -74,7 +73,7 @@ const Header: React.FC = () => {
                   <DropdownMenuItem asChild>
                     <Link to="/settings" className="flex items-center cursor-pointer">
                       <Settings className="mr-2 h-4 w-4" />
-                      {t('settings')}
+                      {language === 'en' ? 'About Us' : '关于我们'}
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
