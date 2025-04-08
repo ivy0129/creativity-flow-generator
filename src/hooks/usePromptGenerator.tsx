@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { PromptData } from '@/components/PromptForm';
 import { useToast } from '@/hooks/use-toast';
@@ -166,7 +165,7 @@ export const usePromptGenerator = () => {
     setIsLoading(true);
     
     try {
-      // 调用硅基流动API
+      // 调用API优化提示词
       const result = await generateOptimizedPrompt(
         promptData.prompt,
         promptData.tone,
