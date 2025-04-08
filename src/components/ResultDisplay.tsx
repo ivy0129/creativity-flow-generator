@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { CopyIcon, ThumbsUpIcon, ThumbsDownIcon, SaveIcon, AlertTriangle, Loader2, Info } from 'lucide-react';
+import { CopyIcon, ThumbsUpIcon, ThumbsDownIcon, SaveIcon, AlertTriangle, Loader2, Info, ExternalLink } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { useLanguage } from '@/hooks/useLanguage';
 
@@ -117,6 +117,29 @@ const ResultDisplay: React.FC<ResultDisplayProps> = ({
             <AlertDescription className="break-words ml-2 text-amber-700 dark:text-amber-300">
               <strong>{language === 'zh' ? '错误详情: ' : 'Error details: '}</strong>
               {apiErrorMessage}
+            </AlertDescription>
+          </Alert>
+        )}
+        
+        {/* 添加API请求失败调试信息 */}
+        {apiErrorMessage && apiErrorMessage.includes("API密钥未设置") && (
+          <Alert className="mb-4 bg-blue-50 border-blue-300 dark:bg-blue-900/30 dark:border-blue-800">
+            <Info className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+            <AlertDescription className="ml-2 text-blue-700 dark:text-blue-300">
+              {language === 'zh' 
+                ? '可能原因: 服务器端未正确配置SiliconFlow API密钥。请确保服务器环境变量中设置了有效的API密钥。'
+                : 'Possible cause: SiliconFlow API key is not properly configured on the server. Please ensure a valid API key is set in the server environment variables.'}
+              <div className="mt-2">
+                <a 
+                  href="https://cloud.siliconflow.cn/account/api-keys" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="flex items-center text-blue-600 hover:underline"
+                >
+                  {language === 'zh' ? '获取SiliconFlow API密钥' : 'Get SiliconFlow API key'}
+                  <ExternalLink className="h-3 w-3 ml-1" />
+                </a>
+              </div>
             </AlertDescription>
           </Alert>
         )}
