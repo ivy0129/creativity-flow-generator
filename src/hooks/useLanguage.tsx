@@ -176,12 +176,23 @@ export const LanguageProvider: React.FC<{children: React.ReactNode}> = ({ childr
   
   // 翻译函数
   const t = (key: string): string => {
-    // 修复：检查key是否存在于translations[language]中，如果不存在则返回key本身
-    if (!translations[language][key as keyof typeof translations[typeof language]]) {
+    // 修复：使用类型断言确保TypeScript不会抱怨
+    const currentTranslations = translations[language] as Record<string, string>;
+    
+    // 检查翻译是否存在
+    if (key in currentTranslations) {
+      return currentTranslations[key];
+    } else {
       console.warn(`Translation key "${key}" not found in language "${language}"`);
+      
+      // 尝试从英文中获取，作为后备
+      if (language !== 'en' && key in (translations['en'] as Record<string, string>)) {
+        return (translations['en'] as Record<string, string>)[key];
+      }
+      
+      // 如果什么都没有，返回键名本身
       return key;
     }
-    return translations[language][key as keyof typeof translations[typeof language]] || key;
   };
 
   return (

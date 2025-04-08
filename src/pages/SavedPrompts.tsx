@@ -4,8 +4,8 @@ import Footer from '@/components/Footer';
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Copy, Search, Trash2, LogIn } from 'lucide-react';
-import { useSavedPrompts } from '@/hooks/useSavedPrompts';
+import { Copy, Search, Trash2, LogIn, Download, Upload } from 'lucide-react';
+import { useFirestorePrompts } from '@/hooks/useFirestorePrompts';
 import TagInput from '@/components/TagInput';
 import { useToast } from '@/hooks/use-toast';
 import { useLanguage } from '@/hooks/useLanguage';
@@ -14,12 +14,20 @@ import { useNavigate } from 'react-router-dom';
 import SEO from '@/components/SEO';
 
 const SavedPrompts = () => {
-  const { savedPrompts, removeSavedPrompt, updatePromptTags } = useSavedPrompts();
+  const { prompts, loading, deletePrompt, updatePromptTags, exportPrompts, importPrompts } = useFirestorePrompts();
   const [searchTerm, setSearchTerm] = useState('');
   const { toast } = useToast();
-  const { t } = useLanguage();
-  const { isAuthenticated } = useAuth();
+  const { t, language } = useLanguage();
+  const { isAuthenticated, user } = useAuth();
   const navigate = useNavigate();
+
+  // 处理文件导入
+  const handleFileImport = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      await importPrompts(file);
+    }
+  };
 
   const copyToClipboard = (content: string) => {
     navigator.clipboard.writeText(content);
@@ -29,7 +37,7 @@ const SavedPrompts = () => {
     });
   };
 
-  const filteredPrompts = savedPrompts.filter(prompt => 
+  const filteredPrompts = prompts.filter(prompt => 
     prompt.content.toLowerCase().includes(searchTerm.toLowerCase()) ||
     prompt.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()))
   );
@@ -49,6 +57,13 @@ const SavedPrompts = () => {
             {t('savedPrompts')}
           </h1>
           
+          {/* 移除调试信息 */}
+          {/* {isAuthenticated && user && (
+            <div className="bg-blue-100 p-3 mb-4 rounded-md">
+              <p className="text-sm">调试信息 - 当前登录用户ID: <code className="bg-gray-200 px-2 py-1 rounded">{user.id}</code></p>
+            </div>
+          )} */}
+          
           {!isAuthenticated ? (
             <Card className="p-8 text-center">
               <p className="text-muted-foreground mb-4">
@@ -61,17 +76,51 @@ const SavedPrompts = () => {
             </Card>
           ) : (
             <div className="mb-8">
-              <div className="relative mb-6">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
-                <Input 
-                  placeholder={t('searchPromptsOrTags')}
-                  className="pl-10"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                />
+              <div className="flex justify-between items-center mb-6">
+                <div className="relative flex-1 mr-4">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+                  <Input 
+                    placeholder={t('searchPromptsOrTags')}
+                    className="pl-10"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                  />
+                </div>
+                <div className="flex space-x-2">
+                  <Button
+                    variant="outline"
+                    onClick={exportPrompts}
+                    className="flex items-center"
+                  >
+                    <Download className="h-4 w-4 mr-2" />
+                    {language === 'zh' ? '导出' : 'Export'}
+                  </Button>
+                  <label htmlFor="import-file">
+                    <Button
+                      variant="outline"
+                      className="flex items-center cursor-pointer"
+                    >
+                      <Upload className="h-4 w-4 mr-2" />
+                      {language === 'zh' ? '导入' : 'Import'}
+                    </Button>
+                    <input
+                      id="import-file"
+                      type="file"
+                      accept=".json"
+                      className="hidden"
+                      onChange={handleFileImport}
+                    />
+                  </label>
+                </div>
               </div>
 
-              {filteredPrompts.length === 0 ? (
+              {loading ? (
+                <Card className="p-8 text-center">
+                  <p className="text-muted-foreground">
+                    {language === 'zh' ? '加载中...' : 'Loading...'}
+                  </p>
+                </Card>
+              ) : filteredPrompts.length === 0 ? (
                 <Card className="p-8 text-center">
                   <p className="text-muted-foreground mb-2">
                     {searchTerm ? t('noMatchingPrompts') : t('noSavedPrompts')}
@@ -84,12 +133,12 @@ const SavedPrompts = () => {
                 </Card>
               ) : (
                 <div className="space-y-4">
-                  {filteredPrompts.map((prompt, index) => (
-                    <Card key={index} className="p-4 shadow-md hover:shadow-lg transition-shadow">
+                  {filteredPrompts.map((prompt) => (
+                    <Card key={prompt.id} className="p-4 shadow-md hover:shadow-lg transition-shadow">
                       <div className="flex justify-between items-start mb-3">
                         <TagInput 
                           tags={prompt.tags} 
-                          onChange={(newTags) => updatePromptTags(index, newTags)} 
+                          onChange={(newTags) => prompt.id && updatePromptTags(prompt.id, newTags)} 
                         />
                         <div className="flex space-x-2">
                           <Button
@@ -103,7 +152,7 @@ const SavedPrompts = () => {
                           <Button
                             variant="outline"
                             size="sm"
-                            onClick={() => removeSavedPrompt(index)}
+                            onClick={() => prompt.id && deletePrompt(prompt.id)}
                           >
                             <Trash2 className="h-4 w-4" />
                             <span className="sr-only md:not-sr-only md:inline ml-1">{t('delete')}</span>

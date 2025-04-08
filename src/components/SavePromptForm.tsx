@@ -8,21 +8,21 @@ import { Save, LogIn } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/hooks/use-toast';
 import { useLanguage } from '@/hooks/useLanguage';
-import { useSavedPrompts } from '@/hooks/useSavedPrompts';
+import { useFirestorePrompts } from '@/hooks/useFirestorePrompts';
 import { useNavigate } from 'react-router-dom';
 
 const SavePromptForm: React.FC = () => {
   const { isAuthenticated, user } = useAuth();
   const { toast } = useToast();
   const { t, language } = useLanguage();
-  const { savePrompt } = useSavedPrompts();
+  const { savePrompt } = useFirestorePrompts();
   const navigate = useNavigate();
   
   const [promptContent, setPromptContent] = useState('');
   const [tags, setTags] = useState('');
   const [isSaving, setIsSaving] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!isAuthenticated) {
@@ -45,27 +45,25 @@ const SavePromptForm: React.FC = () => {
     setIsSaving(true);
     
     try {
-      // Convert comma-separated tags to array
+      // 将标签字符串转换为数组
       const tagsArray = tags.split(',')
         .map(tag => tag.trim())
         .filter(tag => tag.length > 0);
       
-      // Save the prompt
-      const savedPrompt = savePrompt(promptContent);
+      // 保存提示词到 Firestore
+      const result = await savePrompt(promptContent, tagsArray);
       
-      // Add custom tags if provided
-      if (tagsArray.length > 0) {
-        savedPrompt.tags = [...new Set([...savedPrompt.tags, ...tagsArray])];
+      if (result) {
+        console.log('提示词保存成功:', result);
+        toast({
+          title: t('promptSaved'),
+          description: t('promptSavedDesc'),
+        });
+        
+        // 清空表单
+        setPromptContent('');
+        setTags('');
       }
-      
-      toast({
-        title: t('promptSaved'),
-        description: t('promptSavedDesc'),
-      });
-      
-      // Clear the form
-      setPromptContent('');
-      setTags('');
     } catch (error) {
       toast({
         title: t('error'),

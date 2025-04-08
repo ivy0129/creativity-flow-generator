@@ -1,10 +1,9 @@
-
 import React, { useState } from 'react';
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Copy, Check, ThumbsUp, ThumbsDown, Save, Info } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast";
-import { useSavedPrompts } from '@/hooks/useSavedPrompts';
+import { useFirestorePrompts } from '@/hooks/useFirestorePrompts';
 import { usePromptGenerator } from '@/hooks/usePromptGenerator';
 import { useLanguage } from '@/hooks/useLanguage';
 import { Link } from 'react-router-dom';
@@ -16,7 +15,7 @@ interface ResultDisplayProps {
 
 const ResultDisplay: React.FC<ResultDisplayProps> = ({ content, isVisible }) => {
   const { toast } = useToast();
-  const { savePrompt } = useSavedPrompts();
+  const { savePrompt } = useFirestorePrompts();
   const { usageCount, usageLimit } = usePromptGenerator();
   const { language } = useLanguage();
   const [copied, setCopied] = useState(false);
