@@ -1,47 +1,7 @@
 
 // SiliconFlow API客户端
 
-interface SiliconFlowRequestMessage {
-  role: 'system' | 'user' | 'assistant';
-  content: string;
-}
-
-interface SiliconFlowRequestBody {
-  model: string;
-  messages: SiliconFlowRequestMessage[];
-  temperature?: number;
-  top_p?: number;
-  max_tokens?: number;
-}
-
-interface SiliconFlowResponseChoice {
-  index: number;
-  message: {
-    role: string;
-    content: string;
-  };
-  finish_reason: string;
-}
-
-interface SiliconFlowResponse {
-  id: string;
-  object: string;
-  created: number;
-  model: string;
-  choices: SiliconFlowResponseChoice[];
-  usage: {
-    prompt_tokens: number;
-    completion_tokens: number;
-    total_tokens: number;
-  };
-}
-
-interface OptimizePromptRequestBody {
-  prompt: string;
-  tone: string;
-  length: number;
-  creativity: number;
-}
+import { generateWithSiliconFlow, generateWithSiliconFlowProxy, hasSiliconFlowApiKey } from '@/api/siliconFlowApi';
 
 interface OptimizePromptResponse {
   content: string;
@@ -131,6 +91,9 @@ const paymentRelatedPrompts = [
    - 使用计数器追踪使用情况`
 ];
 
+/**
+ * 生成优化后的提示词
+ */
 export async function generateOptimizedPrompt(
   originalPrompt: string,
   tone: string,
@@ -138,68 +101,44 @@ export async function generateOptimizedPrompt(
   creativity: number
 ): Promise<OptimizePromptResponse> {
   try {
-    console.log("正在准备请求API优化提示词");
+    console.log("正在准备优化提示词");
     
-    // 构建请求体
-    const requestBody: OptimizePromptRequestBody = {
-      prompt: originalPrompt,
-      tone: tone,
-      length: length,
-      creativity: creativity
-    };
-
-    console.log("API请求参数:", JSON.stringify(requestBody));
-
-    // 使用POST请求访问提供的端点
-    const response = await fetch("https://myapi-livid.vercel.app/api/optimize", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(requestBody)
-    });
-
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.warn("API调用失败，响应状态:", response.status);
-      console.warn("API错误信息:", errorText);
+    // 首先尝试使用代理服务
+    try {
+      console.log("尝试使用代理服务...");
+      const content = await generateWithSiliconFlowProxy(
+        `你是一名提示词优化专家。请根据用户提供的原始提示词进行优化，使其更加结构化、详细和明确。优化后的提示词应该保持原始意图，但更加清晰和有效。使用${tone}的风格，保持内容长度约${length}个字符，创意度为${creativity}%。`,
+        originalPrompt,
+        creativity / 100,
+        Math.floor(length * 1.5)
+      );
+      return { content };
+    } catch (proxyError) {
+      console.warn("代理服务调用失败，尝试直接调用API:", proxyError);
       
-      // 直接返回本地生成的内容，无需再次尝试API调用
-      return selectAppropriatePrompt(
-        originalPrompt, 
-        tone, 
-        length, 
-        creativity, 
-        `HTTP错误: ${response.status} - ${errorText}`
-      );
+      // 如果代理服务失败，检查是否有API密钥可以直接调用
+      if (hasSiliconFlowApiKey()) {
+        console.log("尝试直接调用API...");
+        const content = await generateWithSiliconFlow(
+          `你是一名提示词优化专家。请根据用户提供的原始提示词进行优化，使其更加结构化、详细和明确。优化后的提示词应该保持原始意图，但更加清晰和有效。使用${tone}的风格，保持内容长度约${length}个字符，创意度为${creativity}%。`,
+          originalPrompt,
+          creativity / 100,
+          Math.floor(length * 1.5)
+        );
+        return { content };
+      } else {
+        console.warn("没有设置API密钥，回退到本地生成");
+        return selectAppropriatePrompt(
+          originalPrompt, 
+          tone, 
+          length, 
+          creativity, 
+          "API密钥未设置或API服务不可用"
+        );
+      }
     }
-
-    const data = await response.json();
-    console.log("API响应数据:", data);
-
-    // 检查API响应
-    if (data.error) {
-      console.warn("API返回错误:", data.error);
-      return selectAppropriatePrompt(originalPrompt, tone, length, creativity, data.error);
-    }
-
-    // 提取生成的内容
-    const generatedContent = data.content;
-    
-    if (!generatedContent) {
-      console.warn("API响应中找不到有效内容:", data);
-      return selectAppropriatePrompt(
-        originalPrompt, 
-        tone, 
-        length, 
-        creativity, 
-        "API响应格式异常，找不到内容"
-      );
-    }
-    
-    return { content: generatedContent };
   } catch (error) {
-    console.warn("调用优化API失败:", error);
+    console.warn("提示词优化失败:", error);
     const errorMsg = error instanceof Error ? error.message : String(error);
     return selectAppropriatePrompt(originalPrompt, tone, length, creativity, errorMsg);
   }
@@ -249,4 +188,3 @@ function selectAppropriatePrompt(
   
   return { content: responseContent, error: errorMsg };
 }
-
