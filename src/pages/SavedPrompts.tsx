@@ -1,11 +1,11 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Copy, Search, Trash2, LogIn, Download, Upload, AlertTriangle } from 'lucide-react';
+import { Copy, Search, Trash2, LogIn, Download, Upload } from 'lucide-react';
 import { useFirestorePrompts } from '@/hooks/useFirestorePrompts';
 import TagInput from '@/components/TagInput';
 import { useToast } from '@/hooks/use-toast';
@@ -13,11 +13,10 @@ import { useLanguage } from '@/hooks/useLanguage';
 import { useAuth } from '@/hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 import SEO from '@/components/SEO';
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Skeleton } from "@/components/ui/skeleton";
 
 const SavedPrompts = () => {
-  const { prompts, loading, indexError, deletePrompt, updatePromptTags, exportPrompts, importPrompts } = useFirestorePrompts();
+  const { prompts, loading, deletePrompt, updatePromptTags, exportPrompts, importPrompts } = useFirestorePrompts();
   const [searchTerm, setSearchTerm] = useState('');
   const { toast } = useToast();
   const { t, language } = useLanguage();
@@ -72,27 +71,6 @@ const SavedPrompts = () => {
             </Card>
           ) : (
             <div className="mb-8">
-              {indexError && (
-                <Alert variant="warning" className="mb-6 border-amber-500 bg-amber-50 dark:bg-amber-950">
-                  <AlertTriangle className="h-4 w-4 text-amber-500" />
-                  <AlertTitle className="text-amber-700 dark:text-amber-300">
-                    {language === 'zh' ? '需要创建 Firebase 索引' : 'Firebase Index Required'}
-                  </AlertTitle>
-                  <AlertDescription className="text-amber-700 dark:text-amber-300">
-                    {language === 'zh' 
-                      ? '您需要在 Firebase 控制台创建一个复合索引以启用高级排序功能。请访问控制台并点击提示中的链接创建索引。' 
-                      : 'You need to create a composite index in Firebase Console to enable advanced sorting. Please visit the console and click the link in the error prompt to create the index.'}
-                  </AlertDescription>
-                  <Button 
-                    variant="outline" 
-                    className="mt-2 border-amber-500 text-amber-700"
-                    onClick={() => window.open('https://console.firebase.google.com/project/myprompt-5a0c4/firestore/indexes', '_blank')}
-                  >
-                    {language === 'zh' ? '打开 Firebase 控制台' : 'Open Firebase Console'}
-                  </Button>
-                </Alert>
-              )}
-
               <div className="flex justify-between items-center mb-6">
                 <div className="relative flex-1 mr-4">
                   <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />

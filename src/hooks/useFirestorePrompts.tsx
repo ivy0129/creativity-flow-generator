@@ -63,7 +63,7 @@ export const useFirestorePrompts = () => {
         if (error?.code === 'failed-precondition' && error?.message?.includes('index')) {
           // 记录索引错误状态
           setIndexError(true);
-          console.warn('Firebase索引错误，尝试不使用排序...');
+          console.log('需要创建Firebase索引，使用简单查询...');
           
           // 退回到不使用 orderBy 的简单查询
           const fallbackQuery = query(
@@ -85,15 +85,6 @@ export const useFirestorePrompts = () => {
           });
           
           setPrompts(loadedPrompts);
-          
-          // 通知用户创建索引
-          toast({
-            title: language === 'zh' ? '需要创建索引' : 'Index Creation Required',
-            description: language === 'zh' 
-              ? '请访问Firebase控制台创建推荐的索引，以启用高级排序功能' 
-              : 'Please visit Firebase Console to create the recommended index for advanced sorting',
-            variant: 'default',
-          });
         } else {
           // 其他错误则直接抛出
           throw error;
