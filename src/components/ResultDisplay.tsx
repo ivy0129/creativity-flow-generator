@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -100,27 +101,27 @@ const ResultDisplay: React.FC<ResultDisplayProps> = ({
         </div>
         
         {isLocallyGenerated && (
-          <Alert variant="warning" className="mb-4">
-            <AlertTriangle className="h-4 w-4" />
-            <AlertDescription>
+          <Alert className="mb-4 bg-amber-50 border-amber-300 dark:bg-amber-900/30 dark:border-amber-800">
+            <AlertTriangle className="h-4 w-4 text-amber-600 dark:text-amber-400" />
+            <AlertDescription className="ml-2 text-amber-700 dark:text-amber-300">
               {language === 'zh' 
-                ? 'API服务暂时不可用，展示的是本地生成的示例内容'
+                ? 'API服务暂时不可用，展示的是本地生成的相关内容示例'
                 : 'API service is temporarily unavailable. Showing locally generated example content.'}
             </AlertDescription>
           </Alert>
         )}
         
         {apiErrorMessage && (
-          <Alert variant="warning" className="mb-4">
-            <AlertTriangle className="h-4 w-4" />
-            <AlertDescription className="break-words">
+          <Alert className="mb-4 bg-amber-50 border-amber-300 dark:bg-amber-900/30 dark:border-amber-800">
+            <AlertTriangle className="h-4 w-4 text-amber-600 dark:text-amber-400" />
+            <AlertDescription className="break-words ml-2 text-amber-700 dark:text-amber-300">
               <strong>{language === 'zh' ? '错误详情: ' : 'Error details: '}</strong>
               {apiErrorMessage}
             </AlertDescription>
           </Alert>
         )}
         
-        <div className="bg-card border p-4 rounded-md whitespace-pre-wrap text-sm">
+        <div className="bg-muted/50 border p-4 rounded-md whitespace-pre-wrap text-sm overflow-auto max-h-[60vh]">
           {content}
         </div>
       </div>
