@@ -1,3 +1,4 @@
+
 import { useState, useEffect, createContext, useContext, ReactNode } from 'react';
 import { toast } from "@/hooks/use-toast";
 import { useLanguage } from "./useLanguage";
@@ -66,6 +67,55 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     return () => unsubscribe();
   }, []);
 
+  const handleAuthError = (error: any) => {
+    console.error('认证错误:', error);
+    
+    let errorMessage = language === 'en' 
+      ? 'Authentication failed. Please try again.'
+      : '认证失败，请重试。';
+
+    // 处理常见的Firebase认证错误
+    if (error.code === 'auth/account-exists-with-different-credential') {
+      errorMessage = language === 'en'
+        ? 'This email is already registered with a different login method. Please try using Google login.'
+        : '该邮箱已通过其他方式注册，请尝试使用 Google 登录。';
+    } else if (error.code === 'auth/invalid-credential') {
+      errorMessage = language === 'en'
+        ? 'Invalid login credentials. Please check your email and password.'
+        : '登录凭据无效，请检查您的邮箱和密码。';
+    } else if (error.code === 'auth/user-disabled') {
+      errorMessage = language === 'en'
+        ? 'This account has been disabled. Please contact support.'
+        : '此账户已被禁用，请联系支持团队。';
+    } else if (error.code === 'auth/user-not-found') {
+      errorMessage = language === 'en'
+        ? 'No account found with this email. Please register first.'
+        : '未找到使用此邮箱的账户，请先注册。';
+    } else if (error.code === 'auth/wrong-password') {
+      errorMessage = language === 'en'
+        ? 'Incorrect password. Please try again.'
+        : '密码错误，请重试。';
+    } else if (error.code === 'auth/email-already-in-use') {
+      errorMessage = language === 'en'
+        ? 'This email is already registered. Please login instead.'
+        : '此邮箱已注册，请直接登录。';
+    } else if (error.code === 'auth/weak-password') {
+      errorMessage = language === 'en'
+        ? 'Password is too weak. Please use a stronger password.'
+        : '密码强度太弱，请使用更强的密码。';
+    } else if (error.code === 'auth/unauthorized-domain') {
+      errorMessage = language === 'en'
+        ? 'This domain is not authorized for Firebase Authentication. Try using email login instead.'
+        : '该域名未获授权，暂时不支持社交登录。请尝试使用邮箱登录。';
+    }
+    
+    toast({
+      title: language === 'en' ? 'Authentication Error' : '认证错误',
+      description: errorMessage,
+      variant: "destructive",
+    });
+  };
+
   const login = async (provider: 'github' | 'google' | 'email', credentials?: { email: string; password: string }) => {
     setLoading(true);
     
@@ -76,13 +126,17 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           await signInWithPopup(auth, githubProvider);
         } catch (error: any) {
           if (error.code === 'auth/account-exists-with-different-credential') {
-            const email = error.customData.email;
-            const providers = await fetchSignInMethodsForEmail(auth, email);
-            
-            if (providers[0] === 'google.com') {
-              const googleProvider = new GoogleAuthProvider();
-              googleProvider.setCustomParameters({ login_hint: email });
-              await signInWithPopup(auth, googleProvider);
+            const email = error.customData?.email;
+            if (email) {
+              const providers = await fetchSignInMethodsForEmail(auth, email);
+              
+              if (providers && providers[0] === 'google.com') {
+                const googleProvider = new GoogleAuthProvider();
+                googleProvider.setCustomParameters({ login_hint: email });
+                await signInWithPopup(auth, googleProvider);
+              }
+            } else {
+              throw error;
             }
           } else {
             throw error;
@@ -104,26 +158,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         title: loginSuccessTitle,
         description: loginSuccessMessage,
       });
-      setLoading(false);
     } catch (error: any) {
-      console.error('Login failed:', error);
+      handleAuthError(error);
+    } finally {
       setLoading(false);
-      
-      let errorMessage = language === 'en' 
-        ? 'Failed to login. Please try again.'
-        : '登录失败，请重试。';
-
-      if (error.code === 'auth/account-exists-with-different-credential') {
-        errorMessage = language === 'en'
-          ? 'This email is already registered with a different login method. Please try using Google login.'
-          : '该邮箱已通过其他方式注册，请尝试使用 Google 登录。';
-      }
-      
-      toast({
-        title: language === 'en' ? 'Login Failed' : '登录失败',
-        description: errorMessage,
-        variant: "destructive",
-      });
     }
   };
 
@@ -161,21 +199,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         title: registerSuccessTitle,
         description: registerSuccessMessage,
       });
+    } catch (error: any) {
+      handleAuthError(error);
+    } finally {
       setLoading(false);
-    } catch (error) {
-      console.error('Registration failed:', error);
-      setLoading(false);
-      
-      const errorTitle = language === 'en' ? 'Registration Failed' : '注册失败';
-      const errorMessage = language === 'en' 
-        ? 'Failed to register. Please try again.'
-        : '注册失败，请重试。';
-      
-      toast({
-        title: errorTitle,
-        description: errorMessage,
-        variant: "destructive",
-      });
     }
   };
 
@@ -211,19 +238,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         title: resetSuccessTitle,
         description: resetSuccessMessage,
       });
-    } catch (error) {
-      console.error('Password reset failed:', error);
-      
-      const errorTitle = language === 'en' ? 'Reset Failed' : '重置失败';
-      const errorMessage = language === 'en' 
-        ? 'Failed to send reset email. Please try again.'
-        : '发送重置邮件失败，请重试。';
-      
-      toast({
-        title: errorTitle,
-        description: errorMessage,
-        variant: "destructive",
-      });
+    } catch (error: any) {
+      handleAuthError(error);
     } finally {
       setLoading(false);
     }
