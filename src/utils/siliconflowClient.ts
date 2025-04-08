@@ -24,18 +24,14 @@ export async function generateOptimizedPrompt(
   creativity: number
 ): Promise<SiliconflowResponse> {
   try {
+    // API密钥 - 实际应用中应从环境变量获取
+    const apiKey = ""; // 这里需要填入您的API密钥
+    
     // 构建API请求体
-    const systemMessage = `你是一个专业的提示词优化专家。请优化以下提示词，使其更加清晰、具体和有效。
-    
-    遵循以下要求:
-    - 风格: ${tone}
-    - 长度: 大约${length}字
-    - 创意/复杂度: ${creativity}%
-    
-    返回优化后的提示词，不需要额外的解释。`;
+    const systemMessage = `你是提示词优化专家，请优化用户的提示词，使其更加清晰、详细和有效。提示词风格为${tone}，长度约为${length}字，复杂度为${creativity}。`;
 
     const requestBody: SiliconflowRequestBody = {
-      model: "gpt-4o", // 使用适合的模型
+      model: "Qwen/Qwen2.5-Coder-7B-Instruct", // 使用指定的模型
       messages: [
         {
           role: "system",
@@ -46,8 +42,8 @@ export async function generateOptimizedPrompt(
           content: originalPrompt
         }
       ],
-      temperature: creativity / 100, // 将创意度转换为温度参数
-      max_tokens: length * 2 // 确保有足够的token来生成回复
+      temperature: creativity / 100 * 0.7 + 0.3, // 将创意度转换为0.3-1.0之间的温度参数
+      max_tokens: 512 // 设置为固定值512
     };
 
     // 调用硅基流动API
@@ -55,8 +51,7 @@ export async function generateOptimizedPrompt(
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        // 注意：在实际应用中，API密钥不应硬编码，而应通过环境变量或安全方式获取
-        // "Authorization": `Bearer ${apiKey}`
+        "Authorization": `Bearer ${apiKey}` // 添加API密钥到请求头
       },
       body: JSON.stringify(requestBody)
     });
