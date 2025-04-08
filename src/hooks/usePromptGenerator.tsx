@@ -1,7 +1,8 @@
+
 import { useState, useEffect } from 'react';
 import { PromptData } from '@/components/PromptForm';
 import { useToast } from '@/hooks/use-toast';
-import { optimizePrompt } from '@/utils/openaiClient';
+import { generateOptimizedPrompt } from '@/utils/siliconflowClient';
 import { useAuth } from '@/hooks/useAuth';
 
 // 示例响应，作为备用或演示用途
@@ -165,8 +166,8 @@ export const usePromptGenerator = () => {
     setIsLoading(true);
     
     try {
-      // 调用优化API
-      const result = await optimizePrompt(
+      // 调用硅基流动API
+      const result = await generateOptimizedPrompt(
         promptData.prompt,
         promptData.tone,
         promptData.length,

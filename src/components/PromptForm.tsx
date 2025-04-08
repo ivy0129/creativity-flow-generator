@@ -36,9 +36,7 @@ const PromptForm: React.FC<PromptFormProps> = ({ onSubmit, isLoading }) => {
     creativity: 70,
   });
 
-  // Update tone when language changes
   React.useEffect(() => {
-    // Map between English and Chinese tones
     const toneMap: Record<string, string> = {
       '技术性': 'Technical',
       '教学性': 'Educational',
@@ -52,7 +50,6 @@ const PromptForm: React.FC<PromptFormProps> = ({ onSubmit, isLoading }) => {
       'Step-by-step': '步骤化'
     };
     
-    // When language changes, update the tone value if it's in the map
     if (toneMap[promptData.tone]) {
       setPromptData(prev => ({
         ...prev,
@@ -70,6 +67,15 @@ const PromptForm: React.FC<PromptFormProps> = ({ onSubmit, isLoading }) => {
       toast({
         title: language === 'zh' ? "需要登录" : "Login Required",
         description: language === 'zh' ? "请先登录以使用提示词优化功能" : "Please login to use the prompt optimizer",
+      });
+      navigate('/auth');
+      return;
+    }
+    
+    if (!promptData.prompt.trim()) {
+      toast({
+        title: language === 'zh' ? "提示词不能为空" : "Prompt cannot be empty",
+        description: language === 'zh' ? "请输入需要优化的提示词" : "Please enter a prompt to optimize",
       });
       return;
     }
@@ -99,7 +105,6 @@ const PromptForm: React.FC<PromptFormProps> = ({ onSubmit, isLoading }) => {
     }
   };
 
-  // Get tone options based on current language
   const getToneOptions = () => {
     if (language === 'zh') {
       return [
@@ -203,7 +208,6 @@ const PromptForm: React.FC<PromptFormProps> = ({ onSubmit, isLoading }) => {
           type="submit" 
           className="w-full gradient-bg text-white hover:opacity-90 transition-opacity gap-2"
           disabled={isLoading}
-          onClick={!isAuthenticated ? handleOptimizeClick : undefined}
         >
           {!isAuthenticated ? (
             <LogIn className="h-4 w-4" />
