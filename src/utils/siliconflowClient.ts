@@ -1,5 +1,39 @@
+// SiliconFlow API客户端
 
-// 提示词优化API客户端
+interface SiliconFlowRequestMessage {
+  role: 'system' | 'user' | 'assistant';
+  content: string;
+}
+
+interface SiliconFlowRequestBody {
+  model: string;
+  messages: SiliconFlowRequestMessage[];
+  temperature?: number;
+  top_p?: number;
+  max_tokens?: number;
+}
+
+interface SiliconFlowResponseChoice {
+  index: number;
+  message: {
+    role: string;
+    content: string;
+  };
+  finish_reason: string;
+}
+
+interface SiliconFlowResponse {
+  id: string;
+  object: string;
+  created: number;
+  model: string;
+  choices: SiliconFlowResponseChoice[];
+  usage: {
+    prompt_tokens: number;
+    completion_tokens: number;
+    total_tokens: number;
+  };
+}
 
 interface OptimizePromptRequestBody {
   prompt: string;
@@ -64,15 +98,30 @@ export async function generateOptimizedPrompt(
   creativity: number
 ): Promise<OptimizePromptResponse> {
   try {
-    // 尝试调用API
-    const requestBody: OptimizePromptRequestBody = {
-      prompt: originalPrompt,
-      tone: tone,
-      length: length,
-      creativity: creativity
+    // 使用SiliconFlow API格式构建请求
+    const messages: SiliconFlowRequestMessage[] = [
+      {
+        role: 'system',
+        content: `你是一个专业的提示词优化专家。根据用户的原始提示，生成一个更加结构化、清晰的提示词。
+                 风格要求：${tone}
+                 长度要求：${length > 300 ? '详细' : length < 150 ? '简洁' : '标准'}
+                 创意程度：${creativity}%`
+      },
+      {
+        role: 'user',
+        content: `请优化以下提示词：${originalPrompt}`
+      }
+    ];
+
+    const requestBody: SiliconFlowRequestBody = {
+      model: "llama-3.1-8b",  // 使用SiliconFlow提供的模型
+      messages: messages,
+      temperature: creativity / 100,  // 将创意度转换为temperature参数
+      top_p: 0.9,
+      max_tokens: length * 2  // 根据长度参数设置最大token数
     };
 
-    console.log("正在调用API: https://myapi-livid.vercel.app/api/optimize");
+    console.log("正在调用SiliconFlow API");
     console.log("请求参数:", JSON.stringify(requestBody));
 
     const response = await fetch("https://myapi-livid.vercel.app/api/optimize", {
@@ -80,22 +129,49 @@ export async function generateOptimizedPrompt(
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(requestBody)
+      body: JSON.stringify({
+        prompt: originalPrompt,
+        tone: tone,
+        length: length,
+        creativity: creativity
+      })
     });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.warn("API调用失败，响应状态:", response.status);
+      console.warn("API错误信息:", errorText);
+      
+      return handleLocalOptimization(
+        originalPrompt, 
+        tone, 
+        length, 
+        creativity, 
+        `HTTP错误: ${response.status} - ${errorText}`
+      );
+    }
 
     const data = await response.json();
 
     // 检查API响应
-    if (!response.ok || data.error) {
-      console.warn("API调用失败，响应状态:", response.status);
-      console.warn("API返回数据:", data);
-      
-      const errorMsg = data.error || `HTTP错误: ${response.status}`;
-      return handleLocalOptimization(originalPrompt, tone, length, creativity, errorMsg);
+    if (data.error) {
+      console.warn("API返回错��:", data.error);
+      return handleLocalOptimization(originalPrompt, tone, length, creativity, data.error);
     }
 
     // 提取生成的内容
-    const generatedContent = data.content;
+    const generatedContent = data.content || (data.choices && data.choices[0]?.message?.content);
+    
+    if (!generatedContent) {
+      console.warn("API响应中找不到有效内容:", data);
+      return handleLocalOptimization(
+        originalPrompt, 
+        tone, 
+        length, 
+        creativity, 
+        "API响应格式异常，找不到内容"
+      );
+    }
     
     return { content: generatedContent };
   } catch (error) {

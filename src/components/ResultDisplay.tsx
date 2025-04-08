@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -112,10 +111,11 @@ const ResultDisplay: React.FC<ResultDisplayProps> = ({
         )}
         
         {apiErrorMessage && (
-          <Alert variant="info" className="mb-4">
-            <Info className="h-4 w-4" />
-            <AlertDescription>
-              {language === 'zh' ? '错误详情: ' : 'Error details: '}{apiErrorMessage}
+          <Alert variant="warning" className="mb-4">
+            <AlertTriangle className="h-4 w-4" />
+            <AlertDescription className="break-words">
+              <strong>{language === 'zh' ? '错误详情: ' : 'Error details: '}</strong>
+              {apiErrorMessage}
             </AlertDescription>
           </Alert>
         )}
