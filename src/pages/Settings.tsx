@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -16,8 +17,9 @@ import {
   saveGlobalApiKey
 } from '@/utils/siliconflowClient';
 import { EyeIcon, EyeOffIcon, ShieldCheck, RefreshCw } from 'lucide-react';
-import { doc, setDoc, getDoc, Timestamp } from 'firebase/firestore';
+import { doc, setDoc, getDoc, Timestamp, collection } from 'firebase/firestore';
 import { db, COLLECTIONS } from '@/lib/firebase';
+import { getAuth } from 'firebase/auth';
 
 const DAILY_FREE_LIMIT = 10; // 免费用户每天10次
 const DAILY_PREMIUM_LIMIT = 100; // 高级用户每天100次
@@ -68,12 +70,32 @@ const Settings = () => {
 
   const loadGlobalApiKey = async () => {
     try {
-      const key = await getGlobalApiKey();
-      setGlobalApiKey(key);
+      if (!user || !user.isAdmin) {
+        return;
+      }
       
-      const apiKeyDoc = await getDoc(doc(db, COLLECTIONS.APP_SETTINGS, "apiKeys"));
-      if (apiKeyDoc.exists() && apiKeyDoc.data().expiresAt) {
-        setKeyExpiry(apiKeyDoc.data().expiresAt.toDate());
+      const auth = getAuth();
+      const currentUser = auth.currentUser;
+      
+      if (!currentUser) {
+        return;
+      }
+      
+      // 从管理员专用集合中读取API密钥
+      const apiKeyDoc = await getDoc(doc(db, `${COLLECTIONS.ADMINS}/${currentUser.uid}/apiKeys`, "global"));
+      
+      if (apiKeyDoc.exists()) {
+        setGlobalApiKey(apiKeyDoc.data().siliconflowApiKey || '');
+        
+        if (apiKeyDoc.data().expiresAt) {
+          setKeyExpiry(apiKeyDoc.data().expiresAt.toDate());
+        }
+      } else {
+        // 尝试从元数据中获取过期信息
+        const metaDoc = await getDoc(doc(db, COLLECTIONS.APP_SETTINGS, "apiKeysMeta"));
+        if (metaDoc.exists() && metaDoc.data().expiresAt) {
+          setKeyExpiry(metaDoc.data().expiresAt.toDate());
+        }
       }
     } catch (error) {
       console.error("加载全局API密钥时出错:", error);
@@ -123,8 +145,8 @@ const Settings = () => {
       toast({
         title: language === 'en' ? "Save Failed" : "保存失败",
         description: language === 'en' 
-          ? "Failed to save the global API key" 
-          : "保存全局API密钥失败",
+          ? "Failed to save the global API key. Check your permissions." 
+          : "保存全局API密钥失败。请检查您的权限。",
         variant: "destructive",
       });
     } finally {
@@ -157,13 +179,29 @@ const Settings = () => {
     
     setIsRotating(true);
     try {
+      const auth = getAuth();
+      const currentUser = auth.currentUser;
+      
+      if (!currentUser) {
+        throw new Error('用户未登录');
+      }
+      
       const now = new Date();
       const expiryDate = new Date(now);
       expiryDate.setDate(expiryDate.getDate() + 30);
       
       const rotationId = `rot_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
       
-      await setDoc(doc(db, COLLECTIONS.APP_SETTINGS, "apiKeys"), {
+      // 更新管理员专用集合中的API密钥
+      await setDoc(doc(db, `${COLLECTIONS.ADMINS}/${currentUser.uid}/apiKeys`, "global"), {
+        expiresAt: Timestamp.fromDate(expiryDate),
+        rotationId: rotationId,
+        updatedAt: Timestamp.fromDate(now),
+        updatedBy: user.id
+      }, { merge: true });
+      
+      // 更新公共元数据
+      await setDoc(doc(db, COLLECTIONS.APP_SETTINGS, "apiKeysMeta"), {
         expiresAt: Timestamp.fromDate(expiryDate),
         rotationId: rotationId,
         updatedAt: Timestamp.fromDate(now),

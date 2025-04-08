@@ -23,7 +23,8 @@ const db = getFirestore(app);
 export const COLLECTIONS = {
   APP_SETTINGS: 'appSettings',
   ADMINS: 'admins',
-  API_KEYS: 'apiKeys'
+  API_KEYS: 'apiKeys',
+  USERS: 'users'
 };
 
 // 仅在开发环境打印初始化信息

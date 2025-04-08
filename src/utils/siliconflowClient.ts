@@ -2,6 +2,7 @@
 // 硅基流动API客户端
 import { db, COLLECTIONS } from '@/lib/firebase';
 import { doc, getDoc, setDoc, Timestamp } from 'firebase/firestore';
+import { getAuth } from 'firebase/auth';
 
 interface SiliconflowRequestBody {
   model: string;
@@ -77,6 +78,14 @@ export async function getGlobalApiKey(): Promise<string> {
 // 保存全局API密钥并设置轮换信息
 export async function saveGlobalApiKey(apiKey: string, userId: string): Promise<boolean> {
   try {
+    // 确保用户已登录
+    const auth = getAuth();
+    const currentUser = auth.currentUser;
+    
+    if (!currentUser) {
+      throw new Error('用户未登录');
+    }
+    
     const now = new Date();
     // 默认密钥有效期为30天
     const expiryDate = new Date(now);
@@ -85,7 +94,10 @@ export async function saveGlobalApiKey(apiKey: string, userId: string): Promise<
     // 创建轮换ID
     const rotationId = `rot_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
     
-    await setDoc(doc(db, COLLECTIONS.APP_SETTINGS, "apiKeys"), {
+    // 使用私有集合路径，确保只有管理员能访问
+    const apiKeyDocRef = doc(db, `${COLLECTIONS.ADMINS}/${currentUser.uid}/apiKeys`, "global");
+    
+    await setDoc(apiKeyDocRef, {
       siliconflowApiKey: apiKey,
       createdAt: Timestamp.fromDate(now),
       expiresAt: Timestamp.fromDate(expiryDate),
@@ -93,6 +105,14 @@ export async function saveGlobalApiKey(apiKey: string, userId: string): Promise<
       updatedBy: userId,
       isActive: true,
       lastUsed: null
+    });
+    
+    // 同时在公共集合中存储非敏感信息，用于权限验证
+    await setDoc(doc(db, COLLECTIONS.APP_SETTINGS, "apiKeysMeta"), {
+      updatedAt: Timestamp.fromDate(now),
+      updatedBy: userId,
+      rotationId: rotationId,
+      expiresAt: Timestamp.fromDate(expiryDate)
     });
     
     return true;
@@ -107,7 +127,7 @@ async function updateApiKeyUsage(isGlobalKey: boolean): Promise<void> {
   if (!isGlobalKey) return; // 只记录全局密钥使用情况
   
   try {
-    const apiKeyDoc = doc(db, COLLECTIONS.APP_SETTINGS, "apiKeys");
+    const apiKeyDoc = doc(db, COLLECTIONS.APP_SETTINGS, "apiKeysMeta");
     await setDoc(apiKeyDoc, {
       lastUsed: Timestamp.now()
     }, { merge: true });
