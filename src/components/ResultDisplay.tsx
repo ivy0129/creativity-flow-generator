@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { CopyIcon, ThumbsUpIcon, ThumbsDownIcon, SaveIcon, AlertTriangle, Loader2 } from 'lucide-react';
+import { CopyIcon, ThumbsUpIcon, ThumbsDownIcon, SaveIcon, AlertTriangle, Loader2, Share2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { useLanguage } from '@/hooks/useLanguage';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -57,6 +57,17 @@ const ResultDisplay: React.FC<ResultDisplayProps> = ({
     }, 2000);
   };
   
+  const handleShare = () => {
+    const shareText = `${content}\n\n${language === 'zh' ? '通过 MyPromptDoctor 优化: ' : 'Optimized by MyPromptDoctor: '}https://mypromptdoctor.com`;
+    
+    navigator.clipboard.writeText(shareText);
+    toast({
+      title: language === 'zh' ? '已复制到剪贴板' : 'Copied to clipboard',
+      description: language === 'zh' ? '优化的提示词和链接已复制到剪贴板' : 'The optimized prompt and link have been copied to your clipboard',
+      variant: "default",
+    });
+  };
+  
   const handleFeedback = (type: 'positive' | 'negative') => {
     toast({
       title: type === 'positive' 
@@ -93,6 +104,10 @@ const ResultDisplay: React.FC<ResultDisplayProps> = ({
                 ? (language === 'zh' ? '已复制' : 'Copied') 
                 : (language === 'zh' ? '复制' : 'Copy')
               }
+            </Button>
+            <Button variant="outline" size={isMobile ? "sm" : "default"} onClick={handleShare}>
+              <Share2 className="h-4 w-4 mr-1" />
+              {language === 'zh' ? '分享' : 'Share'}
             </Button>
             <Button variant="outline" size={isMobile ? "sm" : "default"}>
               <SaveIcon className="h-4 w-4 mr-1" />
