@@ -150,13 +150,13 @@ export async function generateOptimizedPrompt(
 
     console.log("API请求参数:", JSON.stringify(requestBody));
 
-    // 使用POST请求访问提供的端点
+    // 确保使用POST方法访问正确的端点，发送JSON格式数据
     const response = await fetch("https://myapi-livid.vercel.app/api/optimize", {
-      method: "POST",
+      method: "POST",  // 明确使用POST方法
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json"  // 确保设置正确的内容类型
       },
-      body: JSON.stringify(requestBody)
+      body: JSON.stringify(requestBody)  // 将请求体序列化为JSON字符串
     });
 
     if (!response.ok) {
@@ -249,4 +249,3 @@ function selectAppropriatePrompt(
   
   return { content: responseContent, error: errorMsg };
 }
-
