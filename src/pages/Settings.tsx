@@ -9,7 +9,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useAuth } from '@/hooks/useAuth';
 import { useLanguage } from '@/hooks/useLanguage';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { Home, Bookmark, Info } from 'lucide-react';
+import { Home, Bookmark, Info, MailCheck } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const DAILY_FREE_LIMIT = 100; // 免费用户每天100次
@@ -129,6 +129,24 @@ const Settings = () => {
                 : (language === 'en' ? `Upgrade to Premium ($${PREMIUM_PRICE}/month)` : `升级到高级账户（每月${PREMIUM_PRICE}美元）`)}
             </Button>
           </div>
+        </Card>
+        
+        {/* New Contact Card */}
+        <Card className="p-6 mb-6">
+          <div className="flex items-center gap-3 mb-4">
+            <MailCheck className="h-6 w-6 text-primary" />
+            <h2 className="text-xl font-semibold">
+              {language === 'en' ? "Contact Us" : "联系我们"}
+            </h2>
+          </div>
+          <p className="text-base text-muted-foreground mb-2">
+            {language === 'en' 
+              ? "For bug reports or feedback, please contact us:" 
+              : "bug/意见反馈，请联系我们："}
+          </p>
+          <p className="text-base font-medium">
+            ivyhan0129@gmail.com
+          </p>
         </Card>
       </main>
       
