@@ -51,17 +51,17 @@ const translations = {
     tryDifferentSearch: 'Try a different search term',
     
     // 首页功能介绍卡片
-    promptOptimization: 'Prompt Optimization',
-    promptOptimizationDesc: 'Generate optimized prompts for better AI responses',
-    devCommandGen: 'Dev Command Generator',
-    devCommandGenDesc: 'Create precise commands for development tasks',
-    savePrompts: 'Save Prompts',
-    savePromptsDesc: 'Store and organize your favorite prompts',
+    promptOptimization: 'AI Prompt Optimization',
+    promptOptimizationDesc: 'Generate optimized ChatGPT prompts for better AI responses',
+    devCommandGen: 'AI Prompt Generator',
+    devCommandGenDesc: 'Create precise prompts for development and creative tasks',
+    savePrompts: 'Collect & Manage Prompts',
+    savePromptsDesc: 'Store and organize your favorite AI prompts',
     
     // 应用名称和子标题 - 更新为新的文案
     appName: 'MyPrompt',
-    promptOptimizer: 'My Personal AI Prompt',
-    subheading: 'Help beginners write clear, effective AI instructions for more accurate responses',
+    promptOptimizer: 'AI Prompt Optimization Expert',
+    subheading: 'Learn how to write better AI prompts with our prompt engineering tips & tools',
     
     // 如何使用
     howToUse: 'How to Use',
@@ -123,17 +123,17 @@ const translations = {
     tryDifferentSearch: '尝试不同的搜索词',
     
     // 首页功能介绍卡片
-    promptOptimization: '提示词优化',
-    promptOptimizationDesc: '生成优化的提示词，获得更好的AI回复',
-    devCommandGen: '开发命令生成器',
-    devCommandGenDesc: '为开发任务创建精确的命令',
-    savePrompts: '保存提示词',
-    savePromptsDesc: '存储并组织您喜爱的提示词',
+    promptOptimization: 'AI提示词优化',
+    promptOptimizationDesc: '生成优化的ChatGPT提示词，获得更好的AI回复',
+    devCommandGen: 'Prompt生成器工具',
+    devCommandGenDesc: '为开发任务创建精确的AI指令',
+    savePrompts: '收集与管理提示词',
+    savePromptsDesc: '存储并组织您喜爱的AI提示词',
     
     // 应用名称和子标题 - 更新为新的文案
     appName: 'MyPrompt',
-    promptOptimizer: '专属于我的 AI Prompt',
-    subheading: '帮助开发新手编写清晰、有效的AI指令，获得更精准的回应',
+    promptOptimizer: 'AI提示词优化专家',
+    subheading: '学习如何编写更好的AI提示词，掌握提示词工程技巧和工具',
     
     // 如何使用
     howToUse: '使用方法',
