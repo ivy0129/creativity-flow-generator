@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -5,6 +6,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { CopyIcon, ThumbsUpIcon, ThumbsDownIcon, SaveIcon, AlertTriangle, Loader2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { useLanguage } from '@/hooks/useLanguage';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 interface ResultDisplayProps {
   content: string;
@@ -22,6 +24,7 @@ const ResultDisplay: React.FC<ResultDisplayProps> = ({
   const [copied, setCopied] = useState(false);
   const { toast } = useToast();
   const { language } = useLanguage();
+  const isMobile = useIsMobile();
   
   if (isLoading) {
     return (
@@ -69,29 +72,29 @@ const ResultDisplay: React.FC<ResultDisplayProps> = ({
   const isLocallyGenerated = content.includes("[注意:") || content.includes("API服务");
   
   return (
-    <Card className="w-full p-6 mt-8 shadow-lg animate-fade-in">
+    <Card className="w-full p-4 sm:p-6 mt-8 shadow-lg animate-fade-in">
       <div className="space-y-4">
-        <div className="flex justify-between items-center">
-          <h3 className="text-lg font-semibold">
+        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center">
+          <h3 className="text-lg font-semibold mb-3 sm:mb-0">
             {language === 'zh' ? '生成的内容' : 'Generated Content'}
           </h3>
-          <div className="flex space-x-2">
-            <Button variant="outline" size="sm" onClick={() => handleFeedback('positive')}>
+          <div className="flex flex-wrap gap-2">
+            <Button variant="outline" size={isMobile ? "sm" : "default"} onClick={() => handleFeedback('positive')}>
               <ThumbsUpIcon className="h-4 w-4 mr-1" />
               {language === 'zh' ? '好的' : 'Good'}
             </Button>
-            <Button variant="outline" size="sm" onClick={() => handleFeedback('negative')}>
+            <Button variant="outline" size={isMobile ? "sm" : "default"} onClick={() => handleFeedback('negative')}>
               <ThumbsDownIcon className="h-4 w-4 mr-1" />
               {language === 'zh' ? '不好' : 'Not good'}
             </Button>
-            <Button variant="outline" size="sm" onClick={handleCopy}>
+            <Button variant="outline" size={isMobile ? "sm" : "default"} onClick={handleCopy}>
               <CopyIcon className="h-4 w-4 mr-1" />
               {copied 
                 ? (language === 'zh' ? '已复制' : 'Copied') 
                 : (language === 'zh' ? '复制' : 'Copy')
               }
             </Button>
-            <Button variant="outline" size="sm">
+            <Button variant="outline" size={isMobile ? "sm" : "default"}>
               <SaveIcon className="h-4 w-4 mr-1" />
               {language === 'zh' ? '保存' : 'Save'}
             </Button>
@@ -119,7 +122,7 @@ const ResultDisplay: React.FC<ResultDisplayProps> = ({
           </Alert>
         )}
         
-        <div className="bg-muted/50 border p-4 rounded-md whitespace-pre-wrap text-sm overflow-auto max-h-[60vh]">
+        <div className="bg-muted/50 border p-3 sm:p-4 rounded-md whitespace-pre-wrap text-sm overflow-auto max-h-[50vh] sm:max-h-[60vh]">
           {content}
         </div>
       </div>
