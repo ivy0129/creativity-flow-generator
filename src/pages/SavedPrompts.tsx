@@ -5,7 +5,7 @@ import Footer from '@/components/Footer';
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Copy, Search, Trash2, LogIn, Download, Upload, Home, Bookmark, Info } from 'lucide-react';
+import { Copy, Search, Trash2, LogIn, Download, Upload, Home, Bookmark, Info, Share2 } from 'lucide-react';
 import { useFirestorePrompts } from '@/hooks/useFirestorePrompts';
 import TagInput from '@/components/TagInput';
 import { useToast } from '@/hooks/use-toast';
@@ -38,6 +38,17 @@ const SavedPrompts = () => {
     toast({
       title: t('copied'),
       description: t('copiedToClipboard'),
+    });
+  };
+  
+  // 添加分享功能
+  const handleShare = (content: string) => {
+    const shareText = `${content}\n\n${language === 'zh' ? '通过 MyPromptDoctor 优化: ' : 'Optimized by MyPromptDoctor: '}https://mypromptdoctor.com`;
+    
+    navigator.clipboard.writeText(shareText);
+    toast({
+      title: language === 'zh' ? '已复制到剪贴板' : 'Copied to clipboard',
+      description: language === 'zh' ? '提示词和链接已复制到剪贴板' : 'The prompt and link have been copied to your clipboard',
     });
   };
 
@@ -154,6 +165,14 @@ const SavedPrompts = () => {
                           >
                             <Copy className="h-4 w-4" />
                             <span className="sr-only md:not-sr-only md:inline ml-1">{t('copy')}</span>
+                          </Button>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => handleShare(prompt.content)}
+                          >
+                            <Share2 className="h-4 w-4" />
+                            <span className="sr-only md:not-sr-only md:inline ml-1">{language === 'zh' ? '分享' : 'Share'}</span>
                           </Button>
                           <Button
                             variant="outline"
