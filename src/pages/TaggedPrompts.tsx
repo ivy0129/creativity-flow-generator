@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import Header from '@/components/Header';
@@ -41,7 +42,7 @@ const TaggedPrompts = () => {
       <main className="flex-1 container mx-auto px-4 py-8">
         <div className="max-w-4xl mx-auto">
           <Link 
-            to="/saved-prompts"
+            to="/saved"
             className="inline-flex items-center text-muted-foreground hover:text-foreground mb-6"
           >
             <ArrowLeft className="h-4 w-4 mr-2" />
