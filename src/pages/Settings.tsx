@@ -8,6 +8,9 @@ import { Separator } from "@/components/ui/separator";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from '@/hooks/useAuth';
 import { useLanguage } from '@/hooks/useLanguage';
+import { useIsMobile } from '@/hooks/use-mobile';
+import { Home, Bookmark, Info } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const DAILY_FREE_LIMIT = 100; // 免费用户每天100次
 const DAILY_PREMIUM_LIMIT = Infinity; // 高级用户无限制
@@ -17,6 +20,7 @@ const Settings = () => {
   const { toast } = useToast();
   const { isAuthenticated, user } = useAuth();
   const { t, language } = useLanguage();
+  const isMobile = useIsMobile();
   const [usageCount, setUsageCount] = useState(0);
   const [usageLimit, setUsageLimit] = useState(DAILY_FREE_LIMIT);
   
@@ -63,7 +67,7 @@ const Settings = () => {
     <div className="min-h-screen flex flex-col bg-background">
       <Header />
       
-      <main className="flex-1 container mx-auto px-4 py-8">
+      <main className="flex-1 container mx-auto px-4 py-8 pb-16 md:pb-8">
         <h1 className="text-3xl font-bold mb-6">{language === 'en' ? "About Us" : "关于我们"}</h1>
         
         <Card className="p-6 mb-6">
@@ -127,6 +131,24 @@ const Settings = () => {
           </div>
         </Card>
       </main>
+      
+      {/* 移动端底部导航栏 */}
+      {isMobile && (
+        <div className="fixed bottom-0 left-0 right-0 bg-background border-t border-border flex justify-around items-center h-16 shadow-lg z-30">
+          <Link to="/" className="flex flex-1 flex-col items-center justify-center h-full text-muted-foreground hover:text-primary">
+            <Home className="h-5 w-5 mb-1" />
+            <span className="text-xs">{t('home')}</span>
+          </Link>
+          <Link to="/saved" className="flex flex-1 flex-col items-center justify-center h-full text-muted-foreground hover:text-primary">
+            <Bookmark className="h-5 w-5 mb-1" />
+            <span className="text-xs">{t('savedPrompts')}</span>
+          </Link>
+          <Link to="/settings" className="flex flex-1 flex-col items-center justify-center h-full text-primary">
+            <Info className="h-5 w-5 mb-1" />
+            <span className="text-xs">{language === 'en' ? 'About Us' : '关于我们'}</span>
+          </Link>
+        </div>
+      )}
       
       <Footer />
     </div>

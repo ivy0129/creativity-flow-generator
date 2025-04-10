@@ -7,11 +7,12 @@ import ResultDisplay from '@/components/ResultDisplay';
 import { usePromptGenerator } from '@/hooks/usePromptGenerator';
 import { useLanguage } from '@/hooks/useLanguage';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { Lightbulb, BookOpen, Save } from 'lucide-react';
+import { Lightbulb, BookOpen, Save, Home, Bookmark, Info } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import SavePromptForm from '@/components/SavePromptForm';
 import { useAuth } from '@/hooks/useAuth';
 import SEO from '@/components/SEO';
+import { Link } from 'react-router-dom';
 
 const Index = () => {
   const { 
@@ -34,7 +35,7 @@ const Index = () => {
       />
       <Header />
       
-      <main className="flex-1 container mx-auto px-4 py-4">
+      <main className="flex-1 container mx-auto px-4 py-4 pb-16 md:pb-4">
         <section className="max-w-4xl mx-auto mb-6 text-center">
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-4 gradient-text">
             {t('promptOptimizer')}
@@ -94,6 +95,24 @@ const Index = () => {
           </Tabs>
         </section>
       </main>
+      
+      {/* 移动端底部导航栏 */}
+      {isMobile && (
+        <div className="fixed bottom-0 left-0 right-0 bg-background border-t border-border flex justify-around items-center h-16 shadow-lg z-30">
+          <Link to="/" className="flex flex-1 flex-col items-center justify-center h-full text-primary">
+            <Home className="h-5 w-5 mb-1" />
+            <span className="text-xs">{t('home')}</span>
+          </Link>
+          <Link to="/saved" className="flex flex-1 flex-col items-center justify-center h-full text-muted-foreground hover:text-primary">
+            <Bookmark className="h-5 w-5 mb-1" />
+            <span className="text-xs">{t('savedPrompts')}</span>
+          </Link>
+          <Link to="/settings" className="flex flex-1 flex-col items-center justify-center h-full text-muted-foreground hover:text-primary">
+            <Info className="h-5 w-5 mb-1" />
+            <span className="text-xs">{language === 'en' ? 'About Us' : '关于我们'}</span>
+          </Link>
+        </div>
+      )}
       
       <Footer />
     </div>

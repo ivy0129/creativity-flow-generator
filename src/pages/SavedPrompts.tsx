@@ -5,15 +5,16 @@ import Footer from '@/components/Footer';
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Copy, Search, Trash2, LogIn, Download, Upload } from 'lucide-react';
+import { Copy, Search, Trash2, LogIn, Download, Upload, Home, Bookmark, Info } from 'lucide-react';
 import { useFirestorePrompts } from '@/hooks/useFirestorePrompts';
 import TagInput from '@/components/TagInput';
 import { useToast } from '@/hooks/use-toast';
 import { useLanguage } from '@/hooks/useLanguage';
 import { useAuth } from '@/hooks/useAuth';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import SEO from '@/components/SEO';
 import { Skeleton } from "@/components/ui/skeleton";
+import { useIsMobile } from '@/hooks/use-mobile';
 
 const SavedPrompts = () => {
   const { prompts, loading, deletePrompt, updatePromptTags, exportPrompts, importPrompts } = useFirestorePrompts();
@@ -22,6 +23,7 @@ const SavedPrompts = () => {
   const { t, language } = useLanguage();
   const { isAuthenticated, user } = useAuth();
   const navigate = useNavigate();
+  const isMobile = useIsMobile();
 
   // 处理文件导入
   const handleFileImport = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -53,7 +55,7 @@ const SavedPrompts = () => {
       />
       <Header />
       
-      <main className="flex-1 container mx-auto px-4 py-8">
+      <main className="flex-1 container mx-auto px-4 py-8 pb-16 md:pb-8">
         <section className="max-w-4xl mx-auto">
           <h1 className="text-3xl sm:text-4xl font-bold mb-6 gradient-text">
             {t('savedPrompts')}
@@ -174,6 +176,24 @@ const SavedPrompts = () => {
           )}
         </section>
       </main>
+      
+      {/* 移动端底部导航栏 */}
+      {isMobile && (
+        <div className="fixed bottom-0 left-0 right-0 bg-background border-t border-border flex justify-around items-center h-16 shadow-lg z-30">
+          <Link to="/" className="flex flex-1 flex-col items-center justify-center h-full text-muted-foreground hover:text-primary">
+            <Home className="h-5 w-5 mb-1" />
+            <span className="text-xs">{t('home')}</span>
+          </Link>
+          <Link to="/saved" className="flex flex-1 flex-col items-center justify-center h-full text-primary">
+            <Bookmark className="h-5 w-5 mb-1" />
+            <span className="text-xs">{t('savedPrompts')}</span>
+          </Link>
+          <Link to="/settings" className="flex flex-1 flex-col items-center justify-center h-full text-muted-foreground hover:text-primary">
+            <Info className="h-5 w-5 mb-1" />
+            <span className="text-xs">{language === 'en' ? 'About Us' : '关于我们'}</span>
+          </Link>
+        </div>
+      )}
       
       <Footer />
     </div>
