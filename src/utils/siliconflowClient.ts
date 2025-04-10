@@ -183,21 +183,24 @@ export async function generateOptimizedPrompt(
       return selectAppropriatePrompt(originalPrompt, tone, length, creativity, data.error);
     }
 
-    // 提取生成的内容
-    const generatedContent = data.content;
-    
-    if (!generatedContent) {
-      console.warn("API响应中找不到有效内容:", data);
-      return selectAppropriatePrompt(
-        originalPrompt, 
-        tone, 
-        length, 
-        creativity, 
-        "API响应格式异常，找不到内容"
-      );
+    // 根据新的API响应格式提取生成的内容
+    if (data.success && data.result) {
+      // 新的API格式返回了 success 和 result 字段
+      return { content: data.result };
+    } else if (data.content) {
+      // 旧的API格式返回了 content 字段
+      return { content: data.content };
     }
     
-    return { content: generatedContent };
+    // 如果找不到预期的响应格式，记录错误并回退到本地内容
+    console.warn("API响应中找不到有效内容:", data);
+    return selectAppropriatePrompt(
+      originalPrompt, 
+      tone, 
+      length, 
+      creativity, 
+      "API响应格式异常，找不到内容"
+    );
   } catch (error) {
     console.warn("调用优化API失败:", error);
     const errorMsg = error instanceof Error ? error.message : String(error);
