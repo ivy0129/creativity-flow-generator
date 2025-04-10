@@ -1,9 +1,8 @@
-
 import React, { useState } from 'react';
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { CopyIcon, ThumbsUpIcon, ThumbsDownIcon, SaveIcon, AlertTriangle, Loader2, Info } from 'lucide-react';
+import { CopyIcon, ThumbsUpIcon, ThumbsDownIcon, SaveIcon, AlertTriangle, Loader2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { useLanguage } from '@/hooks/useLanguage';
 
@@ -67,7 +66,6 @@ const ResultDisplay: React.FC<ResultDisplayProps> = ({
     });
   };
   
-  // 检查内容是否包含"注意"或"API服务不可用"等关键词
   const isLocallyGenerated = content.includes("[注意:") || content.includes("API服务");
   
   return (

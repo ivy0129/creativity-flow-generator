@@ -9,8 +9,8 @@ import { useToast } from "@/hooks/use-toast";
 import { useAuth } from '@/hooks/useAuth';
 import { useLanguage } from '@/hooks/useLanguage';
 
-const DAILY_FREE_LIMIT = 10; // 免费用户每天10次
-const DAILY_PREMIUM_LIMIT = 100; // 高级用户每天100次
+const DAILY_FREE_LIMIT = 100; // 免费用户每天100次
+const DAILY_PREMIUM_LIMIT = Infinity; // 高级用户无限制
 const PREMIUM_PRICE = 20; // 高级账户每月20美元
 
 const Settings = () => {
@@ -87,12 +87,14 @@ const Settings = () => {
             {isAuthenticated && (
               <div>
                 <p className="text-sm font-medium">{language === 'en' ? "Today's Usage" : "今日已使用次数"}</p>
-                <p className="text-2xl font-bold">{usageCount} / {usageLimit}</p>
+                <p className="text-2xl font-bold">
+                  {usageCount} / {usageLimit === Infinity ? (language === 'en' ? "Unlimited" : "无限制") : usageLimit}
+                </p>
                 <p className="text-sm text-muted-foreground mt-1">
                   {user?.isPremium 
                     ? (language === 'en' 
-                        ? `As a premium user, you can use the prompt optimization service ${DAILY_PREMIUM_LIMIT} times per day`
-                        : `作为高级用户，您每天可以使用${DAILY_PREMIUM_LIMIT}次提示词优化服务`) 
+                        ? `As a premium user, you can use the prompt optimization service without limits`
+                        : `作为高级用户，您可以无限制地使用提示词优化服务`) 
                     : (language === 'en'
                         ? `Free users can use the prompt optimization service ${DAILY_FREE_LIMIT} times per day`
                         : `免费用户每天可以使用${DAILY_FREE_LIMIT}次提示词优化服务`)}
@@ -106,8 +108,8 @@ const Settings = () => {
               </h3>
               <p className="text-sm text-purple-700 dark:text-purple-400">
                 {language === 'en' 
-                  ? `Due to resource limitations, free users can use our service ${DAILY_FREE_LIMIT} times per day. For increased usage (${DAILY_PREMIUM_LIMIT} per day), you can upgrade to a premium account for just $${PREMIUM_PRICE}/month.`
-                  : `由于资源限制，免费用户每天可以使用${DAILY_FREE_LIMIT}次提示词优化服务。如果您想使用更多次数（每天${DAILY_PREMIUM_LIMIT}次），可升级到高级账户，每月${PREMIUM_PRICE}美元。`}
+                  ? `Due to resource limitations, free users can use our service ${DAILY_FREE_LIMIT} times per day. For unlimited usage, you can upgrade to a premium account for just $${PREMIUM_PRICE}/month.`
+                  : `由于资源限制，免费用户每天可以使用${DAILY_FREE_LIMIT}次提示词优化服务。如果您想无限制使用，可升级到高级账户，每月${PREMIUM_PRICE}美元。`}
               </p>
             </div>
             

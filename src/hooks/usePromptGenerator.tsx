@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { PromptData } from '@/components/PromptForm';
 import { useToast } from '@/hooks/use-toast';
@@ -96,8 +97,8 @@ const optimizedPrompts = [
 ];
 
 const USER_LIMIT_KEY = 'prompt_optimizer_usage';
-const DAILY_FREE_LIMIT = 10; // 免费用户每天10次
-const DAILY_PREMIUM_LIMIT = 50; // 付费用户每天50次
+const DAILY_FREE_LIMIT = 100; // 免费用户每天100次
+const DAILY_PREMIUM_LIMIT = Infinity; // 高级用户无限制使用
 
 export const usePromptGenerator = () => {
   const [generatedContent, setGeneratedContent] = useState('');
@@ -200,10 +201,10 @@ export const usePromptGenerator = () => {
   };
 
   const checkUsageLimit = () => {
-    if (usageCount >= usageLimit) {
+    if (usageLimit !== Infinity && usageCount >= usageLimit) {
       toast({
         title: "使用次数已达上限",
-        description: "您今日的使用次数已达上限，请明天再试或升级到高级账户获取更多次数",
+        description: "您今日的使用次数已达上限，请明天再试或升级到高级账户获取无限使用次数",
         variant: "destructive",
       });
       return false;
