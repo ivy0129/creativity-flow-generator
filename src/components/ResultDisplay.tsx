@@ -58,7 +58,8 @@ const ResultDisplay: React.FC<ResultDisplayProps> = ({
   };
   
   const handleShare = () => {
-    const shareText = `${content}\n\n${language === 'zh' ? '通过 MyPromptDoctor 优化: ' : 'Optimized by MyPromptDoctor: '}https://mypromptdoctor.com`;
+    // 添加分割线
+    const shareText = `${content}\n\n${'─'.repeat(30)}\n\n${language === 'zh' ? '通过 MyPromptDoctor 优化: ' : 'Optimized by MyPromptDoctor: '}https://mypromptdoctor.com`;
     
     navigator.clipboard.writeText(shareText);
     toast({

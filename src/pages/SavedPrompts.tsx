@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -15,6 +14,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import SEO from '@/components/SEO';
 import { Skeleton } from "@/components/ui/skeleton";
 import { useIsMobile } from '@/hooks/use-mobile';
+import { Separator } from '@/components/ui/separator';
 
 const SavedPrompts = () => {
   const { prompts, loading, deletePrompt, updatePromptTags, exportPrompts, importPrompts } = useFirestorePrompts();
@@ -25,7 +25,6 @@ const SavedPrompts = () => {
   const navigate = useNavigate();
   const isMobile = useIsMobile();
 
-  // 处理文件导入
   const handleFileImport = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
@@ -40,10 +39,9 @@ const SavedPrompts = () => {
       description: t('copiedToClipboard'),
     });
   };
-  
-  // 添加分享功能
+
   const handleShare = (content: string) => {
-    const shareText = `${content}\n\n${language === 'zh' ? '通过 MyPromptDoctor 优化: ' : 'Optimized by MyPromptDoctor: '}https://mypromptdoctor.com`;
+    const shareText = `${content}\n\n${'─'.repeat(30)}\n\n${language === 'zh' ? '通过 MyPromptDoctor 优化: ' : 'Optimized by MyPromptDoctor: '}https://mypromptdoctor.com`;
     
     navigator.clipboard.writeText(shareText);
     toast({
@@ -196,7 +194,6 @@ const SavedPrompts = () => {
         </section>
       </main>
       
-      {/* 移动端底部导航栏 */}
       {isMobile && (
         <div className="fixed bottom-0 left-0 right-0 bg-background border-t border-border flex justify-around items-center h-16 shadow-lg z-30">
           <Link to="/" className="flex flex-1 flex-col items-center justify-center h-full text-muted-foreground hover:text-primary">
