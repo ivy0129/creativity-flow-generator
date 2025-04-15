@@ -1,4 +1,3 @@
-
 export interface AIPromptTutorial {
   id: string;
   title: {
@@ -36,6 +35,39 @@ export interface AIPromptTutorial {
 
 export const aiPromptTutorials: AIPromptTutorial[] = [
   {
+    id: "ghibli-style-transformation",
+    title: {
+      en: "Studio Ghibli Style Transformation",
+      zh: "吉卜力风格转换"
+    },
+    description: {
+      en: "Transform any photo into the charming animated style of Studio Ghibli films",
+      zh: "将任何照片转换成吉卜力工作室电影中迷人的动画风格"
+    },
+    excerpt: {
+      en: "Transform your photos into the enchanting world of Studio Ghibli with this simple prompt, recreating the iconic hand-drawn aesthetic made famous by films like 'Spirited Away' and 'My Neighbor Totoro'.",
+      zh: "使用这个简单的提示词将您的照片转换成吉卜力工作室的魅力世界，重现《千与千寻》和《龙猫》等电影中著名的手绘美学风格。"
+    },
+    content: {
+      en: "This prompt transforms ordinary photos into the distinctive Studio Ghibli animation style, characterized by soft colors, expressive characters, and dreamy, painterly backgrounds.\n\nStudio Ghibli, founded by legendary animator Hayao Miyazaki, is renowned for its unique artistic approach that blends whimsical characters with detailed natural environments. The studio's hand-drawn animation style has a characteristic warmth and charm that is instantly recognizable.\n\nWhen applied to photos, this transformation recreates subjects with the large, expressive eyes typical of Ghibli characters, simplifies features while maintaining recognizability, and adds the studio's signature soft color palette. Backgrounds are reimagined with the studio's distinctive painterly quality, often featuring fluffy clouds, lush vegetation, and atmospheric lighting that creates a sense of wonder.\n\nTo use this prompt effectively, upload a clear photo with good lighting. The AI works particularly well with portraits, landscapes, or photos containing both people and natural settings. While the prompt is remarkably simple, it produces consistent results due to the widespread recognition of the Ghibli aesthetic.\n\nIf your uploaded image contains potentially inappropriate or sensitive content in the background, you can add an additional line to the prompt requesting the AI to modify or remove such elements.\n\nThis transformation is perfect for creating unique profile pictures, commemorating special moments in an artistic style, or simply exploring how you or your surroundings might appear in the enchanting world of a Ghibli film.",
+      zh: "这个提示词将普通照片转换成独特的吉卜力工作室动画风格，特点是柔和的色彩、富有表现力的角色和梦幻般的绘画背景。\n\n由传奇动画师宫崎骏创立的吉卜力工作室，因其独特的艺术方法而闻名，这种方法将奇幻角色与详细的自然环境融合在一起。工作室的手绘动画风格具有特有的温暖和魅力，让人一眼就能辨��出来。\n\n当应用于照片时，这种转换会重新创造主体，赋予其吉卜力角色典型的大而富有表现力的眼睛，简化特征的同时保持可识别性，并添加工作室标志性的柔和色彩调色板。背景则以工作室独特的绘画质感重新构想，通常包括蓬松的云朵、茂盛的植被和营造出奇妙感的大气光照效果。\n\n要有效使用这个提示词，请上传一张光线良好的清晰照片。AI特别适合处理人像、风景或同时包含人物和自然环境的照片。虽然提示词非常简单，但由于吉卜力美学的广泛认知度，它能产生一致的效果。\n\n如果您上传的图像背景中包含潜在不适当或敏感的内容，您可以在提示词中添加一行额外的请求，要求AI修改或删除这些元素。\n\n这种转换非常适合创建独特的个人头像、以艺术风格纪念特殊时刻，或者只是探索您或您周围的环境在吉卜力电影的迷人世界中会是什么样子。"
+    },
+    prompt: "以吉卜力风格重绘这张照片",
+    promptEn: "Redraw this photo in Studio Ghibli style",
+    promptZh: "以吉卜力风格重绘这张照片",
+    tags: ["动画", "吉卜力", "宫崎骏", "风格转换", "人像"],
+    source: "https://animeai.online/#demo-gallery",
+    sourceText: "AnimeAI",
+    authorName: "AnimeAI",
+    authorUrl: "https://animeai.online",
+    imageUrl: "public/lovable-uploads/d577697f-b452-4a90-b045-7ccd687ab337.png",
+    requiresReferenceImage: true,
+    keyPoints: {
+      en: "1. Upload a clear photo with good lighting\n2. For best results, use portraits or scenes with both people and landscapes\n3. The transformation works well with both close-up portraits and full-body shots\n4. Add \"If there's inappropriate or sensitive content in the background, please modify or remove it\" if needed\n5. The AI will maintain recognizable features while applying the Ghibli aesthetic",
+      zh: "1. 上传光线良好的清晰照片\n2. 为获得最佳效果，使用人像或同时包含人物和风景的场景\n3. 该转换对特写肖像和全身照片均有良好效果\n4. 如有需要，添加"如果背景里有不合适（敏感）的内容，可以进行修改或删除"\n5. AI会在应用吉卜力美学的同时保持可识别的特征"
+    }
+  },
+  {
     id: "chinese-wedding-style",
     title: {
       en: "Q-Version Chinese Wedding Style",
@@ -51,7 +83,7 @@ export const aiPromptTutorials: AIPromptTutorial[] = [
     },
     content: {
       en: "This prompt transforms a couple's photo into charming Q-version 3D characters dressed in traditional Chinese wedding attire, set against a backdrop of auspicious 'Double Happiness' paper-cut patterns.\n\nThe male character is depicted wearing a red long gown (changpao) and formal outer jacket (magua) embroidered with golden dragon patterns, symbolizing nobility and prosperity. He sports a traditional red scholar's hat (zhuangyuan hat) adorned with golden patterns and an ornate gold embellishment on top, representing wisdom and honor. A large red flower is pinned to his chest, symbolizing joy and celebration.\n\nThe female character is dressed in an exquisite red xiuhe outfit (traditional Chinese bridal attire), embellished with intricate golden patterns and phoenix embroidery, representing grace and elegance. Her headdress features a phoenix crown adorned with red flowers, golden three-dimensional decorations, and hanging tassels, embodying beauty and nobility in classical Chinese aesthetics.\n\nThe background showcases the Chinese character for 'Double Happiness' (囍) in a traditional paper-cut style, creating a festive atmosphere that's essential for Chinese wedding celebrations.\n\nTo use this prompt effectively, upload a clear photo of a couple. The AI will transform them into Q-version 3D characters while maintaining their recognizable features, dressing them in traditional Chinese wedding attire against a festive backdrop.\n\nThis prompt is perfect for creating unique wedding announcements, anniversary gifts, or cultural celebration art that honors traditional Chinese wedding customs.",
-      zh: "这个提示词将情侣照片转换为穿着传统中式婚礼服装的Q版3D人物角色，背景是喜庆的'囍'字剪纸图案。\n\n男性角色身着红色长袍马褂，上面饰有金色龙纹刺绣，象征尊贵和繁荣。他戴着传统的红色状元帽，帽子上饰有金色图案和顶部精致的金色装饰，代表智慧和荣誉。胸前别着一朵大红花，寓意喜庆和庆祝。\n\n女性角色穿着精美的红色秀禾服（传统中式新娘礼服），上面装饰有复杂的金色图案和凤凰刺绣，展现优雅和典雅。她的头饰是一顶凤冠，上面点缀着红色花朵、金色立体装饰和垂坠流苏，体现了中国古典美学中的美丽和高贵。\n\n背景展示了传统剪纸风格的中国'囍'字，营造出中式婚礼庆典不可或缺的喜庆氛围。\n\n要有效使用这个提示词，请上传一张清晰的情侣照片。AI将把他们转换为Q版3D角色，同时保持他们的可识别特征，为他们穿上传统中式婚礼服装，配以喜庆背景。\n\n这个提示词非常适合创建独特的婚礼通知、周年纪念礼物或尊重传统中式婚礼习俗的文化庆祝艺术品。"
+      zh: "这个提示词将情侣照片转换为穿着传统中式婚礼服装的Q版3D人物角色，背景是喜庆的'囍'字剪纸图案。\n\n男性角色身着红色长袍马褂，上面饰有金色龙纹刺绣，象征尊贵和繁荣。他戴着传统的红色状元帽，帽子上饰有金色图案和顶部精致的金色装饰，代表智慧和荣誉。胸前别着一朵大红花，寓意喜庆和庆祝。\n\n女性角色穿着精美的红色秀禾服（传统中式新娘礼服），上面装饰有复杂的金色图案和凤凰刺绣，展现优雅和典雅。她的头饰是一顶凤冠，上面点缀着红色花朵、金色立体装饰和垂坠流苏，体现了中国古典美学中的美丽和高贵。\n\n背景展示了传统剪纸风格的中国'囍'字，营造出中式婚礼庆典不可或���的喜庆氛围。\n\n要有效使用这个提示词，请上传一张清晰的情侣照片。AI将把他们转换为Q版3D角色，同时保持他们的可识别特征，为他们穿上传统中式婚礼服装，配以喜庆背景。\n\n这个提示词非常适合创建独特的婚礼通知、周年纪念礼物或尊重传统中式婚礼习俗的文化庆祝艺术品。"
     },
     prompt: "将照片里的两个人转换成Q版 3D人物，中式古装婚礼，大红颜色，背景\"囍\"字剪纸风格图案。 服饰要求：写实，男士身着长袍马褂，主体为红色，上面以金色绣龙纹图案，彰显尊贵大气 ，胸前系着大红花，寓意喜庆吉祥。女士所穿是秀禾服，同样以红色为基调，饰有精美的金色花纹与凤凰刺绣，展现出典雅华丽之感 ，头上搭配花朵发饰，增添柔美温婉气质。二者皆为中式婚礼中经典着装，蕴含着对新人婚姻美满的祝福。 头饰要求： 男士：中式状元帽，主体红色，饰有金色纹样，帽顶有精致金饰，尽显传统儒雅庄重。 女士：凤冠造型，以红色花朵为中心，搭配金色立体装饰与垂坠流苏，华丽富贵，古典韵味十足。",
     promptEn: "Transform the two people in the photo into Q-version 3D characters, in a traditional Chinese wedding style with bright red colors and a background of 'Double Happiness' character in paper-cut style. Attire requirements: realistic, the man wearing a long gown (changpao) and formal outer jacket (magua), primarily red with golden dragon embroidery patterns showcasing nobility, with a large red flower on his chest symbolizing celebration. The woman wearing a xiuhe outfit (traditional Chinese bridal dress), also in red with exquisite golden patterns and phoenix embroidery, displaying elegant splendor, with floral headpieces adding gentle feminine charm. Both are classic attire in Chinese weddings, containing blessings for the couple's happy marriage. Headwear requirements: Man: traditional scholar's hat (zhuangyuan hat), primarily red with golden patterns and an ornate gold embellishment on top, displaying traditional scholarly dignity. Woman: phoenix crown style, centered with red flowers, complemented by golden three-dimensional decorations and hanging tassels, luxurious and rich in classical charm.",
@@ -65,7 +97,7 @@ export const aiPromptTutorials: AIPromptTutorial[] = [
     requiresReferenceImage: true,
     keyPoints: {
       en: "1. Upload a clear couple's photo\n2. Characters will be rendered in Q-version 3D style with traditional Chinese wedding attire\n3. The prompt creates a festive atmosphere with traditional Chinese wedding elements\n4. Photos with both faces clearly visible work best for this transformation",
-      zh: "1. 上传一张清晰的情侣照片\n2. 角色将以Q版3D风格呈现，穿着传统中式婚礼服装\n3. 提示词会创建带有传统中式婚礼元素的喜庆氛围\n4. 两个人脸部清晰可见的照片最适合这种转换"
+      zh: "1. 上传一张清晰的情侣照片\n2. 角色将以Q版3D风格呈现，穿着传统中式婚礼服装\n3. 提示词会创建带有传统中式婚礼��素的喜庆氛围\n4. 两个人脸部清晰可见的照片最适合这种转换"
     }
   },
   {
