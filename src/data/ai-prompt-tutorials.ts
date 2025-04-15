@@ -52,7 +52,7 @@ export const aiPromptTutorials: AIPromptTutorial[] = [
       en: "This prompt transforms a portrait photo into a set of simple, elegant line drawing emojis with various expressions, perfect for personal use in chats or social media.\n\nThe process happens in two distinct steps. First, the AI converts your photo into a clean line drawing style, capturing the essential features and personality of the subject while simplifying details. Then, it creates multiple versions with different expressions: sticking out tongue, smiling, frowning, surprised, thinking, and winking.\n\nThe resulting style is minimalist and charming - using only thin black lines on a white background with occasionally small filled areas for emphasis. The drawings maintain the subject's key characteristics while removing unnecessary details, creating an instantly recognizable yet simplified representation.\n\nTo use this prompt effectively, upload a clear frontal portrait photo with good lighting and a neutral expression. The AI will then generate a cohesive set of expressions based on this reference image.\n\nThese line drawing emojis make perfect custom stickers for messaging apps, social media profile pictures, or personalized digital assets. They offer a unique way to express yourself online with a consistent artistic style across multiple emotions.",
       zh: "这个提示词将肖像照片转换成一系列简洁、优雅的简笔画表情包，带有各种表情，非常适合在聊天或社交媒体中个人使用。\n\n这个过程分为两个明确的步骤。首先，AI将您的照片转换为干净的线条画风格，捕捉主体的基本特征和个性，同时简化细节。然后，它创建带有不同表情的多个版本：吐舌头、微笑、皱眉、惊讶、思考和眨眼。\n\n最终的风格简约而迷人——仅使用白色背景上的细黑线，偶尔有小面积填充以增强效果。这些画作保留了主体的关键特征，同时去除了不必要的细节，创造出即时可识别且简化的表现形式。\n\n要有效地使用这个提示词，请上传一张清晰的正面肖像照片，光线良好，表情自然。然后AI将基于这张参考图片生成一套连贯的表情。\n\n这些线条画表情包可以作为消息应用的自定义贴纸、社交媒体头像或个性化数字资产。它们提供了一种独特的方式，让您能够在线上以一致的艺术风格表达多种情绪。"
     },
-    prompt: "(分为两步)\n先把图片人物变成手绘简笔画风格\n然后把简笔画按照吐舌头、微笑、皱眉、惊讶、思考、眨眼生成一系列表情包",
+    prompt: "(分为两步)\n先把图片人物变成手绘��笔画风格\n然后把简笔画按照吐舌头、微笑、皱眉、惊讶、思考、眨眼生成一系列表情包",
     promptEn: "(Two steps)\nFirst transform the person in the image into a hand-drawn simple line art style\nThen create a series of emoji expressions using the line drawing: sticking out tongue, smiling, frowning, surprised, thinking, and winking",
     promptZh: "(分为两步)\n先把图片人物变成手绘简笔画风格\n然后把简笔画按照吐舌头、微笑、皱眉、惊讶、思考、眨眼生成一系列表情包",
     tags: ["简笔画", "表情包", "线条画", "肖像", "个性化"],
@@ -112,7 +112,7 @@ export const aiPromptTutorials: AIPromptTutorial[] = [
     },
     excerpt: {
       en: "Transform your photos into Pixar's signature 3D animation style, characterized by exaggerated facial features, smooth textures, and expressive emotions that bring characters to life.",
-      zh: "将您的照片转换成皮克斯标志性的3D动画风格，特点是夸张的面部特征、平滑的纹理和生动的表情，让角色栩栩如生。"
+      zh: "将您的照片转换成皮克斯标志性的3D动画风格，特点是夸张但吸引人的角色设计、平滑的纹理和生动的表情，让角色栩栩如生。"
     },
     content: {
       en: "This prompt transforms ordinary photos into the distinctive Pixar 3D animation style, known for its exaggerated yet appealing character design, smooth textures, and emotionally expressive features.\n\nPixar Animation Studios has defined modern 3D animation with its unique aesthetic that balances caricature with believability. Characters typically feature slightly oversized heads, exaggerated facial features (especially noses, eyes, and eyebrows), and incredibly detailed texturing that creates a sense of both stylization and realism.\n\nWhen applied to photos, this transformation recreates subjects with Pixar's signature look: slightly cartoonish proportions, enhanced emotional expressiveness, and a polished, rendered 3D quality. Skin textures are smoothed yet retain subtle details, hair is simplified into flowing shapes, and features are exaggerated while maintaining the subject's recognizable traits.\n\nTo use this prompt effectively, upload a clear photo with good lighting. The AI works particularly well with portraits that show facial expressions, as the Pixar style excels at conveying emotion. Both close-up faces and full-body shots can be transformed effectively.\n\nThis prompt is remarkably simple yet produces consistent results due to the widespread recognition of the Pixar aesthetic developed through films like Toy Story, Up, and The Incredibles. The transformation is perfect for creating unique profile pictures, family portraits with a playful twist, or reimagining yourself as a character who might appear in a Pixar film.",
@@ -145,11 +145,11 @@ export const aiPromptTutorials: AIPromptTutorial[] = [
     },
     excerpt: {
       en: "Transform your photos into the enchanting world of Studio Ghibli with this simple prompt, recreating the iconic hand-drawn aesthetic made famous by films like 'Spirited Away' and 'My Neighbor Totoro'.",
-      zh: "使用这个简单的提示词将您的照片转换成吉卜力工作室的魅力世界，重现《千与千寻》和《龙猫》等电影中著名的手绘美学风格。"
+      zh: "使用这个简单的提示词将您的照片转换��吉卜力工作室的魅力世界，重现《千与千寻》和《龙猫》等电影中著名的手绘美学风格。"
     },
     content: {
       en: "This prompt transforms ordinary photos into the distinctive Studio Ghibli animation style, characterized by soft colors, expressive characters, and dreamy, painterly backgrounds.\n\nStudio Ghibli, founded by legendary animator Hayao Miyazaki, is renowned for its unique artistic approach that blends whimsical characters with detailed natural environments. The studio's hand-drawn animation style has a characteristic warmth and charm that is instantly recognizable.\n\nWhen applied to photos, this transformation recreates subjects with the large, expressive eyes typical of Ghibli characters, simplifies features while maintaining recognizability, and adds the studio's signature soft color palette. Backgrounds are reimagined with the studio's distinctive painterly quality, often featuring fluffy clouds, lush vegetation, and atmospheric lighting that creates a sense of wonder.\n\nTo use this prompt effectively, upload a clear photo with good lighting. The AI works particularly well with portraits, landscapes, or photos containing both people and natural settings. While the prompt is remarkably simple, it produces consistent results due to the widespread recognition of the Ghibli aesthetic.\n\nIf your uploaded image contains potentially inappropriate or sensitive content in the background, you can add an additional line to the prompt requesting the AI to modify or remove such elements.\n\nThis transformation is perfect for creating unique profile pictures, commemorating special moments in an artistic style, or simply exploring how you or your surroundings might appear in the enchanting world of a Ghibli film.",
-      zh: "这个提示词将普通照片转换成独特的吉卜力工作室动画风格，特点是柔和的色彩、富有表现力的角色和梦幻般的绘画背景。\n\n由传奇动画师宫崎骏创立的吉卜力工作室，因其独特的艺术方法而闻名，这种方法将奇幻角色与详细的自然环境融合在一起。工作室的手绘动画风格具有特有的温暖和魅力，让人一眼就能辨认出来。\n\n当应用于照片时，这种转换会重新创造主体，赋予其吉卜力角色典型的大而富有表现力的眼睛，简化特征的同时保持可识别性，并添加工作室标志性的柔和色彩调色板。背景则以工作室独特的绘画质感重新构想，通常包括蓬松的云朵、茂盛的植被和营造出奇妙感的大气光照效果。\n\n要有效使用这个提示词，请上传一张光线良好的清晰照片。AI特别适合处理人像、风景或同时包含人物和自然环境的照片。虽然提示词非常简单，但由于吉卜力美学的广泛认知度，它能产生一致的效果。\n\n如果您上传的图像背景中包含潜在不适当或敏感的内容，您可以在提示词中添加一行额外的请求，要求AI修改或删除这些元素。\n\n这种转换非常适合创建独特的个人头像、以艺术风格纪念特殊时刻，或者只是探索您或您周围的环境在吉卜力电影的迷人世界中会是什么样子。"
+      zh: "这个提示词将普通照片转换成独特的吉卜力工作室动画风格，特点是柔和的色彩、富有表现力的角色和梦幻般的绘画背景。\n\n由传奇动画师宫崎骏创立的吉卜力工作室，因其独特的艺术方法而闻名，这种方法将奇幻角色与详细的自然环境融合在一起。工作室的手绘动画风格具有特有的温暖和魅力，让人一眼就能辨认出来。\n\n当应用于照片时，这种转换会重新创造主体，赋予其吉卜力角色典型的大而富有表现力的眼睛，简化特征的同时保持可识别性，并添加工作室标志性的柔和色彩调色板。背景则以工作室独特的绘画质感重新构想，通常包括蓬松的云朵、茂盛的植被和营造出奇妙感的大气光照效果。\n\n要有效使用这个提示词，请上传光线良好的清晰照片。AI特别适合处理人像、风景或同时包含人物和自然环境的照片。虽然提示词非常简单，但由于吉卜力美学的广泛认知度，它能产生一致的效果。\n\n如果您上传的图像背景中包含潜在不适当或敏感的内容，您可以在提示词中添加一行额外的请求，要求AI修改或删除这些元素。\n\n这种转换非常适合创建独特的个人头像、以艺术风格纪念特殊时刻，或者只是探索您或您周围的环境在吉卜力电影的迷人世界中会是什么样子。"
     },
     prompt: "以吉卜力风格重绘这张照片",
     promptEn: "Redraw this photo in Studio Ghibli style",
@@ -215,4 +215,18 @@ export const aiPromptTutorials: AIPromptTutorial[] = [
     },
     content: {
       en: "This prompt creates a unique and visually captivating dimensional effect where your subject is transformed into a 3D Q-version character that appears to be stepping out of a Polaroid photo.\n\nThe character is rendered in a cute, cartoon-like 3D style with exaggerated features while maintaining recognizable characteristics of the original subject. The Polaroid frame provides a perfect contrast between the 2D medium and the 3D character that's breaking through its boundaries.\n\nA hand holding the Polaroid photo adds a sense of scale and reality to the composition, enhancing the illusion of the character crossing dimensions from the flat photo into the real world.\n\nTo use this prompt effectively, upload a clear photo of a person, preferably a half-body or full-body shot. The AI will transform the subject into a 3D Q-version character while creating the dimensional breakthrough effect with the Polaroid frame.\n\nThis prompt is perfect for creating unique profile pictures, social media posts, or fun digital art pieces that play with the concept of dimensions.",
-      zh: "这个提示词创建了一个独特且视觉上引人注目的立体效果，将您的主体转变为一个3D Q版角色，看起来正从拍立得照片中走出来。\n\n角色以可爱的
+      zh: "这个提示词创建了一个独特且视觉上引人注目的立体效果，将您的主体转变为一个3D Q版角色，看起来正从拍立得照片中走出来。\n\n角色以可爱的卡通3D风格呈现，具有夸张的特征��同时保持原主体的可识别特征。拍立得相框在2D媒介和正在突破其边界的3D角色之间提供了完美的对比。\n\n手持拍立得照片为构图增添了比例和现实感，增强了角色从平面照片穿越到现实世界的幻觉。\n\n要有效使用这个提示词，请上传一张清晰的人物照片，最好是半身或全身照。AI将把主体转换为3D Q版角色，同时通过拍立得相框创造维度突破的效果。\n\n这个提示词非常适合创建独特的个人头像、社交媒体帖子，或者玩弄维度概念的有趣数字艺术作品。"
+    },
+    tags: ["3D", "Q版", "人物"],
+    source: "https://x.com/balconychy/status/1909418699150237917",
+    sourceText: "@balconychy on X",
+    authorName: "@balconychy",
+    authorUrl: "https://x.com/balconychy",
+    imageUrl: "public/lovable-uploads/385d92f3-850a-42b8-b24a-10a83ddcc76b.png",
+    requiresReferenceImage: true,
+    keyPoints: {
+      en: "1. Upload a clear photo of a person\n2. The AI will transform the subject into a 3D Q-version character\n3. The Polaroid frame will create a dimensional breakthrough effect",
+      zh: "1. 上传一张清晰的人物照片\n2. AI将把主体转换为3D Q版角色\n3. 拍立得相框将创造维度突破效果"
+    }
+  }
+];
