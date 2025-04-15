@@ -17,11 +17,12 @@ const TutorialCard: React.FC<TutorialCardProps> = ({ tutorial, language }) => {
       <div className="border border-border rounded-lg overflow-hidden hover:shadow-md transition-shadow duration-200 h-full flex flex-col">
         {/* 示例图片 */}
         {tutorial.imageUrl && (
-          <div className="aspect-video overflow-hidden bg-muted">
+          <div className="aspect-square overflow-hidden bg-muted">
             <img 
               src={tutorial.imageUrl} 
               alt={tutorial.title[language]}
               className="w-full h-full object-cover"
+              style={{ maxWidth: '1024px', maxHeight: '1024px' }}
             />
           </div>
         )}
