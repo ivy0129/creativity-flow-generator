@@ -15,7 +15,7 @@ const TutorialCard: React.FC<TutorialCardProps> = ({ tutorial, language }) => {
       className="block hover:no-underline"
     >
       <div className="border border-border rounded-lg overflow-hidden hover:shadow-md transition-shadow duration-200 h-full flex flex-col">
-        {/* 示例图片 */}
+        {/* 图片容器，固定高度和宽度比例 */}
         {tutorial.imageUrl && (
           <div className="aspect-square overflow-hidden bg-muted">
             <img 

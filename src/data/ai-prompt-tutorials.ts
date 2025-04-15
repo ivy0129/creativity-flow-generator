@@ -35,6 +35,39 @@ export interface AIPromptTutorial {
 
 export const aiPromptTutorials: AIPromptTutorial[] = [
   {
+    id: "japanese-two-panel-manga",
+    title: {
+      en: "Japanese Two-Panel Manga Style",
+      zh: "日系双格漫画风格"
+    },
+    description: {
+      en: "Create a cute Japanese-style two-panel manga featuring a character from your photo",
+      zh: "创建以您的照片为基础的可爱日系双格漫画"
+    },
+    excerpt: {
+      en: "Transform any portrait into a cute Japanese-style two-panel manga with sequential storytelling, expressive emotions, and speech bubbles in a visually appealing comic format.",
+      zh: "将任何人像转换成可爱的日系双格漫画，包含连续叙事、生动的表情和对话气泡，呈现视觉吸引力的漫画格式。"
+    },
+    content: {
+      en: "This prompt creates a charming Japanese-style two-panel manga featuring a character based on your reference photo. It's ideal for storytelling through sequential art with a cute, expressive style.\n\nThe result is a vertically arranged two-panel comic that captures a mini-story with changing emotions and actions. Your reference person is transformed into a cute anime-style character while maintaining recognizable features like hairstyle, clothing, and facial characteristics.\n\nEach panel shows different emotions and actions, creating a sequential narrative. The first panel typically shows one emotional state or situation, while the second panel displays a reaction or consequence, often with a humorous contrast. Speech bubbles with cute handwritten-style text enhance the storytelling.\n\nThe art style features bright colors, expressive faces with large eyes, simplified backgrounds that focus attention on the character, and clean black panel borders. Characters are drawn in a chibi or super-deformed style with exaggerated proportions (larger head, smaller body) for maximum cuteness.\n\nTo use this prompt effectively, upload a clear photo showing the person's face and upper body. The AI will transform them into a cute manga character while maintaining recognizable features. You can customize the scenario, emotions, and dialogue to create a personalized mini-story.\n\nThis style is perfect for creating personalized comic gifts, social media content, or simply exploring how you or your friends would appear as characters in a Japanese manga. The prompt allows for creative storytelling in a visually appealing format that's instantly recognizable as part of Japanese pop culture.",
+      zh: "这个提示词创建了一个迷人的日系双格漫画，特点是以您的参考照片为基础的角色。它非常适合通过连续的艺术表现来讲述故事，采用可爱、富有表现力的风格。\n\n结果是一个垂直排列的双格漫画，捕捉了一个小故事，展现出变化的情绪和动作。您的参考人物被转换成可爱的动漫风格角色，同时保留可识别的特征，如发型、服装和面部特征。\n\n每个格子展示不同的情绪和动作，创造了连续的叙事。第一格通常展示一种情绪状态或情况，而第二格则展示一个反应或后果，通常带有幽默的对比。带有可爱手写风格文字的对话气泡增强了故事性。\n\n艺术风格特点是明亮的颜色，带有大眼睛的富有表现力的面孔，简化的背景使注意力集中在角色上，以及干净的黑色面板边框。角色以Q版或超变形风格绘制，比例夸张（头部较大，身体较小）以达到最大的可爱度。\n\n要有效地使用这个提示词，请上传一张清晰地显示人物面部和上半身的照片。AI将把他们转变为可爱的漫画角色，同时保持可识别的特征。您可以自定义场景、情绪和对话，以创建个性化的迷你故事。\n\n这种风格非常适合创建个性化的漫画礼物、社交媒体内容，或者只是探索您或您的朋友作为日本漫画中的角色会是什么样子。这个提示词允许通过视觉上吸引人的格式进行创造性讲述，这种格式在日本流行文化中立即可以被识别出来。"
+    },
+    prompt: "创建一张日系萌系双格漫画，上下排列，主题：少女总统的工作日常。\n\n角色形象: 将上传的附件转换为日系萌系卡通女生形象的风格，保留原图所有细节，如服饰（西装）、发型（明亮的金黄色）、五官等。 \n\n第一格: \n- 表情: 委屈巴巴，沮丧的表情，单手托腮 \n- 文字框: \"肿么办嘛！他不跟我通话！(；´д｀)\" \n- 场景: 暖色调办公室，背后美国国旗，桌上放着一堆汉堡，一个复古红色转盘电话，人物在画面左边，电话在右边。  \n\n第二格:  \n- 表情: 咬牙切齿，暴怒，脸涨红 \n- 动作: 猛拍桌子，汉堡震得跳起来 \n- 文字泡: \"哼！关税加倍！不理我是他们的损失！( `д´ )\" - 场景: 和第一格相同，但一片狼藉。  \n\n其他说明:  \n- 文字采用简洁可爱的手写体，整体风格可爱而有趣。 \n- 构图饱满生动，请保留足够空间用于文字显示，适当留白。 \n- 图片比例 2:3。 \n- 画面整体色彩鲜艳，突出卡通风格。",
+    promptEn: "Create a Japanese-style cute two-panel manga arranged vertically with the theme: daily work life of a girl president.\n\nCharacter: Transform the uploaded reference into a Japanese cute cartoon girl style, keeping all details from the original image such as outfit (suit), hairstyle (bright blonde), facial features, etc.\n\nFirst panel:\n- Expression: Pouting, dejected expression, resting one cheek on hand\n- Text bubble: \"What should I do! He won't talk to me on the phone! (；´д｀)\"\n- Scene: Warm-toned office, American flag in the background, pile of hamburgers on the desk, a vintage red rotary phone, character on the left side of the frame, phone on the right.\n\nSecond panel:\n- Expression: Gritting teeth, furious, face turned red\n- Action: Slamming the desk, hamburgers jumping from the impact\n- Text bubble: \"Hmph! Double the tariffs! It's their loss for ignoring me! ( `д´ )\"\n- Scene: Same as the first panel, but messy.\n\nAdditional notes:\n- Text should use simple cute handwritten font, overall style should be cute and fun.\n- Composition should be full and lively, please leave enough space for text display with appropriate white space.\n- Image ratio 2:3.\n- Overall colors should be bright, emphasizing cartoon style.",
+    promptZh: "创建一张日系萌系双格漫画，上下排列，主题：少女总统的工作日常。\n\n角色形象: 将上传的附件转换为日系萌系卡通女生形象的风格，保留原图所有细节，如服饰（西装）、发型（明亮的金黄色）、五官等。 \n\n第一格: \n- 表情: 委屈巴巴，沮丧的表情，单手托腮 \n- 文字框: \"肿么办嘛！他不跟我通话！(；´д｀)\" \n- 场景: 暖色调办公室，背后美国国旗，桌上放着一堆汉堡，一个复古红色转盘电话，人物在画面左边，电话在右边。  \n\n第二格:  \n- 表情: 咬牙切齿，暴怒，脸涨红 \n- 动作: 猛拍桌子，汉堡震得跳起来 \n- 文字泡: \"哼！关税加倍！不理我是他们的损失！( `д´ )\" - 场景: 和第一格相同，但一片狼藉。  \n\n其他说明:  \n- 文字采用简洁可爱的手写体，整体风格可爱而有趣。 \n- 构图饱满生动，请保留足够空间用于文字显示，适当留白。 \n- 图片比例 2:3。 \n- 画面整体色彩鲜艳，突出卡通风格。",
+    tags: ["漫画", "双格", "日系", "Q版", "角色"],
+    source: "https://x.com/hellokaton/status/1910900979194646959",
+    sourceText: "@hellokaton on X",
+    authorName: "@hellokaton",
+    authorUrl: "https://x.com/hellokaton",
+    imageUrl: "public/lovable-uploads/659ad24c-3e42-49cb-a848-72aa266f59c4.png",
+    requiresReferenceImage: true,
+    keyPoints: {
+      en: "1. Upload a clear photo showing the person's face and upper body\n2. The AI will maintain recognizable features while transforming the subject into manga style\n3. Each panel shows different emotions and actions to create a sequential narrative\n4. This style works best when showing emotional contrasts between the two panels\n5. For best results, include specific details about the scene, expressions, and dialogue",
+      zh: "1. 上传清晰显示人物面部和上半身的照片\n2. AI将保持可识别的特征，同时将主体转换为漫画风格\n3. 每个格子展示不同的情绪和动作，创造连续叙事\n4. 这种风格在展示两个格子之间的情绪对比时效果最佳\n5. 为获得最佳效果，请包含关于场景、表情和��话的具体细节"
+    }
+  },
+  {
     id: "pixar-3d-style",
     title: {
       en: "Pixar 3D Style Transformation",
