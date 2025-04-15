@@ -1,3 +1,4 @@
+
 export interface AIPromptTutorial {
   id: string;
   title: {
@@ -35,6 +36,39 @@ export interface AIPromptTutorial {
 
 export const aiPromptTutorials: AIPromptTutorial[] = [
   {
+    id: "simple-line-drawing-emojis",
+    title: {
+      en: "Simple Line Drawing Emoji Set",
+      zh: "简笔画表情包"
+    },
+    description: {
+      en: "Transform a portrait photo into a set of simple line drawing emojis with different expressions",
+      zh: "将肖像照片转换成一系列不同表情的简笔画表情包"
+    },
+    excerpt: {
+      en: "Create a charming set of minimalist line drawing emojis from your photo, featuring various expressions like smiling, frowning, surprised, thinking, winking, and sticking out tongue.",
+      zh: "从您的照片创建一系列极简主义风格的简笔画表情包，包含微笑、皱眉、惊讶、思考、眨眼和吐舌头等多种表情。"
+    },
+    content: {
+      en: "This prompt transforms a portrait photo into a set of simple, elegant line drawing emojis with various expressions, perfect for personal use in chats or social media.\n\nThe process happens in two distinct steps. First, the AI converts your photo into a clean line drawing style, capturing the essential features and personality of the subject while simplifying details. Then, it creates multiple versions with different expressions: sticking out tongue, smiling, frowning, surprised, thinking, and winking.\n\nThe resulting style is minimalist and charming - using only thin black lines on a white background with occasionally small filled areas for emphasis. The drawings maintain the subject's key characteristics while removing unnecessary details, creating an instantly recognizable yet simplified representation.\n\nTo use this prompt effectively, upload a clear frontal portrait photo with good lighting and a neutral expression. The AI will then generate a cohesive set of expressions based on this reference image.\n\nThese line drawing emojis make perfect custom stickers for messaging apps, social media profile pictures, or personalized digital assets. They offer a unique way to express yourself online with a consistent artistic style across multiple emotions.",
+      zh: "这个提示词将肖像照片转换成一系列简洁、优雅的简笔画表情包，带有各种表情，非常适合在聊天或社交媒体中个人使用。\n\n这个过程分为两个明确的步骤。首先，AI将您的照片转换为干净的线条画风格，捕捉主体的基本特征和个性，同时简化细节。然后，它创建带有不同表情的多个版本：吐舌头、微笑、皱眉、惊讶、思考和眨眼。\n\n最终的风格简约而迷人——仅使用白色背景上的细黑线，偶尔有小面积填充以增强效果。这些画作保留了主体的关键特征，同时去除了不必要的细节，创造出即时可识别且简化的表现形式。\n\n要有效地使用这个提示词，请上传一张清晰的正面肖像照片，光线良好，表情自然。然后AI将基于这张参考图片生成一套连贯的表情。\n\n这些线条画表情包可以作为消息应用的自定义贴纸、社交媒体头像或个性化数字资产。它们提供了一种独特的方式，让您能够在线上以一致的艺术风格表达多种情绪。"
+    },
+    prompt: "(分为两步)\n先把图片人物变成手绘简笔画风格\n然后把简笔画按照吐舌头、微笑、皱眉、惊讶、思考、眨眼生成一系列表情包",
+    promptEn: "(Two steps)\nFirst transform the person in the image into a hand-drawn simple line art style\nThen create a series of emoji expressions using the line drawing: sticking out tongue, smiling, frowning, surprised, thinking, and winking",
+    promptZh: "(分为两步)\n先把图片人物变成手绘简笔画风格\n然后把简笔画按照吐舌头、微笑、皱眉、惊讶、思考、眨眼生成一系列表情包",
+    tags: ["简笔画", "表情包", "线条画", "肖像", "个性化"],
+    source: "https://x.com/ZHO_ZHO_ZHO/status/1909907741948399873",
+    sourceText: "@ZHO_ZHO_ZHO on X",
+    authorName: "@ZHO_ZHO_ZHO",
+    authorUrl: "https://x.com/ZHO_ZHO_ZHO",
+    imageUrl: "public/lovable-uploads/38805cc5-42a5-4385-9f62-ba85e2232873.png",
+    requiresReferenceImage: true,
+    keyPoints: {
+      en: "1. Upload a clear frontal portrait photo with good lighting\n2. The process has two steps: first converting to line drawing, then creating multiple expressions\n3. For best results, start with a neutral expression in your reference photo\n4. The style is minimalist with only black lines on white background\n5. These emojis can be used as custom stickers for messaging apps",
+      zh: "1. 上传一张光线良好的清晰正面肖像照片\n2. 处理分为两个步骤：首先转换为线条画，然后创建多种表情\n3. 为获得最佳效果，参考照片中表情应保持自然\n4. 风格极简，仅使用白色背景上的黑色线条\n5. 这些表情包可用作消息应用的自定义贴纸"
+    }
+  },
+  {
     id: "japanese-two-panel-manga",
     title: {
       en: "Japanese Two-Panel Manga Style",
@@ -64,7 +98,7 @@ export const aiPromptTutorials: AIPromptTutorial[] = [
     requiresReferenceImage: true,
     keyPoints: {
       en: "1. Upload a clear photo showing the person's face and upper body\n2. The AI will maintain recognizable features while transforming the subject into manga style\n3. Each panel shows different emotions and actions to create a sequential narrative\n4. This style works best when showing emotional contrasts between the two panels\n5. For best results, include specific details about the scene, expressions, and dialogue",
-      zh: "1. 上传清晰显示人物面部和上半身的照片\n2. AI将保持可识别的特征，同时将主体转换为漫画风格\n3. 每个格子展示不同的情绪和动作，创造连续叙事\n4. 这种风格在展示两个格子之间的情绪对比时效果最佳\n5. 为获得最佳效果，请包含关于场景、表情和��话的具体细节"
+      zh: "1. 上传清晰显示人物面部和上半身的照片\n2. AI将保持可识别的特征，同时将主体转换为漫画风格\n3. 每个格子展示不同的情绪和动作，创造连续叙事\n4. 这种风格在展示两个格子之间的情绪对比时效果最佳\n5. 为获得最佳效果，请包含关于场景、表情和对话的具体细节"
     }
   },
   {
@@ -233,3 +267,4 @@ export const aiPromptTutorials: AIPromptTutorial[] = [
     }
   }
 ];
+
