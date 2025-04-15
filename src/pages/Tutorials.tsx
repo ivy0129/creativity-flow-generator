@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Book, FileText, ExternalLink, Home, Bookmark, Info, Copy, CheckCircle } from 'lucide-react';
@@ -47,8 +46,6 @@ const Tutorials: React.FC = () => {
   };
 
   if (selectedArticle) {
-    const sampleImages = selectedArticle.sampleImages || [selectedArticle.imageUrl].filter(Boolean);
-    
     return (
       <div className="min-h-screen flex flex-col bg-background">
         <SEO 
@@ -90,23 +87,6 @@ const Tutorials: React.FC = () => {
                   </span>
                 ))}
               </div>
-              
-              {/* 提示词示例（图片） */}
-              {sampleImages && sampleImages.length > 0 && (
-                <div className="mb-8">
-                  <h2 className="text-xl font-medium mb-4">
-                    {language === 'en' ? 'Example Results:' : '示例效果：'}
-                  </h2>
-                  
-                  <div className="mb-4 border border-border rounded-md overflow-hidden">
-                    <img 
-                      src={sampleImages[activeImageIndex]} 
-                      alt={`${selectedArticle.title[language]} - ${language === 'en' ? 'Sample' : '示例'} ${activeImageIndex + 1}`}
-                      className="w-full object-cover max-h-[500px]"
-                    />
-                  </div>
-                </div>
-              )}
               
               {/* 文章对应的提示词 */}
               <div className="mb-8">
