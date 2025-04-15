@@ -1,38 +1,3 @@
-export interface AIPromptTutorial {
-  id: string;
-  title: {
-    en: string;
-    zh: string;
-  };
-  description: {
-    en: string;
-    zh: string;
-  };
-  excerpt: {
-    en: string;
-    zh: string;
-  };
-  content: {
-    en: string;
-    zh: string;
-  };
-  prompt: string;
-  promptEn?: string; // Optional English prompt
-  promptZh?: string; // Optional Chinese prompt
-  tags: string[];
-  source?: string;
-  sourceText?: string;
-  authorName?: string;
-  authorUrl?: string;
-  imageUrl?: string;
-  sampleImages?: string[];
-  requiresReferenceImage?: boolean;
-  keyPoints?: {
-    en: string;
-    zh: string;
-  };
-}
-
 export const aiPromptTutorials: AIPromptTutorial[] = [
   {
     id: "simple-line-drawing-emojis",
@@ -52,7 +17,7 @@ export const aiPromptTutorials: AIPromptTutorial[] = [
       en: "This prompt transforms a portrait photo into a set of simple, elegant line drawing emojis with various expressions, perfect for personal use in chats or social media.\n\nThe process happens in two distinct steps. First, the AI converts your photo into a clean line drawing style, capturing the essential features and personality of the subject while simplifying details. Then, it creates multiple versions with different expressions: sticking out tongue, smiling, frowning, surprised, thinking, and winking.\n\nThe resulting style is minimalist and charming - using only thin black lines on a white background with occasionally small filled areas for emphasis. The drawings maintain the subject's key characteristics while removing unnecessary details, creating an instantly recognizable yet simplified representation.\n\nTo use this prompt effectively, upload a clear frontal portrait photo with good lighting and a neutral expression. The AI will then generate a cohesive set of expressions based on this reference image.\n\nThese line drawing emojis make perfect custom stickers for messaging apps, social media profile pictures, or personalized digital assets. They offer a unique way to express yourself online with a consistent artistic style across multiple emotions.",
       zh: "这个提示词将肖像照片转换成一系列简洁、优雅的简笔画表情包，带有各种表情，非常适合在聊天或社交媒体中个人使用。\n\n这个过程分为两个明确的步骤。首先，AI将您的照片转换为干净的线条画风格，捕捉主体的基本特征和个性，同时简化细节。然后，它创建带有不同表情的多个版本：吐舌头、微笑、皱眉、惊讶、思考和眨眼。\n\n最终的风格简约而迷人——仅使用白色背景上的细黑线，偶尔有小面积填充以增强效果。这些画作保留了主体的关键特征，同时去除了不必要的细节，创造出即时可识别且简化的表现形式。\n\n要有效地使用这个提示词，请上传一张清晰的正面肖像照片，光线良好，表情自然。然后AI将基于这张参考图片生成一套连贯的表情。\n\n这些线条画表情包可以作为消息应用的自定义贴纸、社交媒体头像或个性化数字资产。它们提供了一种独特的方式，让您能够在线上以一致的艺术风格表达多种情绪。"
     },
-    prompt: "(分为两步)\n先把图片人物变成手绘简笔画风格\n然后把简笔画按照吐舌头、微笑、皱眉、惊讶、思考、眨眼生成一系列表情包",
+    prompt: "(分为两步)\n先把图片人物变成手绘��笔画风格\n然后把简笔画按照吐舌头、微笑、皱眉、惊讶、思考、眨眼生成一系列表情包",
     promptEn: "(Two steps)\nFirst transform the person in the image into a hand-drawn simple line art style\nThen create a series of emoji expressions using the line drawing: sticking out tongue, smiling, frowning, surprised, thinking, and winking",
     promptZh: "(分为两步)\n先把图片人物变成手绘简笔画风格\n然后把简笔画按照吐舌头、微笑、皱眉、惊讶、思考、眨眼生成一系列表情包",
     tags: ["简笔画", "表情包", "线条画", "肖像", "个性化"],
@@ -112,7 +77,7 @@ export const aiPromptTutorials: AIPromptTutorial[] = [
     },
     excerpt: {
       en: "Transform your photos into Pixar's signature 3D animation style, characterized by exaggerated facial features, smooth textures, and expressive emotions that bring characters to life.",
-      zh: "将您的照片转换成皮克斯标志性的3D动画风格，特点是夸张的面部特征、平滑的纹理和生动的表情，让角色栩栩如生。"
+      zh: "将您的照片转换成皮克斯标志性的3D动画风格，特点是夸张但吸引人的角色设计、平滑的纹理和富有表现力的特征，让角色栩栩如生。"
     },
     content: {
       en: "This prompt transforms ordinary photos into the distinctive Pixar 3D animation style, known for its exaggerated yet appealing character design, smooth textures, and emotionally expressive features.\n\nPixar Animation Studios has defined modern 3D animation with its unique aesthetic that balances caricature with believability. Characters typically feature slightly oversized heads, exaggerated facial features (especially noses, eyes, and eyebrows), and incredibly detailed texturing that creates a sense of both stylization and realism.\n\nWhen applied to photos, this transformation recreates subjects with Pixar's signature look: slightly cartoonish proportions, enhanced emotional expressiveness, and a polished, rendered 3D quality. Skin textures are smoothed yet retain subtle details, hair is simplified into flowing shapes, and features are exaggerated while maintaining the subject's recognizable traits.\n\nTo use this prompt effectively, upload a clear photo with good lighting. The AI works particularly well with portraits that show facial expressions, as the Pixar style excels at conveying emotion. Both close-up faces and full-body shots can be transformed effectively.\n\nThis prompt is remarkably simple yet produces consistent results due to the widespread recognition of the Pixar aesthetic developed through films like Toy Story, Up, and The Incredibles. The transformation is perfect for creating unique profile pictures, family portraits with a playful twist, or reimagining yourself as a character who might appear in a Pixar film.",
@@ -145,7 +110,7 @@ export const aiPromptTutorials: AIPromptTutorial[] = [
     },
     excerpt: {
       en: "Transform your photos into the enchanting world of Studio Ghibli with this simple prompt, recreating the iconic hand-drawn aesthetic made famous by films like 'Spirited Away' and 'My Neighbor Totoro'.",
-      zh: "使用这个简单的提示词将您的照片转换成吉卜力工作室的魅力世界，重现《千与千寻》和《龙猫》等电影中著名的手绘美学风格。"
+      zh: "使用这个简单的提示词将您的照片转换成吉卜力工作室的魅力世界，重现《千与千寻》和《龙猫》等电影中著名的手绘美学风���。"
     },
     content: {
       en: "This prompt transforms ordinary photos into the distinctive Studio Ghibli animation style, characterized by soft colors, expressive characters, and dreamy, painterly backgrounds.\n\nStudio Ghibli, founded by legendary animator Hayao Miyazaki, is renowned for its unique artistic approach that blends whimsical characters with detailed natural environments. The studio's hand-drawn animation style has a characteristic warmth and charm that is instantly recognizable.\n\nWhen applied to photos, this transformation recreates subjects with the large, expressive eyes typical of Ghibli characters, simplifies features while maintaining recognizability, and adds the studio's signature soft color palette. Backgrounds are reimagined with the studio's distinctive painterly quality, often featuring fluffy clouds, lush vegetation, and atmospheric lighting that creates a sense of wonder.\n\nTo use this prompt effectively, upload a clear photo with good lighting. The AI works particularly well with portraits, landscapes, or photos containing both people and natural settings. While the prompt is remarkably simple, it produces consistent results due to the widespread recognition of the Ghibli aesthetic.\n\nIf your uploaded image contains potentially inappropriate or sensitive content in the background, you can add an additional line to the prompt requesting the AI to modify or remove such elements.\n\nThis transformation is perfect for creating unique profile pictures, commemorating special moments in an artistic style, or simply exploring how you or your surroundings might appear in the enchanting world of a Ghibli film.",
@@ -181,7 +146,7 @@ export const aiPromptTutorials: AIPromptTutorial[] = [
       zh: "创建一个优雅的Q版3D中式婚礼场景，人物穿着传统红色服装并饰有金色刺绣，背景为喜庆的'囍'字剪纸图案。"
     },
     content: {
-      en: "This prompt transforms a couple's photo into charming Q-version 3D characters dressed in traditional Chinese wedding attire, set against a backdrop of auspicious 'Double Happiness' paper-cut patterns.\n\nThe male character is depicted wearing a red long gown (changpao) and formal outer jacket (magua) embroidered with golden dragon patterns, symbolizing nobility and prosperity. He sports a traditional red scholar's hat (zhuangyuan hat) adorned with golden patterns and an ornate gold embellishment on top, representing wisdom and honor. A large red flower is pinned to his chest, symbolizing joy and celebration.\n\nThe female character is dressed in an exquisite red xiuhe outfit (traditional Chinese bridal attire), embellished with intricate golden patterns and phoenix embroidery, representing grace and elegance. Her headdress features a phoenix crown adorned with red flowers, golden three-dimensional decorations, and hanging tassels, embodying beauty and nobility in classical Chinese aesthetics.\n\nThe background showcases the Chinese character for 'Double Happiness' (囍) in a traditional paper-cut style, creating a festive atmosphere that's essential for Chinese wedding celebrations.\n\nTo use this prompt effectively, upload a clear photo of a couple. The AI will transform them into Q-version 3D characters while maintaining their recognizable features, dressing them in traditional Chinese wedding attire against a festive backdrop.\n\nThis prompt is perfect for creating unique wedding announcements, anniversary gifts, or cultural celebration art that honors traditional Chinese wedding customs.",
+      en: "This prompt transforms a couple's photo into charming Q-version 3D characters dressed in traditional Chinese wedding attire, set against a backdrop of auspicious 'Double Happiness' paper-cut patterns.\n\nThe male character is depicted wearing a red long gown (changpao) and formal outer jacket (magua) embroidered with golden dragon patterns, symbolizing nobility and prosperity. He sports a traditional red scholar's hat (zhuangyuan hat) adorned with golden patterns and an ornate gold embellishment on top, representing wisdom and honor. A large red flower is pinned to his chest, symbolizing joy and celebration.\n\nThe female character is dressed in an exquisite red xiuhe outfit (traditional Chinese bridal dress), embellished with intricate golden patterns and phoenix embroidery, representing grace and elegance. Her headdress features a phoenix crown adorned with red flowers, golden three-dimensional decorations, and hanging tassels, embodying beauty and nobility in classical Chinese aesthetics.\n\nThe background showcases the Chinese character for 'Double Happiness' (囍) in a traditional paper-cut style, creating a festive atmosphere that's essential for Chinese wedding celebrations.\n\nTo use this prompt effectively, upload a clear photo of a couple. The AI will transform them into Q-version 3D characters while maintaining their recognizable features, dressing them in traditional Chinese wedding attire against a festive backdrop.\n\nThis prompt is perfect for creating unique wedding announcements, anniversary gifts, or cultural celebration art that honors traditional Chinese wedding customs.",
       zh: "这个提示词将情侣照片转换为穿着传统中式婚礼服装的Q版3D人物角色，背景是喜庆的'囍'字剪纸图案。\n\n男性角色身着红色长袍马褂，上面饰有金色龙纹刺绣，象征尊贵和繁荣。他戴着传统的红色状元帽，帽子上饰有金色图案和顶部精致的金色装饰，代表智慧和荣誉。胸前别着一朵大红花，寓意喜庆和庆祝。\n\n女性角色穿着精美的红色秀禾服（传统中式新娘礼服），上面装饰有复杂的金色图案和凤凰刺绣，展现优雅和典雅。她的头饰是一顶凤冠，上面点缀着红色花朵、金色立体装饰和垂坠流苏，体现了中国古典美学中的美丽和高贵。\n\n背景展示了传统剪纸风格的中国'囍'字，营造出中式婚礼庆典不可或缺的喜庆氛围。\n\n要有效使用这个提示词，请上传一张清晰的情侣照片。AI将把他们转换为Q版3D角色，同时保持他们的可识别特征，为他们穿上传统中式婚礼服装，配以喜庆背景。\n\n这个提示词非常适合创建独特的婚礼通知、周年纪念礼物或尊重传统中式婚礼习俗的文化庆祝艺术品。"
     },
     prompt: "将照片里的两个人转换成Q版 3D人物，中式古装婚礼，大红颜色，背景\"囍\"字剪纸风格图案。 服饰要求：写实，男士身着长袍马褂，主体为红色，上面以金色绣龙纹图案，彰显尊贵大气 ，胸前系着大红花，寓意喜庆吉祥。女士所穿是秀禾服，同样以红色为基调，饰有精美的金色花纹与凤凰刺绣，展现出典雅华丽之感 ，头上搭配花朵发饰，增添柔美温婉气质。二者皆为中式婚礼中经典着装，蕴含着对新人婚姻美满的祝福。 头饰要求： 男士：中式状元帽，主体红色，饰有金色纹样，帽顶有精致金饰，尽显传统儒雅庄重。 女士：凤冠造型，以红色花朵为中心，搭配金色立体装饰与垂坠流苏，华丽富贵，古典韵味十足。",
@@ -266,4 +231,3 @@ export const aiPromptTutorials: AIPromptTutorial[] = [
     }
   }
 ];
-
