@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Book, FileText, ExternalLink, Home, Bookmark, Info } from 'lucide-react';
@@ -46,8 +47,9 @@ const Tutorials: React.FC = () => {
       <div className="min-h-screen flex flex-col bg-background">
         <SEO 
           title={selectedArticle.title[language]}
-          description={selectedArticle.description[language]}
-          keywords={`${selectedArticle.tags.join(',')},${t('tutorials')},${t('examples')}`}
+          description={selectedArticle.seoDescription?.[language] || selectedArticle.description[language]}
+          keywords={selectedArticle.tags.join(',')}
+          seoKeywords={selectedArticle.seoKeywords?.[language]}
         />
         <Header />
         
@@ -132,8 +134,18 @@ const Tutorials: React.FC = () => {
   return (
     <div className="min-h-screen flex flex-col bg-background">
       <SEO 
-        title={language === 'en' ? 'Tutorials & Examples' : '教程和案例'}
-        description={language === 'en' ? 'Learn how to use AI prompts with our tutorials and examples' : '通过我们的教程和案例学习如何使用AI提示词'}
+        title={language === 'en' ? 'AI Prompt Tutorials & Examples' : 'AI提示词教程和案例'}
+        description={language === 'en' ? 'Learn how to use AI prompts with our comprehensive tutorials and real-world examples for image generation, text prompts, and more' : '通过我们全面的教程和真实案例学习如何使用AI提示词进行图像生成、文本提示等'}
+        seoKeywords={[
+          'AI prompt tutorials', 
+          'AI image generation prompts',
+          'prompt engineering examples',
+          'learn AI prompting',
+          'AI art tutorials',
+          'ChatGPT prompt guide',
+          'image generation tips',
+          'AI creative prompts'
+        ]}
       />
       <Header />
       
@@ -141,7 +153,7 @@ const Tutorials: React.FC = () => {
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-10">
             <h1 className="text-3xl sm:text-4xl font-bold mb-4">
-              {language === 'en' ? 'Tutorials & Examples' : '教程和案例'}
+              {language === 'en' ? 'AI Prompt Tutorials & Examples' : 'AI提示词教程和案例'}
             </h1>
             <p className="text-muted-foreground">
               {language === 'en' 

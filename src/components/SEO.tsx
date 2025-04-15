@@ -1,3 +1,4 @@
+
 import { Helmet } from 'react-helmet-async';
 import { useLanguage } from '@/hooks/useLanguage';
 import { useLocation } from 'react-router-dom';
@@ -10,6 +11,7 @@ interface SEOProps {
   type?: string;
   keywords?: string;
   canonical?: string;
+  seoKeywords?: string[];
 }
 
 const SEO: React.FC<SEOProps> = ({
@@ -19,7 +21,8 @@ const SEO: React.FC<SEOProps> = ({
   url,
   type = 'website',
   keywords,
-  canonical
+  canonical,
+  seoKeywords
 }) => {
   const { t, language } = useLanguage();
   const location = useLocation();
@@ -40,6 +43,9 @@ const SEO: React.FC<SEOProps> = ({
   const pageUrl = url || `${baseUrl}${location.pathname}`;
   const pageCanonical = canonical || pageUrl;
   
+  // 使用seoKeywords列表（如果提供）
+  const keywordsList = seoKeywords || pageKeywords.split(',').map(keyword => keyword.trim());
+  
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
@@ -53,7 +59,7 @@ const SEO: React.FC<SEOProps> = ({
       "price": "0",
       "priceCurrency": "USD"
     },
-    "keywords": pageKeywords.split(',').map(keyword => keyword.trim()),
+    "keywords": keywordsList,
     "inLanguage": language,
     "image": image
   };
@@ -64,7 +70,7 @@ const SEO: React.FC<SEOProps> = ({
       <html lang={language} />
       <title>{pageTitle}</title>
       <meta name="description" content={pageDescription} />
-      <meta name="keywords" content={pageKeywords} />
+      <meta name="keywords" content={Array.isArray(keywordsList) ? keywordsList.join(', ') : keywordsList} />
       <meta name="robots" content="index, follow, max-image-preview:large" />
       
       {/* Open Graph Meta 标签 */}

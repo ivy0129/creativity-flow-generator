@@ -8,7 +8,7 @@
   <!-- 主页 -->
   <url>
     <loc>https://mypromptdoctor.com/</loc>
-    <lastmod>2024-07-10</lastmod>
+    <lastmod>2025-04-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
     <xhtml:link rel="alternate" hreflang="zh" href="https://mypromptdoctor.com/?lang=zh"/>
@@ -18,7 +18,7 @@
   <!-- 已保存提示词页面 -->
   <url>
     <loc>https://mypromptdoctor.com/saved</loc>
-    <lastmod>2024-07-10</lastmod>
+    <lastmod>2025-04-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="zh" href="https://mypromptdoctor.com/saved?lang=zh"/>
@@ -28,7 +28,7 @@
   <!-- 教程页面 -->
   <url>
     <loc>https://mypromptdoctor.com/tutorials</loc>
-    <lastmod>2024-07-10</lastmod>
+    <lastmod>2025-04-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="zh" href="https://mypromptdoctor.com/tutorials?lang=zh"/>
@@ -38,7 +38,7 @@
   <!-- 教程详情页面 - 详细角色概念 -->
   <url>
     <loc>https://mypromptdoctor.com/tutorials/detailed-character-concept</loc>
-    <lastmod>2024-07-10</lastmod>
+    <lastmod>2025-04-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="zh" href="https://mypromptdoctor.com/tutorials/detailed-character-concept?lang=zh"/>
@@ -48,17 +48,77 @@
   <!-- 教程详情页面 - 等距游戏环境 -->
   <url>
     <loc>https://mypromptdoctor.com/tutorials/isometric-game-environment</loc>
-    <lastmod>2024-07-10</lastmod>
+    <lastmod>2025-04-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="zh" href="https://mypromptdoctor.com/tutorials/isometric-game-environment?lang=zh"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://mypromptdoctor.com/tutorials/isometric-game-environment?lang=en"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://mypromptdoctor.com/tutorials/isometric-game-environment"/>
   </url>
+  <!-- 教程详情页面 - 产品可视化 -->
+  <url>
+    <loc>https://mypromptdoctor.com/tutorials/product-visualization</loc>
+    <lastmod>2025-04-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://mypromptdoctor.com/tutorials/product-visualization?lang=zh"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mypromptdoctor.com/tutorials/product-visualization?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mypromptdoctor.com/tutorials/product-visualization"/>
+  </url>
+  <!-- 教程详情页面 - 建筑可视化 -->
+  <url>
+    <loc>https://mypromptdoctor.com/tutorials/architectural-visualization</loc>
+    <lastmod>2025-04-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://mypromptdoctor.com/tutorials/architectural-visualization?lang=zh"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mypromptdoctor.com/tutorials/architectural-visualization?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mypromptdoctor.com/tutorials/architectural-visualization"/>
+  </url>
+  <!-- 教程详情页面 - 美食摄影 -->
+  <url>
+    <loc>https://mypromptdoctor.com/tutorials/food-photography</loc>
+    <lastmod>2025-04-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://mypromptdoctor.com/tutorials/food-photography?lang=zh"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mypromptdoctor.com/tutorials/food-photography?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mypromptdoctor.com/tutorials/food-photography"/>
+  </url>
+  <!-- 教程详情页面 - 风景画 -->
+  <url>
+    <loc>https://mypromptdoctor.com/tutorials/landscape-painting</loc>
+    <lastmod>2025-04-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://mypromptdoctor.com/tutorials/landscape-painting?lang=zh"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mypromptdoctor.com/tutorials/landscape-painting?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mypromptdoctor.com/tutorials/landscape-painting"/>
+  </url>
+  <!-- 教程详情页面 - 科幻概念艺术 -->
+  <url>
+    <loc>https://mypromptdoctor.com/tutorials/sci-fi-concept-art</loc>
+    <lastmod>2025-04-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://mypromptdoctor.com/tutorials/sci-fi-concept-art?lang=zh"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mypromptdoctor.com/tutorials/sci-fi-concept-art?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mypromptdoctor.com/tutorials/sci-fi-concept-art"/>
+  </url>
+  <!-- 教程详情页面 - 奇幻角色设计 -->
+  <url>
+    <loc>https://mypromptdoctor.com/tutorials/fantasy-character-design</loc>
+    <lastmod>2025-04-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://mypromptdoctor.com/tutorials/fantasy-character-design?lang=zh"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mypromptdoctor.com/tutorials/fantasy-character-design?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mypromptdoctor.com/tutorials/fantasy-character-design"/>
+  </url>
   <!-- 设置页面 -->
   <url>
     <loc>https://mypromptdoctor.com/settings</loc>
-    <lastmod>2024-07-10</lastmod>
+    <lastmod>2025-04-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
     <xhtml:link rel="alternate" hreflang="zh" href="https://mypromptdoctor.com/settings?lang=zh"/>
