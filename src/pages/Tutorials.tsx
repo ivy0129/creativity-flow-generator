@@ -19,7 +19,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from '@/components/ui/pagination';
-import { articles } from '@/data/tutorial-articles';
+import { aiPromptTutorials } from '@/data/ai-prompt-tutorials';
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
@@ -34,14 +34,14 @@ const Tutorials: React.FC = () => {
   const [copied, setCopied] = useState(false);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   
-  const pageCount = Math.ceil(articles.length / ITEMS_PER_PAGE);
-  const currentArticles = articles.slice(
+  const pageCount = Math.ceil(aiPromptTutorials.length / ITEMS_PER_PAGE);
+  const currentArticles = aiPromptTutorials.slice(
     (currentPage - 1) * ITEMS_PER_PAGE,
     currentPage * ITEMS_PER_PAGE
   );
   
   const selectedArticle = articleId 
-    ? articles.find(article => article.id === articleId)
+    ? aiPromptTutorials.find(article => article.id === articleId)
     : null;
 
   useEffect(() => {
@@ -72,9 +72,8 @@ const Tutorials: React.FC = () => {
       <div className="min-h-screen flex flex-col bg-background">
         <SEO 
           title={selectedArticle.title[language]}
-          description={selectedArticle.seoDescription?.[language] || selectedArticle.description[language]}
+          description={selectedArticle.description[language]}
           keywords={selectedArticle.tags.join(',')}
-          seoKeywords={selectedArticle.seoKeywords?.[language]}
         />
         <Header />
         
@@ -99,7 +98,7 @@ const Tutorials: React.FC = () => {
                     rel="noopener noreferrer"
                     className="text-sm text-primary hover:underline flex items-center gap-1"
                   >
-                    {language === 'en' ? 'Original source' : '原文链接'} <ExternalLink className="h-3 w-3" />
+                    {selectedArticle.sourceText || (language === 'en' ? 'Original source' : '原文链接')} <ExternalLink className="h-3 w-3" />
                   </a>
                 </div>
               )}
@@ -202,13 +201,27 @@ const Tutorials: React.FC = () => {
                 </div>
               )}
               
+              {/* Article content */}
               <h2 className="text-xl font-medium mb-4">
                 {language === 'en' ? 'Details:' : '详细说明：'}
               </h2>
               {selectedArticle.content[language].split('\n\n').map((paragraph, i) => (
-                <p key={i}>{paragraph}</p>
+                <p key={i} className="mb-4">{paragraph}</p>
               ))}
               
+              {/* Display if reference image is required */}
+              {selectedArticle.requiresReferenceImage && (
+                <div className="mt-6 mb-6 p-4 border border-yellow-200 bg-yellow-50 dark:bg-yellow-900/20 dark:border-yellow-900/30 rounded-md">
+                  <p className="flex items-center gap-2 text-sm text-yellow-800 dark:text-yellow-200">
+                    <Image className="h-4 w-4" />
+                    {language === 'en' 
+                      ? 'This prompt requires uploading a reference image for best results.' 
+                      : '此提示词需要上传参考图片以获得最佳效果。'}
+                  </p>
+                </div>
+              )}
+              
+              {/* Source attribution */}
               {selectedArticle.source && (
                 <div className="mt-8 pt-4 border-t">
                   <p className="text-sm text-muted-foreground flex items-center gap-1">
@@ -223,6 +236,24 @@ const Tutorials: React.FC = () => {
                       <ExternalLink className="h-3 w-3" />
                     </a>
                   </p>
+                  
+                  {selectedArticle.authorName && (
+                    <p className="text-sm text-muted-foreground mt-1">
+                      {language === 'en' ? 'By:' : '作者：'}
+                      {selectedArticle.authorUrl ? (
+                        <a 
+                          href={selectedArticle.authorUrl} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="text-primary hover:underline ml-1"
+                        >
+                          {selectedArticle.authorName}
+                        </a>
+                      ) : (
+                        <span className="ml-1">{selectedArticle.authorName}</span>
+                      )}
+                    </p>
+                  )}
                 </div>
               )}
             </article>
@@ -260,16 +291,6 @@ const Tutorials: React.FC = () => {
       <SEO 
         title={language === 'en' ? 'AI Prompt Tutorials & Examples' : 'AI提示词教程和案例'}
         description={language === 'en' ? 'Learn how to use AI prompts with our comprehensive tutorials and real-world examples for image generation, text prompts, and more' : '通过我们全面的教程和真实案例学习如何使用AI提示词进行图像生成、文本提示等'}
-        seoKeywords={[
-          'AI prompt tutorials', 
-          'AI image generation prompts',
-          'prompt engineering examples',
-          'learn AI prompting',
-          'AI art tutorials',
-          'ChatGPT prompt guide',
-          'image generation tips',
-          'AI creative prompts'
-        ]}
       />
       <Header />
       
