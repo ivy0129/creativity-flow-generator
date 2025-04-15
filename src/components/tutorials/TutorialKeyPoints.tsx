@@ -26,7 +26,7 @@ const TutorialKeyPoints: React.FC<TutorialKeyPointsProps> = ({ keyPoints, langua
           <ul className="mt-2 space-y-1.5 text-sm">
             {points.map((point, index) => (
               <li key={index} className="flex items-start">
-                <span className="mr-1.5">•</span>
+                <span className="mr-1.5 text-amber-500 font-medium">{index + 1}.</span>
                 <span>{point.replace(/^\d+\.\s*/, '')}</span>
               </li>
             ))}
