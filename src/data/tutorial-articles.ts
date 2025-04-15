@@ -21,6 +21,11 @@ interface TutorialArticle {
   tags: string[];
   source?: string;
   sourceText?: string;
+  imageUrl?: string;
+  keyPoints?: {
+    en: string;
+    zh: string;
+  };
   seoKeywords?: {
     en: string[];
     zh: string[];
@@ -272,6 +277,11 @@ export const articles: TutorialArticle[] = [
     tags: ["Fantasy", "Character Design", "Magic", "Illustration", "AI Art"],
     source: "https://github.com/jamez-bondos/awesome-gpt4o-images",
     sourceText: "awesome-gpt4o-images GitHub Repository",
+    imageUrl: "public/lovable-uploads/a257f5c6-1511-4a1e-a999-3fd071525e5b.png",
+    keyPoints: {
+      en: "1. Define specific character attributes (race, age, profession)\n2. Include detailed clothing descriptions with colors and materials\n3. Add unique accessories and magical items that tell a story\n4. Describe facial features and expressions to convey personality\n5. Set the character in an appropriate environment\n6. Specify lighting conditions and atmosphere\n7. Reference an art style suitable for fantasy illustration\n8. Include magical elements that enhance the character's role",
+      zh: "1. 明确定义角色属性（种族、年龄、职业）\n2. 包含详细的服装描述，包括颜色和材质\n3. 添加能讲述故事的独特配件和魔法物品\n4. 描述面部特征和表情以传达个性\n5. 将角色置于适当的环境中\n6. 指定照明条件和氛围\n7. 引用适合奇幻插图的艺术风格\n8. 包含增强角色角色的魔法元素"
+    },
     seoKeywords: {
       en: ["fantasy character design", "AI character creation", "fantasy illustration", "magical character AI", "elven character design", "fantasy art generation", "character concept art", "AI fantasy visualization"],
       zh: ["奇幻角色设计", "AI角色创建", "奇幻插图", "魔法角色AI", "精灵角色设计", "奇幻艺术生成", "角色概念艺术", "AI奇幻可视化"]

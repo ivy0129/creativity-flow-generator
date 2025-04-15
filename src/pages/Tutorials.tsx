@@ -1,9 +1,10 @@
 
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { Book, FileText, ExternalLink, Home, Bookmark, Info } from 'lucide-react';
+import { Book, FileText, ExternalLink, Home, Bookmark, Info, Copy, CheckCircle } from 'lucide-react';
 import { useLanguage } from '@/hooks/useLanguage';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { useToast } from '@/hooks/use-toast';
 import SEO from '@/components/SEO';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -19,6 +20,7 @@ import {
   PaginationPrevious,
 } from '@/components/ui/pagination';
 import { articles } from '@/data/tutorial-articles';
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 const ITEMS_PER_PAGE = 6;
 
@@ -27,6 +29,8 @@ const Tutorials: React.FC = () => {
   const isMobile = useIsMobile();
   const [currentPage, setCurrentPage] = useState(1);
   const { articleId } = useParams();
+  const { toast } = useToast();
+  const [copied, setCopied] = useState(false);
   
   const pageCount = Math.ceil(articles.length / ITEMS_PER_PAGE);
   const currentArticles = articles.slice(
@@ -41,6 +45,19 @@ const Tutorials: React.FC = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [currentPage, articleId]);
+
+  const handleCopyPrompt = (text: string) => {
+    navigator.clipboard.writeText(text);
+    setCopied(true);
+    toast({
+      title: language === 'en' ? "Copied to clipboard" : "已复制到剪贴板",
+      description: language === 'en' ? "Prompt has been copied to your clipboard" : "提示词已复制到您的剪贴板",
+    });
+    
+    setTimeout(() => {
+      setCopied(false);
+    }, 2000);
+  };
 
   if (selectedArticle) {
     return (
@@ -63,7 +80,20 @@ const Tutorials: React.FC = () => {
             </div>
             
             <article className="prose prose-slate dark:prose-invert max-w-none">
-              <h1 className="text-3xl sm:text-4xl font-bold mb-6">{selectedArticle.title[language]}</h1>
+              <h1 className="text-3xl sm:text-4xl font-bold mb-4">{selectedArticle.title[language]}</h1>
+              
+              {selectedArticle.source && (
+                <div className="mb-6">
+                  <a 
+                    href={selectedArticle.source} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-sm text-primary hover:underline flex items-center gap-1"
+                  >
+                    {language === 'en' ? 'Original source' : '原文链接'} <ExternalLink className="h-3 w-3" />
+                  </a>
+                </div>
+              )}
               
               <div className="flex flex-wrap gap-2 mb-6">
                 {selectedArticle.tags.map(tag => (
@@ -73,34 +103,61 @@ const Tutorials: React.FC = () => {
                 ))}
               </div>
               
+              {selectedArticle.imageUrl && (
+                <div className="mb-8 border border-border rounded-md overflow-hidden">
+                  <img 
+                    src={selectedArticle.imageUrl} 
+                    alt={selectedArticle.title[language]} 
+                    className="w-full object-cover max-h-[500px]"
+                  />
+                </div>
+              )}
+              
               <div className="mb-8">
-                <Card>
-                  <CardHeader>
-                    <CardTitle>{language === 'en' ? 'Prompt Example' : '提示词示例'}</CardTitle>
-                    <CardDescription>
-                      {language === 'en' ? 'Copy this prompt to use with your AI assistant' : '复制此提示词以用于您的AI助手'}
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="bg-muted p-4 rounded-md whitespace-pre-wrap text-sm">
-                      {selectedArticle.prompt}
-                    </div>
-                  </CardContent>
-                  <CardFooter>
-                    <Button 
-                      variant="outline" 
-                      size="sm"
-                      className="text-xs"
-                      onClick={() => {
-                        navigator.clipboard.writeText(selectedArticle.prompt);
-                        // You can use toast here
-                      }}
-                    >
-                      {language === 'en' ? 'Copy to clipboard' : '复制到剪贴板'}
-                    </Button>
-                  </CardFooter>
-                </Card>
+                <h2 className="text-xl font-medium mb-2">{language === 'en' ? 'Prompt:' : '提示词：'}</h2>
+                <div className="relative">
+                  <Card>
+                    <CardContent className="p-4">
+                      <div className="bg-muted p-4 rounded-md whitespace-pre-wrap text-sm">
+                        {selectedArticle.prompt}
+                      </div>
+                    </CardContent>
+                    <CardFooter className="flex justify-end pt-0 pb-4 px-4">
+                      <Button 
+                        variant="secondary" 
+                        size="sm"
+                        className="text-xs gap-1"
+                        onClick={() => handleCopyPrompt(selectedArticle.prompt)}
+                      >
+                        {copied ? (
+                          <>
+                            <CheckCircle className="h-3 w-3" />
+                            {language === 'en' ? 'Copied!' : '已复制！'}
+                          </>
+                        ) : (
+                          <>
+                            <Copy className="h-3 w-3" />
+                            {language === 'en' ? 'Copy to clipboard' : '复制到剪贴板'}
+                          </>
+                        )}
+                      </Button>
+                    </CardFooter>
+                  </Card>
+                </div>
               </div>
+
+              {selectedArticle.keyPoints && selectedArticle.keyPoints[language] && (
+                <div className="mb-8">
+                  <Alert>
+                    <AlertTitle>{language === 'en' ? 'Key Points:' : '关键事项：'}</AlertTitle>
+                    <AlertDescription>
+                      <div className="whitespace-pre-wrap mt-2">
+                        {selectedArticle.keyPoints[language]}
+                      </div>
+                    </AlertDescription>
+                  </Alert>
+                </div>
+              )}
               
               {selectedArticle.content[language].split('\n\n').map((paragraph, i) => (
                 <p key={i}>{paragraph}</p>
