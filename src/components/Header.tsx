@@ -1,5 +1,6 @@
+
 import React from 'react';
-import { LogIn, LogOut, Settings, Globe } from 'lucide-react';
+import { LogIn, LogOut, Settings, Globe, Book } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { useAuth } from '@/hooks/useAuth';
@@ -39,6 +40,10 @@ const Header: React.FC = () => {
             </Link>
             <Link to="/saved" className="text-sm font-medium text-foreground/80 hover:text-foreground transition-colors">
               {t('savedPrompts')}
+            </Link>
+            <Link to="/tutorials" className="text-sm font-medium text-foreground/80 hover:text-foreground transition-colors flex items-center gap-1">
+              <Book className="h-4 w-4" />
+              {language === 'en' ? 'Tutorials' : '教程'}
             </Link>
             <Link to="/settings" className="text-sm font-medium text-foreground/80 hover:text-foreground transition-colors">
               {language === 'en' ? 'About Us' : '关于我们'}

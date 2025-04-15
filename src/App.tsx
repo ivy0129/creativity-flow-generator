@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -12,6 +13,7 @@ import TaggedPrompts from "./pages/TaggedPrompts";
 import Settings from "./pages/Settings";
 import NotFound from "./pages/NotFound";
 import Auth from "./pages/Auth";
+import Tutorials from "./pages/Tutorials";
 
 const queryClient = new QueryClient();
 
@@ -30,6 +32,8 @@ const App = () => (
                 <Route path="/saved" element={<SavedPrompts />} />
                 <Route path="/tags/:tag" element={<TaggedPrompts />} />
                 <Route path="/settings" element={<Settings />} />
+                <Route path="/tutorials" element={<Tutorials />} />
+                <Route path="/tutorials/:articleId" element={<Tutorials />} />
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                 <Route path="*" element={<NotFound />} />
               </Routes>

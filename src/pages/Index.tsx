@@ -1,3 +1,4 @@
+
 import React from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -6,7 +7,7 @@ import ResultDisplay from '@/components/ResultDisplay';
 import { usePromptGenerator } from '@/hooks/usePromptGenerator';
 import { useLanguage } from '@/hooks/useLanguage';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { Lightbulb, BookOpen, Save, Home, Bookmark, Info } from 'lucide-react';
+import { Lightbulb, BookOpen, Save, Home, Bookmark, Info, Book } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import SavePromptForm from '@/components/SavePromptForm';
 import { useAuth } from '@/hooks/useAuth';
@@ -105,6 +106,10 @@ const Index = () => {
           <Link to="/saved" className="flex flex-1 flex-col items-center justify-center h-full text-muted-foreground hover:text-primary">
             <Bookmark className="h-5 w-5 mb-1" />
             <span className="text-xs">{t('savedPrompts')}</span>
+          </Link>
+          <Link to="/tutorials" className="flex flex-1 flex-col items-center justify-center h-full text-muted-foreground hover:text-primary">
+            <Book className="h-5 w-5 mb-1" />
+            <span className="text-xs">{language === 'en' ? 'Tutorials' : '教程'}</span>
           </Link>
           <Link to="/settings" className="flex flex-1 flex-col items-center justify-center h-full text-muted-foreground hover:text-primary">
             <Info className="h-5 w-5 mb-1" />
