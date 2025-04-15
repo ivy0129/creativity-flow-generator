@@ -9,6 +9,9 @@ interface TutorialsListProps {
 }
 
 const TutorialsList: React.FC<TutorialsListProps> = ({ tutorials, language }) => {
+  // Show tutorials in reverse order so newest appears first
+  const sortedTutorials = [...tutorials].reverse();
+  
   return (
     <div className="max-w-5xl mx-auto">
       <div className="text-center mb-10">
@@ -23,7 +26,7 @@ const TutorialsList: React.FC<TutorialsListProps> = ({ tutorials, language }) =>
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {tutorials.map((tutorial) => (
+        {sortedTutorials.map((tutorial) => (
           <TutorialCard 
             key={tutorial.id} 
             tutorial={tutorial} 
