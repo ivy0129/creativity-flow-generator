@@ -1,4 +1,3 @@
-
 export interface AIPromptTutorial {
   id: string;
   title: {
@@ -61,7 +60,7 @@ export const aiPromptTutorials: AIPromptTutorial[] = [
     sourceText: "@ZHO_ZHO_ZHO on X",
     authorName: "@ZHO_ZHO_ZHO",
     authorUrl: "https://x.com/ZHO_ZHO_ZHO",
-    imageUrl: "public/lovable-uploads/38805cc5-42a5-4385-9f62-ba85e2232873.png",
+    imageUrl: "/images/line-drawing-emoji.png",
     requiresReferenceImage: true,
     keyPoints: {
       en: "1. Upload a clear frontal portrait photo with good lighting\n2. The process has two steps: first converting to line drawing, then creating multiple expressions\n3. For best results, start with a neutral expression in your reference photo\n4. The style is minimalist with only black lines on white background\n5. These emojis can be used as custom stickers for messaging apps",
@@ -94,7 +93,7 @@ export const aiPromptTutorials: AIPromptTutorial[] = [
     sourceText: "@hellokaton on X",
     authorName: "@hellokaton",
     authorUrl: "https://x.com/hellokaton",
-    imageUrl: "public/lovable-uploads/659ad24c-3e42-49cb-a848-72aa266f59c4.png",
+    imageUrl: "/images/manga-panel.png",
     requiresReferenceImage: true,
     keyPoints: {
       en: "1. Upload a clear photo showing the person's face and upper body\n2. The AI will maintain recognizable features while transforming the subject into manga style\n3. Each panel shows different emotions and actions to create a sequential narrative\n4. This style works best when showing emotional contrasts between the two panels\n5. For best results, include specific details about the scene, expressions, and dialogue",
@@ -127,7 +126,7 @@ export const aiPromptTutorials: AIPromptTutorial[] = [
     sourceText: "AnimeAI",
     authorName: "AnimeAI",
     authorUrl: "https://animeai.online",
-    imageUrl: "public/lovable-uploads/ea3ddada-d7f3-468e-a753-9c2a86c0beaf.png",
+    imageUrl: "/images/pixar-style.png",
     requiresReferenceImage: true,
     keyPoints: {
       en: "1. Upload a clear photo with good lighting\n2. Photos showing facial expressions work best for capturing Pixar's emotional style\n3. Both close-up portraits and full-body shots can be transformed effectively\n4. If there's inappropriate or sensitive content in the background, add \"please modify or remove it\" to the prompt\n5. The transformation works well for both individuals and group photos",
@@ -160,7 +159,7 @@ export const aiPromptTutorials: AIPromptTutorial[] = [
     sourceText: "AnimeAI",
     authorName: "AnimeAI",
     authorUrl: "https://animeai.online",
-    imageUrl: "public/lovable-uploads/d577697f-b452-4a90-b045-7ccd687ab337.png",
+    imageUrl: "/images/ghibli-style.png",
     requiresReferenceImage: true,
     keyPoints: {
       en: "1. Upload a clear photo with good lighting\n2. For best results, use portraits or scenes with both people and landscapes\n3. The transformation works well with both close-up portraits and full-body shots\n4. Add \"If there's inappropriate or sensitive content in the background, please modify or remove it\" if needed\n5. The AI will maintain recognizable features while applying the Ghibli aesthetic",
@@ -193,7 +192,7 @@ export const aiPromptTutorials: AIPromptTutorial[] = [
     sourceText: "@balconychy on X",
     authorName: "@balconychy",
     authorUrl: "https://x.com/balconychy",
-    imageUrl: "public/lovable-uploads/385d92f3-850a-42b8-b24a-10a83ddcc76b.png",
+    imageUrl: "/images/chinese-wedding.png",
     requiresReferenceImage: true,
     keyPoints: {
       en: "1. Upload a clear couple's photo\n2. Characters will be rendered in Q-version 3D style with traditional Chinese wedding attire\n3. The prompt creates a festive atmosphere with traditional Chinese wedding elements\n4. Photos with both faces clearly visible work best for this transformation",
@@ -226,7 +225,7 @@ export const aiPromptTutorials: AIPromptTutorial[] = [
     sourceText: "@dotey on X",
     authorName: "@dotey",
     authorUrl: "https://x.com/dotey",
-    imageUrl: "public/lovable-uploads/f7bdb0b4-f88f-4e3e-ba9f-046cc0575c52.png",
+    imageUrl: "/images/polaroid-frame.png",
     requiresReferenceImage: true,
     keyPoints: {
       en: "1. Upload a clear half-body or full-body person photo\n2. The character will be rendered in 3D Q-version style while maintaining recognizable features\n3. The effect works best with photos that have good lighting and a clear subject\n4. Photos with simple backgrounds work better for this transformation",
@@ -259,7 +258,7 @@ export const aiPromptTutorials: AIPromptTutorial[] = [
     sourceText: "@balconychy on X",
     authorName: "@balconychy",
     authorUrl: "https://x.com/balconychy",
-    imageUrl: "public/lovable-uploads/87a1132a-1e06-4ddd-be0e-933b88f6fc05.png",
+    imageUrl: "/images/proposal-scene.png",
     requiresReferenceImage: true,
     keyPoints: {
       en: "1. Upload a clear couple's photo\n2. The characters will be rendered in Q-version 3D style while the environment remains realistic\n3. The prompt works best with photos showing both faces clearly\n4. For best results, use a photo with good lighting and clear faces",

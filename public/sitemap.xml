@@ -1,4 +1,3 @@
-
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -8,7 +7,7 @@
   <!-- 主页 -->
   <url>
     <loc>https://mypromptdoctor.com/</loc>
-    <lastmod>2025-04-15</lastmod>
+    <lastmod>2024-04-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
     <xhtml:link rel="alternate" hreflang="zh" href="https://mypromptdoctor.com/?lang=zh"/>
@@ -18,7 +17,7 @@
   <!-- 已保存提示词页面 -->
   <url>
     <loc>https://mypromptdoctor.com/saved</loc>
-    <lastmod>2025-04-15</lastmod>
+    <lastmod>2024-04-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="zh" href="https://mypromptdoctor.com/saved?lang=zh"/>
@@ -28,7 +27,7 @@
   <!-- 教程页面 -->
   <url>
     <loc>https://mypromptdoctor.com/tutorials</loc>
-    <lastmod>2025-04-15</lastmod>
+    <lastmod>2024-04-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="zh" href="https://mypromptdoctor.com/tutorials?lang=zh"/>
@@ -38,7 +37,7 @@
   <!-- 教程详情页面 - 详细角色概念 -->
   <url>
     <loc>https://mypromptdoctor.com/tutorials/detailed-character-concept</loc>
-    <lastmod>2025-04-15</lastmod>
+    <lastmod>2024-04-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="zh" href="https://mypromptdoctor.com/tutorials/detailed-character-concept?lang=zh"/>
@@ -48,7 +47,7 @@
   <!-- 教程详情页面 - 等距游戏环境 -->
   <url>
     <loc>https://mypromptdoctor.com/tutorials/isometric-game-environment</loc>
-    <lastmod>2025-04-15</lastmod>
+    <lastmod>2024-04-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="zh" href="https://mypromptdoctor.com/tutorials/isometric-game-environment?lang=zh"/>
@@ -58,7 +57,7 @@
   <!-- 教程详情页面 - 产品可视化 -->
   <url>
     <loc>https://mypromptdoctor.com/tutorials/product-visualization</loc>
-    <lastmod>2025-04-15</lastmod>
+    <lastmod>2024-04-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="zh" href="https://mypromptdoctor.com/tutorials/product-visualization?lang=zh"/>
@@ -68,7 +67,7 @@
   <!-- 教程详情页面 - 建筑可视化 -->
   <url>
     <loc>https://mypromptdoctor.com/tutorials/architectural-visualization</loc>
-    <lastmod>2025-04-15</lastmod>
+    <lastmod>2024-04-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="zh" href="https://mypromptdoctor.com/tutorials/architectural-visualization?lang=zh"/>
@@ -78,7 +77,7 @@
   <!-- 教程详情页面 - 美食摄影 -->
   <url>
     <loc>https://mypromptdoctor.com/tutorials/food-photography</loc>
-    <lastmod>2025-04-15</lastmod>
+    <lastmod>2024-04-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="zh" href="https://mypromptdoctor.com/tutorials/food-photography?lang=zh"/>
@@ -88,7 +87,7 @@
   <!-- 教程详情页面 - 风景画 -->
   <url>
     <loc>https://mypromptdoctor.com/tutorials/landscape-painting</loc>
-    <lastmod>2025-04-15</lastmod>
+    <lastmod>2024-04-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="zh" href="https://mypromptdoctor.com/tutorials/landscape-painting?lang=zh"/>
@@ -98,7 +97,7 @@
   <!-- 教程详情页面 - 科幻概念艺术 -->
   <url>
     <loc>https://mypromptdoctor.com/tutorials/sci-fi-concept-art</loc>
-    <lastmod>2025-04-15</lastmod>
+    <lastmod>2024-04-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="zh" href="https://mypromptdoctor.com/tutorials/sci-fi-concept-art?lang=zh"/>
@@ -108,17 +107,87 @@
   <!-- 教程详情页面 - 奇幻角色设计 -->
   <url>
     <loc>https://mypromptdoctor.com/tutorials/fantasy-character-design</loc>
-    <lastmod>2025-04-15</lastmod>
+    <lastmod>2024-04-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="zh" href="https://mypromptdoctor.com/tutorials/fantasy-character-design?lang=zh"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://mypromptdoctor.com/tutorials/fantasy-character-design?lang=en"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://mypromptdoctor.com/tutorials/fantasy-character-design"/>
   </url>
+  <!-- 教程详情页面 - 简笔画表情包 -->
+  <url>
+    <loc>https://mypromptdoctor.com/tutorials/simple-line-drawing-emojis</loc>
+    <lastmod>2024-04-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://mypromptdoctor.com/tutorials/simple-line-drawing-emojis?lang=zh"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mypromptdoctor.com/tutorials/simple-line-drawing-emojis?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mypromptdoctor.com/tutorials/simple-line-drawing-emojis"/>
+  </url>
+  <!-- 教程详情页面 - 日系双格漫画 -->
+  <url>
+    <loc>https://mypromptdoctor.com/tutorials/japanese-two-panel-manga</loc>
+    <lastmod>2024-04-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://mypromptdoctor.com/tutorials/japanese-two-panel-manga?lang=zh"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mypromptdoctor.com/tutorials/japanese-two-panel-manga?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mypromptdoctor.com/tutorials/japanese-two-panel-manga"/>
+  </url>
+  <!-- 教程详情页面 - 皮克斯3D风格转换 -->
+  <url>
+    <loc>https://mypromptdoctor.com/tutorials/pixar-3d-style</loc>
+    <lastmod>2024-04-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://mypromptdoctor.com/tutorials/pixar-3d-style?lang=zh"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mypromptdoctor.com/tutorials/pixar-3d-style?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mypromptdoctor.com/tutorials/pixar-3d-style"/>
+  </url>
+  <!-- 教程详情页面 - 吉卜力风格转换 -->
+  <url>
+    <loc>https://mypromptdoctor.com/tutorials/ghibli-style-transformation</loc>
+    <lastmod>2024-04-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://mypromptdoctor.com/tutorials/ghibli-style-transformation?lang=zh"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mypromptdoctor.com/tutorials/ghibli-style-transformation?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mypromptdoctor.com/tutorials/ghibli-style-transformation"/>
+  </url>
+  <!-- 教程详情页面 - Q版中式婚礼 -->
+  <url>
+    <loc>https://mypromptdoctor.com/tutorials/chinese-wedding-style</loc>
+    <lastmod>2024-04-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://mypromptdoctor.com/tutorials/chinese-wedding-style?lang=zh"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mypromptdoctor.com/tutorials/chinese-wedding-style?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mypromptdoctor.com/tutorials/chinese-wedding-style"/>
+  </url>
+  <!-- 教程详情页面 - 立体相框 -->
+  <url>
+    <loc>https://mypromptdoctor.com/tutorials/3d-polaroid-frame</loc>
+    <lastmod>2024-04-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://mypromptdoctor.com/tutorials/3d-polaroid-frame?lang=zh"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mypromptdoctor.com/tutorials/3d-polaroid-frame?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mypromptdoctor.com/tutorials/3d-polaroid-frame"/>
+  </url>
+  <!-- 教程详情页面 - Q版求婚场景 -->
+  <url>
+    <loc>https://mypromptdoctor.com/tutorials/q-version-proposal-scene</loc>
+    <lastmod>2024-04-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://mypromptdoctor.com/tutorials/q-version-proposal-scene?lang=zh"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mypromptdoctor.com/tutorials/q-version-proposal-scene?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mypromptdoctor.com/tutorials/q-version-proposal-scene"/>
+  </url>
   <!-- 设置页面 -->
   <url>
     <loc>https://mypromptdoctor.com/settings</loc>
-    <lastmod>2025-04-15</lastmod>
+    <lastmod>2024-04-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
     <xhtml:link rel="alternate" hreflang="zh" href="https://mypromptdoctor.com/settings?lang=zh"/>

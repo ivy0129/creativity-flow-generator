@@ -1,4 +1,3 @@
-
 interface TutorialArticle {
   id: string;
   title: {
@@ -61,11 +60,11 @@ export const articles: TutorialArticle[] = [
     tags: ["Character Design", "3D Art", "Cyberpunk", "Concept Art", "AI Art"],
     source: "https://github.com/jamez-bondos/awesome-gpt4o-images",
     sourceText: "awesome-gpt4o-images GitHub Repository",
-    imageUrl: "public/lovable-uploads/a257f5c6-1511-4a1e-a999-3fd071525e5b.png",
+    imageUrl: "/images/character-concept.jpg",
     sampleImages: [
-      "public/lovable-uploads/a257f5c6-1511-4a1e-a999-3fd071525e5b.png",
-      "public/lovable-uploads/character-concept-1.png",
-      "public/lovable-uploads/character-concept-2.png"
+      "/images/character-concept.jpg",
+      "/images/character-concept-1.jpg",
+      "/images/character-concept-2.jpg"
     ],
     keyPoints: {
       en: "1. Specify the character type (e.g., cyberpunk hacker)\n2. Include distinctive physical features (neon blue hair)\n3. Detail clothing and accessories (black leather jacket with circuits)\n4. Define the expression (smirking confidently)\n5. Set a specific pose (one hand on hip)\n6. Create context with environment (dark alley with neon signs)\n7. Specify render quality (highly detailed, professional, octane render)\n8. Use consistent style descriptors throughout",
@@ -102,6 +101,12 @@ export const articles: TutorialArticle[] = [
     tags: ["Game Design", "Isometric", "Environment", "Fantasy", "AI Art"],
     source: "https://github.com/jamez-bondos/awesome-gpt4o-images",
     sourceText: "awesome-gpt4o-images GitHub Repository",
+    imageUrl: "/images/isometric-game.jpg",
+    sampleImages: [
+      "/images/isometric-game.jpg",
+      "/images/isometric-game-1.jpg",
+      "/images/isometric-game-2.jpg"
+    ],
     seoKeywords: {
       en: ["isometric game design", "AI game environments", "fantasy game art", "isometric art generation", "game asset creation", "AI level design", "game world building", "isometric prompt engineering"],
       zh: ["等距游戏设计", "AI游戏环境", "奇幻游戏艺术", "等距艺术生成", "游戏资产创建", "AI关卡设计", "游戏世界构建", "等距提示词工程"]
@@ -133,6 +138,12 @@ export const articles: TutorialArticle[] = [
     tags: ["Product Design", "Marketing", "Photography", "Gadgets", "AI Visualization"],
     source: "https://github.com/jamez-bondos/awesome-gpt4o-images",
     sourceText: "awesome-gpt4o-images GitHub Repository",
+    imageUrl: "/images/product-viz.jpg",
+    sampleImages: [
+      "/images/product-viz.jpg",
+      "/images/product-viz-1.jpg",
+      "/images/product-viz-2.jpg"
+    ],
     seoKeywords: {
       en: ["product visualization AI", "AI product photography", "virtual product rendering", "digital product mockups", "AI marketing imagery", "product concept visualization", "photorealistic product images", "3D product visualization"],
       zh: ["AI产品可视化", "AI产品摄影", "虚拟产品渲染", "数字产品模型", "AI营销图像", "产品概念可视化", "照片级真实产品图像", "3D产品可视化"]
@@ -164,6 +175,12 @@ export const articles: TutorialArticle[] = [
     tags: ["Architecture", "Visualization", "Rendering", "Design", "AI Rendering"],
     source: "https://github.com/jamez-bondos/awesome-gpt4o-images",
     sourceText: "awesome-gpt4o-images GitHub Repository",
+    imageUrl: "/images/arch-viz.jpg",
+    sampleImages: [
+      "/images/arch-viz.jpg",
+      "/images/arch-viz-1.jpg",
+      "/images/arch-viz-2.jpg"
+    ],
     seoKeywords: {
       en: ["architectural visualization AI", "AI building renders", "architectural concept art", "AI architecture design", "virtual building visualization", "3D architectural rendering", "AI property visualization", "digital architecture concepts"],
       zh: ["AI建筑可视化", "AI建筑渲染", "建筑概念艺术", "AI建筑设计", "虚拟建筑可视化", "3D建筑渲染", "AI房产可视化", "数字建筑概念"]
@@ -195,6 +212,12 @@ export const articles: TutorialArticle[] = [
     tags: ["Food", "Photography", "Culinary", "Marketing", "AI Imaging"],
     source: "https://github.com/jamez-bondos/awesome-gpt4o-images",
     sourceText: "awesome-gpt4o-images GitHub Repository",
+    imageUrl: "/images/food-photo.jpg",
+    sampleImages: [
+      "/images/food-photo.jpg",
+      "/images/food-photo-1.jpg",
+      "/images/food-photo-2.jpg"
+    ],
     seoKeywords: {
       en: ["food photography AI", "restaurant menu images", "culinary photography", "AI food visualization", "food styling AI", "digital food presentation", "food marketing images", "dessert photography"],
       zh: ["AI美食摄影", "餐厅菜单图像", "烹饪摄影", "AI食品可视化", "AI食物造型", "数字食品展示", "食品营销图像", "甜点摄影"]
@@ -226,6 +249,12 @@ export const articles: TutorialArticle[] = [
     tags: ["Landscape", "Painting", "Digital Art", "Impressionism", "AI Art"],
     source: "https://github.com/jamez-bondos/awesome-gpt4o-images",
     sourceText: "awesome-gpt4o-images GitHub Repository",
+    imageUrl: "/images/landscape.jpg",
+    sampleImages: [
+      "/images/landscape.jpg",
+      "/images/landscape-1.jpg",
+      "/images/landscape-2.jpg"
+    ],
     seoKeywords: {
       en: ["AI landscape painting", "digital art generation", "impressionist AI art", "artistic landscape prompts", "AI nature artwork", "digital painting techniques", "stylized landscape art", "AI art styles"],
       zh: ["AI风景画", "数字艺术生成", "印象派AI艺术", "艺术风景提示词", "AI自然艺术作品", "数字绘画技术", "风格化景观艺术", "AI艺术风格"]
@@ -257,6 +286,12 @@ export const articles: TutorialArticle[] = [
     tags: ["Sci-Fi", "Concept Art", "Futuristic", "Cityscape", "AI Art"],
     source: "https://github.com/jamez-bondos/awesome-gpt4o-images",
     sourceText: "awesome-gpt4o-images GitHub Repository",
+    imageUrl: "/images/scifi-concept.jpg",
+    sampleImages: [
+      "/images/scifi-concept.jpg",
+      "/images/scifi-concept-1.jpg",
+      "/images/scifi-concept-2.jpg"
+    ],
     seoKeywords: {
       en: ["sci-fi concept art", "futuristic city AI", "cyberpunk visualization", "AI sci-fi environments", "futuristic technology design", "science fiction artwork", "AI cityscape generation", "concept art visualization"],
       zh: ["科幻概念艺术", "未来城市AI", "赛博朋克可视化", "AI科幻环境", "未来技术设计", "科幻艺术作品", "AI城市景观生成", "概念艺术可视化"]
@@ -288,11 +323,11 @@ export const articles: TutorialArticle[] = [
     tags: ["Fantasy", "Character Design", "Magic", "Illustration", "AI Art"],
     source: "https://github.com/jamez-bondos/awesome-gpt4o-images",
     sourceText: "awesome-gpt4o-images GitHub Repository",
-    imageUrl: "public/lovable-uploads/a257f5c6-1511-4a1e-a999-3fd071525e5b.png",
+    imageUrl: "/images/fantasy-character.jpg",
     sampleImages: [
-      "public/lovable-uploads/a257f5c6-1511-4a1e-a999-3fd071525e5b.png",
-      "public/lovable-uploads/fantasy-character-1.png",
-      "public/lovable-uploads/fantasy-character-2.png"
+      "/images/fantasy-character.jpg",
+      "/images/fantasy-character-1.jpg",
+      "/images/fantasy-character-2.jpg"
     ],
     keyPoints: {
       en: "1. Define specific character attributes (race, age, profession)\n2. Include detailed clothing descriptions with colors and materials\n3. Add unique accessories and magical items that tell a story\n4. Describe facial features and expressions to convey personality\n5. Set the character in an appropriate environment\n6. Specify lighting conditions and atmosphere\n7. Reference an art style suitable for fantasy illustration\n8. Include magical elements that enhance the character's role",
