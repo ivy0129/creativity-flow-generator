@@ -112,7 +112,9 @@ const Tutorials: React.FC = () => {
               
               {sampleImages && sampleImages.length > 0 && (
                 <div className="mb-8">
-                  <h2 className="text-xl font-medium mb-4">{language === 'en' ? 'Sample Results:' : '示例结果：'}</h2>
+                  <h2 className="text-xl font-medium mb-4">
+                    {language === 'en' ? 'Example Results:' : '示例效果：'}
+                  </h2>
                   
                   <div className="mb-4 border border-border rounded-md overflow-hidden">
                     <img 
@@ -143,7 +145,9 @@ const Tutorials: React.FC = () => {
               )}
               
               <div className="mb-8">
-                <h2 className="text-xl font-medium mb-2">{language === 'en' ? 'Prompt:' : '提示词：'}</h2>
+                <h2 className="text-xl font-medium mb-2">
+                  {language === 'en' ? 'Prompt:' : '提示词：'}
+                </h2>
                 <div className="relative">
                   <Card>
                     <CardContent className="p-4">
@@ -177,10 +181,15 @@ const Tutorials: React.FC = () => {
 
               {selectedArticle.keyPoints && selectedArticle.keyPoints[language] && (
                 <div className="mb-8">
+                  <h2 className="text-xl font-medium mb-2">
+                    {language === 'en' ? 'Key Points:' : '注意事项：'}
+                  </h2>
                   <Alert>
-                    <AlertTitle>{language === 'en' ? 'Key Points:' : '关键事项：'}</AlertTitle>
+                    <AlertTitle>
+                      {language === 'en' ? 'For best results:' : '获得最佳效果：'}
+                    </AlertTitle>
                     <AlertDescription>
-                      <div className="whitespace-pre-wrap mt-2">
+                      <div className="whitespace-pre-wrap mt-2 text-sm">
                         {selectedArticle.keyPoints[language]}
                       </div>
                     </AlertDescription>
@@ -188,6 +197,9 @@ const Tutorials: React.FC = () => {
                 </div>
               )}
               
+              <h2 className="text-xl font-medium mb-4">
+                {language === 'en' ? 'Details:' : '详细说明：'}
+              </h2>
               {selectedArticle.content[language].split('\n\n').map((paragraph, i) => (
                 <p key={i}>{paragraph}</p>
               ))}
