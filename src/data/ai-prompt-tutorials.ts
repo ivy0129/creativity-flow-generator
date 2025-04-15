@@ -1,3 +1,4 @@
+
 export interface AIPromptTutorial {
   id: string;
   title: {
@@ -34,6 +35,39 @@ export interface AIPromptTutorial {
 }
 
 export const aiPromptTutorials: AIPromptTutorial[] = [
+  {
+    id: "pixar-3d-style",
+    title: {
+      en: "Pixar 3D Style Transformation",
+      zh: "皮克斯3D风格转换"
+    },
+    description: {
+      en: "Transform photos into the iconic Pixar 3D animation style with expressive features",
+      zh: "将照片转换成标志性的皮克斯3D动画风格，具有夸张的特征"
+    },
+    excerpt: {
+      en: "Transform your photos into Pixar's signature 3D animation style, characterized by exaggerated facial features, smooth textures, and expressive emotions that bring characters to life.",
+      zh: "将您的照片转换成皮克斯标志性的3D动画风格，特点是夸张的面部特征、平滑的纹理和生动的表情，让角色栩栩如生。"
+    },
+    content: {
+      en: "This prompt transforms ordinary photos into the distinctive Pixar 3D animation style, known for its exaggerated yet appealing character design, smooth textures, and emotionally expressive features.\n\nPixar Animation Studios has defined modern 3D animation with its unique aesthetic that balances caricature with believability. Characters typically feature slightly oversized heads, exaggerated facial features (especially noses, eyes, and eyebrows), and incredibly detailed texturing that creates a sense of both stylization and realism.\n\nWhen applied to photos, this transformation recreates subjects with Pixar's signature look: slightly cartoonish proportions, enhanced emotional expressiveness, and a polished, rendered 3D quality. Skin textures are smoothed yet retain subtle details, hair is simplified into flowing shapes, and features are exaggerated while maintaining the subject's recognizable traits.\n\nTo use this prompt effectively, upload a clear photo with good lighting. The AI works particularly well with portraits that show facial expressions, as the Pixar style excels at conveying emotion. Both close-up faces and full-body shots can be transformed effectively.\n\nThis prompt is remarkably simple yet produces consistent results due to the widespread recognition of the Pixar aesthetic developed through films like Toy Story, Up, and The Incredibles. The transformation is perfect for creating unique profile pictures, family portraits with a playful twist, or reimagining yourself as a character who might appear in a Pixar film.",
+      zh: "这个提示词将普通照片转换成独特的皮克斯3D动画风格，该风格以其夸张但吸引人的角色设计、平滑的纹理和富有表现力的特征而闻名。\n\n皮克斯动画工作室以其独特的美学定义了现代3D动画，这种美学在漫画风格和可信度之间取得了平衡。角色通常具有略微过大的头部、夸张的面部特征（尤其是鼻子、眼睛和眉毛），以及令人难以置信的细节纹理，创造出既风格化又写实的感觉。\n\n当应用于照片时，这种转换会以皮克斯的标志性外观重新创造主体：略带卡通化的比例、增强的情感表现力，以及经过抛光的3D渲染质感。皮肤纹理被平滑处理，但保留了微妙的细节，头发被简化为流动的形状，特征被夸大，同时保持主体可识别的特点。\n\n要有效地使用这个提示词，请上传光线良好的清晰照片。AI特别适合处理展示面部表情的人像，因为皮克斯风格擅长传达情感。特写脸部和全身照片都可以有效转换。\n\n这个提示词非常简单，但由于《玩具总动员》、《飞屋环游记》和《超人总动员》等电影所发展的皮克斯美学广受认可，因此能够产生一致的效果。这种转换非常适合创建独特的个人头像、带有俏皮转折的家庭照片，或者重新想象自己成为可能出现在皮克斯电影中的角色。"
+    },
+    prompt: "以皮克斯 3D 风格重绘这张照片",
+    promptEn: "Redraw this photo in Pixar 3D style",
+    promptZh: "以皮克斯 3D 风格重绘这张照片",
+    tags: ["动画", "皮克斯", "3D", "风格转换", "人像"],
+    source: "https://animeai.online/#demo-gallery",
+    sourceText: "AnimeAI",
+    authorName: "AnimeAI",
+    authorUrl: "https://animeai.online",
+    imageUrl: "public/lovable-uploads/ea3ddada-d7f3-468e-a753-9c2a86c0beaf.png",
+    requiresReferenceImage: true,
+    keyPoints: {
+      en: "1. Upload a clear photo with good lighting\n2. Photos showing facial expressions work best for capturing Pixar's emotional style\n3. Both close-up portraits and full-body shots can be transformed effectively\n4. If there's inappropriate or sensitive content in the background, add \"please modify or remove it\" to the prompt\n5. The transformation works well for both individuals and group photos",
+      zh: "1. 上传光线良好的清晰照片\n2. 展示面部表情的照片最能捕捉皮克斯的情感风格\n3. 特写肖像和全身照片都能有效转换\n4. 如果背景中有不合适或敏感的内容，可以在提示词中添加"请修改或删除"\n5. 这种转换对个人照片和合影都有很好的效果"
+    }
+  },
   {
     id: "ghibli-style-transformation",
     title: {
