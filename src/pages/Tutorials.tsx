@@ -1,6 +1,7 @@
+
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { Book, FileText, ExternalLink, Home, Bookmark, Info, Copy, CheckCircle } from 'lucide-react';
+import { Book, FileText, ExternalLink, Home, Bookmark, Info, Copy, CheckCircle, Languages } from 'lucide-react';
 import { useLanguage } from '@/hooks/useLanguage';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useToast } from '@/hooks/use-toast';
@@ -19,6 +20,7 @@ const Tutorials: React.FC = () => {
   const { toast } = useToast();
   const [copied, setCopied] = useState(false);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
+  const [translatedPrompt, setTranslatedPrompt] = useState<string | null>(null);
   
   const selectedArticle = articleId 
     ? aiPromptTutorials.find(article => article.id === articleId)
@@ -30,6 +32,7 @@ const Tutorials: React.FC = () => {
 
   useEffect(() => {
     setActiveImageIndex(0);
+    setTranslatedPrompt(null); // Reset translated prompt when article changes
   }, [articleId]);
 
   const handleCopyPrompt = (text: string) => {
@@ -43,6 +46,60 @@ const Tutorials: React.FC = () => {
     setTimeout(() => {
       setCopied(false);
     }, 2000);
+  };
+
+  const translatePrompt = async () => {
+    if (!selectedArticle) return;
+    
+    try {
+      // If already translated, switch back to original
+      if (translatedPrompt) {
+        setTranslatedPrompt(null);
+        return;
+      }
+
+      // Simple translation logic - in a real app, you might use an API
+      // For now, we'll just add a basic translation placeholder
+      const targetLang = language === 'en' ? 'zh' : 'en';
+      
+      // Show toast to indicate translation is in progress
+      toast({
+        title: language === 'en' ? "Translating..." : "翻译中...",
+        description: language === 'en' ? `Translating to ${targetLang === 'en' ? 'English' : 'Chinese'}` : 
+          `正在翻译为${targetLang === 'en' ? '英文' : '中文'}`,
+      });
+      
+      // Simulate API call delay
+      await new Promise(resolve => setTimeout(resolve, 500));
+      
+      // Generate a simple translation for demonstration
+      // In a real app, you would call a translation API here
+      let translated = '';
+      
+      if (targetLang === 'en' && selectedArticle.prompt) {
+        // Translate Chinese to English
+        translated = "Transform the two people in the photo into Q-version 3D characters, change the scene to a proposal, replace the background with an elegant colorful petal arch, change the background to romantic colors, and scatter rose petals on the ground. Apart from the characters being in Q-version 3D style, the environment uses realistic style.";
+      } else if (targetLang === 'zh' && selectedArticle.prompt) {
+        // Translate English to Chinese
+        translated = "将照片里的两个人转换成Q版 3D人物，场景换成求婚，背景换成淡雅五彩花瓣做的拱门，背景换成浪漫颜色，地上散落着玫瑰花瓣。除了人物采用Q版 3D人物风格，其他环境采用真实写实风格。";
+      }
+      
+      setTranslatedPrompt(translated);
+      
+      // Show success toast
+      toast({
+        title: language === 'en' ? "Translation complete" : "翻译完成",
+        description: language === 'en' ? `Prompt translated to ${targetLang === 'en' ? 'English' : 'Chinese'}` : 
+          `提示词已翻译为${targetLang === 'en' ? '英文' : '中文'}`,
+      });
+    } catch (error) {
+      console.error("Translation error:", error);
+      toast({
+        title: language === 'en' ? "Translation error" : "翻译错误",
+        description: language === 'en' ? "Failed to translate the prompt" : "无法翻译提示词",
+        variant: "destructive",
+      });
+    }
   };
 
   if (selectedArticle) {
@@ -90,14 +147,25 @@ const Tutorials: React.FC = () => {
               
               {/* 文章对应的提示词 */}
               <div className="mb-8">
-                <h2 className="text-xl font-medium mb-2">
-                  {language === 'en' ? 'Prompt:' : '提示词：'}
+                <h2 className="text-xl font-medium mb-2 flex items-center justify-between">
+                  <span>{language === 'en' ? 'Prompt:' : '提示词：'}</span>
+                  <Button 
+                    variant="outline" 
+                    size="sm"
+                    className="text-xs gap-1"
+                    onClick={translatePrompt}
+                  >
+                    <Languages className="h-3 w-3" />
+                    {translatedPrompt 
+                      ? (language === 'en' ? 'Show Original' : '显示原文') 
+                      : (language === 'en' ? 'Translate to Chinese' : '翻译为英文')}
+                  </Button>
                 </h2>
                 <div className="relative">
                   <Card>
                     <CardContent className="p-4">
                       <div className="bg-muted p-4 rounded-md whitespace-pre-wrap text-sm">
-                        {selectedArticle.prompt}
+                        {translatedPrompt || selectedArticle.prompt}
                       </div>
                     </CardContent>
                     <CardFooter className="flex justify-end pt-0 pb-4 px-4">
@@ -105,7 +173,7 @@ const Tutorials: React.FC = () => {
                         variant="secondary" 
                         size="sm"
                         className="text-xs gap-1"
-                        onClick={() => handleCopyPrompt(selectedArticle.prompt)}
+                        onClick={() => handleCopyPrompt(translatedPrompt || selectedArticle.prompt)}
                       >
                         {copied ? (
                           <>

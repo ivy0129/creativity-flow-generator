@@ -76,6 +76,19 @@ const translations = {
     optimizePrompt: 'Optimize Prompt',
     githubLogin: 'Login with GitHub',
     googleLogin: 'Login with Google',
+    
+    // 新增翻译相关
+    translateToLanguage: 'Translate to {language}',
+    translateTo: 'Translate to',
+    translateToChinese: 'Translate to Chinese',
+    translateToEnglish: 'Translate to English',
+    showOriginal: 'Show Original',
+    translating: 'Translating...',
+    translatingTo: 'Translating to {language}',
+    translationComplete: 'Translation complete',
+    promptTranslatedTo: 'Prompt translated to {language}',
+    translationError: 'Translation error',
+    failedToTranslate: 'Failed to translate the prompt',
   },
   zh: {
     // 通用
@@ -148,6 +161,19 @@ const translations = {
     optimizePrompt: '优化提示词',
     githubLogin: '使用GitHub登录',
     googleLogin: '使用Google登录',
+    
+    // 新增翻译相关
+    translateToLanguage: '翻译为{language}',
+    translateTo: '翻译为',
+    translateToChinese: '翻译为中文',
+    translateToEnglish: '翻译为英文',
+    showOriginal: '显示原文',
+    translating: '翻译中...',
+    translatingTo: '正在翻译为{language}',
+    translationComplete: '翻译完成',
+    promptTranslatedTo: '提示词已翻译为{language}',
+    translationError: '翻译错误',
+    failedToTranslate: '无法翻译提示词',
   }
 };
 
