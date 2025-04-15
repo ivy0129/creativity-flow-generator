@@ -1,4 +1,3 @@
-
 export interface AIPromptTutorial {
   id: string;
   title: {
@@ -57,11 +56,11 @@ export const aiPromptTutorials: AIPromptTutorial[] = [
     sourceText: "@balconychy on X",
     authorName: "@balconychy",
     authorUrl: "https://x.com/balconychy",
-    imageUrl: "public/lovable-uploads/ff5114c3-a8c1-403c-a991-c84c57db367c.png",
+    imageUrl: "public/lovable-uploads/87a1132a-1e06-4ddd-be0e-933b88f6fc05.png",
     requiresReferenceImage: true,
     keyPoints: {
       en: "1. Upload a clear couple's photo\n2. The characters will be rendered in Q-version 3D style while the environment remains realistic\n3. The prompt works best with photos showing both faces clearly\n4. For best results, use a photo with good lighting and clear faces",
-      zh: "1. 上传一张清晰的情侣照片\n2. 角色将以Q版3D风格呈现，而环境保持真实写实风格\n3. 使用能清晰显示两个人脸部的照片效果最佳\n4. 为获得最佳效果，请使用光线良好且面部清晰的照片"
+      zh: "1. 上传一张清晰的情侣照片\n2. 角色将以Q版3D风格呈现，而环境保持真实写实风格\n3. 使用能清晰显示两个人脸部的照片效果最佳\n4. 为获得��佳效果，请使用光线良好且面部清晰的照片"
     }
   }
 ];
