@@ -23,7 +23,7 @@ interface TutorialArticle {
   sourceText?: string;
 }
 
-// Sample articles from https://github.com/jamez-bondos/awesome-gpt4o-images
+// Articles based on https://github.com/jamez-bondos/awesome-gpt4o-images
 export const articles: TutorialArticle[] = [
   {
     id: "detailed-character-concept",
@@ -160,6 +160,52 @@ export const articles: TutorialArticle[] = [
     },
     prompt: "Impressionist painting style landscape of an autumn forest with vibrant red and orange foliage, golden hour sunlight filtering through the trees creating dappled light effects on a winding dirt path, distant misty blue mountains on the horizon, warm color palette with visible brushstrokes and soft edges, artistic digital painting in the style of Monet",
     tags: ["Landscape", "Painting", "Digital Art", "Impressionism"],
+    source: "https://github.com/jamez-bondos/awesome-gpt4o-images",
+    sourceText: "awesome-gpt4o-images GitHub Repository"
+  },
+  {
+    id: "sci-fi-concept-art",
+    title: {
+      en: "Creating Sci-Fi Concept Art",
+      zh: "创建科幻概念艺术"
+    },
+    description: {
+      en: "Learn how to design futuristic sci-fi scenes and environments using AI",
+      zh: "学习如何使用AI设计未来主义科幻场景和环境"
+    },
+    excerpt: {
+      en: "This tutorial explores techniques for creating detailed sci-fi concept art with futuristic technology, environments, and atmospheric effects.",
+      zh: "本教程探索了创建具有未来科技、环境和大气效果的详细科幻概念艺术的技术。"
+    },
+    content: {
+      en: "Science fiction concept art is a thrilling genre that lets you explore futuristic worlds, technologies, and scenarios. AI makes it possible to quickly generate detailed sci-fi scenes that would otherwise take significant artistic skill and time.\n\nThe example prompt focuses on creating a sprawling futuristic cityscape with specific architectural elements, atmospheric conditions, and technological details.\n\nNotice how the prompt specifies:\n\n- Setting (futuristic megacity)\n- Architectural style (neo-futuristic skyscrapers)\n- Atmospheric conditions (sunset, foggy)\n- Technological elements (flying vehicles, holographic displays)\n- Color palette (neon blues and purples)\n- Mood and feel (cyberpunk aesthetic)\n\nThese specifics help ensure the AI generates a cohesive sci-fi scene with a consistent visual style and believable futuristic details.\n\nWhen creating your own sci-fi concept art prompts, consider including:\n\n1. Time period or era (near future, distant future, alternate timeline)\n2. Technology level and specific technologies\n3. Environmental and atmospheric conditions\n4. Architectural and design aesthetics\n5. Color schemes and lighting\n6. Human or alien presence and activities\n7. References to established sci-fi subgenres (cyberpunk, solarpunk, space opera)\n\nExperiment with different combinations to create compelling sci-fi worlds that tell a visual story about possible futures or alternative realities.",
+      zh: "科幻概念艺术是一个令人兴奋的类型，让您探索未来世界、技术和场景。AI使得快速生成原本需要相当艺术技巧和时间的详细科幻场景成为可能。\n\n示例提示词专注于创建具有特定建筑元素、大气条件和技术细节的庞大未来城市景观。\n\n请注意提示词如何指定：\n\n- 场景设置（未来巨型城市）\n\n- 建筑风格（新未来主义摩天大楼）\n\n- 大气条件（日落，雾气）\n\n- 技术元素（飞行车辆，全息显示）\n\n- 色彩搭配（霓虹蓝和紫色）\n\n- 情绪和感觉（赛博朋克美学）\n\n这些细节有助于确保AI生成具有一致视觉风格和可信未来细节的连贯科幻场景。\n\n在创建自己的科幻概念艺术提示词时，考虑包括：\n\n1. 时间段或时代（近未来、远未来、替代时间线）\n\n2. 技术水平和特定技术\n\n3. 环境和大气条件\n\n4. 建筑和设计美学\n\n5. 配色方案和照明\n\n6. 人类或外星人的存在和活动\n\n7. 对已建立的科幻子类型的引用（赛博朋克、太阳朋克、太空歌剧）\n\n尝试不同的组合，创造引人入胜的科幻世界，讲述关于可能未来或替代现实的视觉故事。"
+    },
+    prompt: "Sci-fi concept art of a futuristic megacity at sunset with neo-futuristic skyscrapers stretching into the clouds, flying vehicles moving between buildings, massive holographic advertisements projected on building facades, elevated transparent transit tubes, glowing energy lines connecting structures, neon-lit streets far below shrouded in light fog, distant space elevator in the background, cyberpunk aesthetic with a color palette dominated by deep blues and purples highlighted by neon accents, ultra-detailed, cinematic wide shot with dramatic lighting",
+    tags: ["Sci-Fi", "Concept Art", "Futuristic", "Cityscape"],
+    source: "https://github.com/jamez-bondos/awesome-gpt4o-images",
+    sourceText: "awesome-gpt4o-images GitHub Repository"
+  },
+  {
+    id: "fantasy-character-design",
+    title: {
+      en: "Fantasy Character Design Techniques",
+      zh: "奇幻角色设计技术"
+    },
+    description: {
+      en: "Create compelling fantasy characters with unique attributes and visual storytelling",
+      zh: "创建具有独特属性和视觉叙事的引人入胜的奇幻角色"
+    },
+    excerpt: {
+      en: "This tutorial covers techniques for designing memorable fantasy characters with detailed costumes, accessories, and visual storytelling elements.",
+      zh: "本教程涵盖了设计具有详细服装、配件和视觉叙事元素的难忘奇幻角色的技术。"
+    },
+    content: {
+      en: "Fantasy character design allows you to create compelling personas that blend human elements with magical or otherworldly qualities. Using AI, you can generate detailed fantasy characters that feel like they belong in richly developed worlds.\n\nThe example prompt focuses on creating a detailed fantasy character with specific traits, costume elements, accessories, and environmental context.\n\nNotice how the prompt specifies:\n\n- Character type and role (elven wizard/scholar)\n- Physical attributes (aged, wise appearance)\n- Costume details (ornate robes with specific embellishments)\n- Accessories and props (specific staff design, magical elements)\n- Environmental context (ancient library setting)\n- Artistic style (detailed fantasy illustration)\n- Lighting and mood (warm ambient lighting)\n\nThese specifics help ensure the AI generates a character that not only looks visually interesting but also tells a story through visual elements alone.\n\nWhen creating your own fantasy character design prompts, consider including:\n\n1. Character race, class, or archetype\n2. Age, physical build, and distinctive features\n3. Detailed clothing and armor descriptions\n4. Magical or special accessories and weapons\n5. Character's emotional state or personality hints\n6. Environmental context or background setting\n7. Art style references or inspirations\n\nExperiment with different combinations to create fantasy characters that feel like they have rich backstories and belong in fully realized fantasy worlds.",
+      zh: "奇幻角色设计使您能够创建将人类元素与魔法或超凡特质相结合的引人入胜的角色形象。使用AI，您可以生成感觉像属于丰富发展世界的详细奇幻角色。\n\n示例提示词专注于创建具有特定特征、服装元素、配件和环境背景的详细奇幻角色。\n\n请注意提示词如何指定：\n\n- 角色类型和角色（精灵巫师/学者）\n\n- 身体特征（年长，智慧外表）\n\n- 服装细节（具有特定装饰的华丽长袍）\n\n- 配件和道具（特定的法杖设计，魔法元素）\n\n- 环境背景（古代图书馆设置）\n\n- 艺术风格（详细的奇幻插图）\n\n- 灯光和氛围（温暖的环境照明）\n\n这些细节有助于确保AI生成的角色不仅看起来视觉上有趣，而且仅通过视觉元素就能讲述故事。\n\n在创建自己的奇幻角色设计提示词时，考虑包括：\n\n1. 角色种族、职业或原型\n\n2. 年龄、体格和独特特征\n\n3. 详细的服装和盔甲描述\n\n4. 魔法或特殊配件和武器\n\n5. 角色的情绪状态或性格暗示\n\n6. 环境背景或背景设置\n\n7. 艺术风格参考或灵感来源\n\n尝试不同的组合，创建感觉具有丰富背景故事和属于完全实现的奇幻世界的奇幻角色。"
+    },
+    prompt: "Fantasy character design of an aged elven wizard-scholar with long silver hair and wise amber eyes, wearing ornate emerald-green robes embroidered with ancient silver runes and constellations, adorned with multiple small crystal vials and pouches containing magical ingredients hanging from a leather belt, holding an intricately carved wooden staff topped with a glowing blue crystal sphere that casts soft illumination on his weathered face, standing in an ancient stone library filled with floating magical tomes and scrolls, warm ambient lighting with dust particles visible in the air, detailed fantasy illustration style with fine attention to textures and magical elements",
+    tags: ["Fantasy", "Character Design", "Magic", "Illustration"],
     source: "https://github.com/jamez-bondos/awesome-gpt4o-images",
     sourceText: "awesome-gpt4o-images GitHub Repository"
   }

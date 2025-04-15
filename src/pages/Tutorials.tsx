@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { Book, FileText, ExternalLink } from 'lucide-react';
+import { Book, FileText, ExternalLink, Home, Bookmark, Info } from 'lucide-react';
 import { useLanguage } from '@/hooks/useLanguage';
 import { useIsMobile } from '@/hooks/use-mobile';
 import SEO from '@/components/SEO';
