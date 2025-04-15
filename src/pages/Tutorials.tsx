@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { Book, FileText, ExternalLink, Home, Bookmark, Info, Copy, CheckCircle, Image, ChevronRight } from 'lucide-react';
+import { Book, FileText, ExternalLink, Home, Bookmark, Info, Copy, CheckCircle } from 'lucide-react';
 import { useLanguage } from '@/hooks/useLanguage';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useToast } from '@/hooks/use-toast';
@@ -10,43 +10,24 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from '@/components/ui/pagination';
-import { articles } from '@/data/tutorial-articles';
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-
-const ITEMS_PER_PAGE = 6;
+import { aiPromptTutorials } from '@/data/ai-prompt-tutorials';
 
 const Tutorials: React.FC = () => {
   const { t, language } = useLanguage();
   const isMobile = useIsMobile();
-  const [currentPage, setCurrentPage] = useState(1);
   const { articleId } = useParams();
   const { toast } = useToast();
   const [copied, setCopied] = useState(false);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   
-  const pageCount = Math.ceil(articles.length / ITEMS_PER_PAGE);
-  const currentArticles = articles.slice(
-    (currentPage - 1) * ITEMS_PER_PAGE,
-    currentPage * ITEMS_PER_PAGE
-  );
-  
   const selectedArticle = articleId 
-    ? articles.find(article => article.id === articleId)
+    ? aiPromptTutorials.find(article => article.id === articleId)
     : null;
 
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, [currentPage, articleId]);
+  }, [articleId]);
 
   useEffect(() => {
     setActiveImageIndex(0);
@@ -72,9 +53,8 @@ const Tutorials: React.FC = () => {
       <div className="min-h-screen flex flex-col bg-background">
         <SEO 
           title={selectedArticle.title[language]}
-          description={selectedArticle.seoDescription?.[language] || selectedArticle.description[language]}
+          description={selectedArticle.description[language]}
           keywords={selectedArticle.tags.join(',')}
-          seoKeywords={selectedArticle.seoKeywords?.[language]}
         />
         <Header />
         
@@ -88,7 +68,6 @@ const Tutorials: React.FC = () => {
             </div>
             
             <article className="prose prose-slate dark:prose-invert max-w-none">
-              {/* 文章标题 */}
               <h1 className="text-3xl sm:text-4xl font-bold mb-4">{selectedArticle.title[language]}</h1>
               
               {selectedArticle.source && (
@@ -126,24 +105,6 @@ const Tutorials: React.FC = () => {
                       className="w-full object-cover max-h-[500px]"
                     />
                   </div>
-                  
-                  {sampleImages.length > 1 && (
-                    <div className="grid grid-cols-3 sm:grid-cols-5 gap-2 mb-4">
-                      {sampleImages.map((img, idx) => (
-                        <div 
-                          key={idx}
-                          className={`cursor-pointer border-2 rounded-md overflow-hidden ${activeImageIndex === idx ? 'border-primary' : 'border-transparent'}`}
-                          onClick={() => setActiveImageIndex(idx)}
-                        >
-                          <img 
-                            src={img} 
-                            alt={`${selectedArticle.title[language]} - ${language === 'en' ? 'Thumbnail' : '缩略图'} ${idx + 1}`}
-                            className="w-full h-20 object-cover"
-                          />
-                        </div>
-                      ))}
-                    </div>
-                  )}
                 </div>
               )}
               
@@ -260,16 +221,6 @@ const Tutorials: React.FC = () => {
       <SEO 
         title={language === 'en' ? 'AI Prompt Tutorials & Examples' : 'AI提示词教程和案例'}
         description={language === 'en' ? 'Learn how to use AI prompts with our comprehensive tutorials and real-world examples for image generation, text prompts, and more' : '通过我们全面的教程和真实案例学习如何使用AI提示词进行图像生成、文本提示等'}
-        seoKeywords={[
-          'AI prompt tutorials', 
-          'AI image generation prompts',
-          'prompt engineering examples',
-          'learn AI prompting',
-          'AI art tutorials',
-          'ChatGPT prompt guide',
-          'image generation tips',
-          'AI creative prompts'
-        ]}
       />
       <Header />
       
@@ -286,9 +237,8 @@ const Tutorials: React.FC = () => {
             </p>
           </div>
           
-          {/* 更新列表样式，参考提供的图片 */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {currentArticles.map((article) => (
+            {aiPromptTutorials.map((article) => (
               <Link 
                 to={`/tutorials/${article.id}`} 
                 key={article.id}
@@ -317,97 +267,24 @@ const Tutorials: React.FC = () => {
                       {article.excerpt[language]}
                     </p>
                     
-                    <div className="flex justify-between items-center mt-auto">
-                      {/* 标签 */}
-                      <div className="flex flex-wrap gap-1">
-                        {article.tags.slice(0, 2).map(tag => (
-                          <span key={tag} className="text-xs bg-muted px-2 py-0.5 rounded-full">
-                            {tag}
-                          </span>
-                        ))}
-                        {article.tags.length > 2 && (
-                          <span className="text-xs bg-muted px-2 py-0.5 rounded-full">
-                            +{article.tags.length - 2}
-                          </span>
-                        )}
-                      </div>
-                      
-                      {/* 阅读更多按钮 */}
-                      <div className="text-sm text-primary flex items-center gap-1 mt-2">
-                        {language === 'en' ? 'Read more' : '查看详情'}
-                        <ChevronRight className="h-4 w-4" />
-                      </div>
+                    {/* 标签 */}
+                    <div className="flex flex-wrap gap-1 mt-auto">
+                      {article.tags.slice(0, 3).map(tag => (
+                        <span key={tag} className="text-xs bg-muted px-2 py-0.5 rounded-full">
+                          {tag}
+                        </span>
+                      ))}
+                      {article.tags.length > 3 && (
+                        <span className="text-xs bg-muted px-2 py-0.5 rounded-full">
+                          +{article.tags.length - 3}
+                        </span>
+                      )}
                     </div>
                   </div>
                 </div>
               </Link>
             ))}
           </div>
-          
-          {pageCount > 1 && (
-            <Pagination className="mt-10">
-              <PaginationContent>
-                <PaginationItem>
-                  <PaginationPrevious 
-                    href="#" 
-                    onClick={(e) => {
-                      e.preventDefault();
-                      if (currentPage > 1) setCurrentPage(currentPage - 1);
-                    }}
-                    className={currentPage === 1 ? 'pointer-events-none opacity-50' : ''}
-                  />
-                </PaginationItem>
-                
-                {[...Array(pageCount)].map((_, i) => {
-                  const page = i + 1;
-                  if (
-                    page === 1 || 
-                    page === pageCount || 
-                    (page >= currentPage - 1 && page <= currentPage + 1)
-                  ) {
-                    return (
-                      <PaginationItem key={page}>
-                        <PaginationLink 
-                          href="#" 
-                          onClick={(e) => {
-                            e.preventDefault();
-                            setCurrentPage(page);
-                          }}
-                          isActive={page === currentPage}
-                        >
-                          {page}
-                        </PaginationLink>
-                      </PaginationItem>
-                    );
-                  }
-                  
-                  if (
-                    (page === 2 && currentPage > 3) || 
-                    (page === pageCount - 1 && currentPage < pageCount - 2)
-                  ) {
-                    return (
-                      <PaginationItem key={page}>
-                        <PaginationEllipsis />
-                      </PaginationItem>
-                    );
-                  }
-                  
-                  return null;
-                })}
-                
-                <PaginationItem>
-                  <PaginationNext 
-                    href="#" 
-                    onClick={(e) => {
-                      e.preventDefault();
-                      if (currentPage < pageCount) setCurrentPage(currentPage + 1);
-                    }}
-                    className={currentPage === pageCount ? 'pointer-events-none opacity-50' : ''}
-                  />
-                </PaginationItem>
-              </PaginationContent>
-            </Pagination>
-          )}
         </div>
       </main>
       
