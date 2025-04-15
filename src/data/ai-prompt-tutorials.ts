@@ -35,39 +35,6 @@ export interface AIPromptTutorial {
 
 export const aiPromptTutorials: AIPromptTutorial[] = [
   {
-    id: "simple-line-drawing-emojis",
-    title: {
-      en: "Simple Line Drawing Emoji Set",
-      zh: "简笔画表情包"
-    },
-    description: {
-      en: "Transform a portrait photo into a set of simple line drawing emojis with different expressions",
-      zh: "将肖像照片转换成一系列不同表情的简笔画表情包"
-    },
-    excerpt: {
-      en: "Create a charming set of minimalist line drawing emojis from your photo, featuring various expressions like smiling, frowning, surprised, thinking, winking, and sticking out tongue.",
-      zh: "从您的照片创建一系列极简主义风格的简笔画表情包，包含微笑、皱眉、惊讶、思考、眨眼和吐舌头等多种表情。"
-    },
-    content: {
-      en: "This prompt transforms a portrait photo into a set of simple, elegant line drawing emojis with various expressions, perfect for personal use in chats or social media.\n\nThe process happens in two distinct steps. First, the AI converts your photo into a clean line drawing style, capturing the essential features and personality of the subject while simplifying details. Then, it creates multiple versions with different expressions: sticking out tongue, smiling, frowning, surprised, thinking, and winking.\n\nThe resulting style is minimalist and charming - using only thin black lines on a white background with occasionally small filled areas for emphasis. The drawings maintain the subject's key characteristics while removing unnecessary details, creating an instantly recognizable yet simplified representation.\n\nTo use this prompt effectively, upload a clear frontal portrait photo with good lighting and a neutral expression. The AI will then generate a cohesive set of expressions based on this reference image.\n\nThese line drawing emojis make perfect custom stickers for messaging apps, social media profile pictures, or personalized digital assets. They offer a unique way to express yourself online with a consistent artistic style across multiple emotions.",
-      zh: "这个提示词将肖像照片转换成一系列简洁、优雅的简笔画表情包，带有各种表情，非常适合在聊天或社交媒体中个人使用。\n\n这个过程分为两个明确的步骤。首先，AI将您的照片转换为干净的线条画风格，捕捉主体的基本特征和个性，同时简化细节。然后，它创建带有不同表情的多个版本：吐舌头、微笑、皱眉、惊讶、思考和眨眼。\n\n最终的风格简约而迷人——仅使用白色背景上的细黑线，偶尔有小面积填充以增强效果。这些画作保留了主体的关键特征，同时去除了不必要的细节，创造出即时可识别且简化的表现形式。\n\n要有效地使用这个提示词，请上传一张清晰的正面肖像照片，光线良好，表情自然。然后AI将基于这张参考图片生成一套连贯的表情。\n\n这些线条画表情包可以作为消息应用的自定义贴纸、社交媒体头像或个性化数字资产。它们提供了一种独特的方式，让您能够在线上以一致的艺术风格表达多种情绪。"
-    },
-    prompt: "(分为两步)\n先把图片人物变成手绘��笔画风格\n然后把简笔画按照吐舌头、微笑、皱眉、惊讶、思考、眨眼生成一系列表情包",
-    promptEn: "(Two steps)\nFirst transform the person in the image into a hand-drawn simple line art style\nThen create a series of emoji expressions using the line drawing: sticking out tongue, smiling, frowning, surprised, thinking, and winking",
-    promptZh: "(分为两步)\n先把图片人物变成手绘简笔画风格\n然后把简笔画按照吐舌头、微笑、皱眉、惊讶、思考、眨眼生成一系列表情包",
-    tags: ["简笔画", "表情包", "线条画", "肖像", "个性化"],
-    source: "https://x.com/ZHO_ZHO_ZHO/status/1909907741948399873",
-    sourceText: "@ZHO_ZHO_ZHO on X",
-    authorName: "@ZHO_ZHO_ZHO",
-    authorUrl: "https://x.com/ZHO_ZHO_ZHO",
-    imageUrl: "public/lovable-uploads/60513158-ead7-4f8b-86fb-8920bc58b721.png",
-    requiresReferenceImage: true,
-    keyPoints: {
-      en: "1. Upload a clear frontal portrait photo with good lighting\n2. The process has two steps: first converting to line drawing, then creating multiple expressions\n3. For best results, start with a neutral expression in your reference photo\n4. The style is minimalist with only black lines on white background\n5. These emojis can be used as custom stickers for messaging apps",
-      zh: "1. 上传一张光线良好的清晰正面肖像照片\n2. 处理分为两个步骤：首先转换为线条画，然后创建多种表情\n3. 为获得最佳效果，参考照片中表情应保持自然\n4. 风格极简，仅使用白色背景上的黑色线条\n5. 这些表情包可用作消息应用的自定义贴纸"
-    }
-  },
-  {
     id: "japanese-two-panel-manga",
     title: {
       en: "Japanese Two-Panel Manga Style",
@@ -97,7 +64,7 @@ export const aiPromptTutorials: AIPromptTutorial[] = [
     requiresReferenceImage: true,
     keyPoints: {
       en: "1. Upload a clear photo showing the person's face and upper body\n2. The AI will maintain recognizable features while transforming the subject into manga style\n3. Each panel shows different emotions and actions to create a sequential narrative\n4. This style works best when showing emotional contrasts between the two panels\n5. For best results, include specific details about the scene, expressions, and dialogue",
-      zh: "1. 上传清晰显示人物面部和上半身的照片\n2. AI将保持可识别的特征，同时将主体转换为漫画风格\n3. 每个格子展示不同的情绪和动作，创造连续叙事\n4. 这种风格在展示两个格子之间的情绪对比时效果最佳\n5. 为获得最佳效果，请包含关于场景、表情和对话的具体细节"
+      zh: "1. 上传清晰显示人物面部和上半身的照片\n2. AI将保持可识别的特征，同时将主体转换为漫画风格\n3. 每个格子展示不同的情绪和动作，创造连续叙事\n4. 这种风格在展示两个格子之间的情绪对比时效果最佳\n5. 为获得最佳效果，请包含关于场景、表情和��话的具体细节"
     }
   },
   {
@@ -112,7 +79,7 @@ export const aiPromptTutorials: AIPromptTutorial[] = [
     },
     excerpt: {
       en: "Transform your photos into Pixar's signature 3D animation style, characterized by exaggerated facial features, smooth textures, and expressive emotions that bring characters to life.",
-      zh: "将您的照片转换成皮克斯标志性的3D动画风格，特点是夸张但吸引人的角色设计、平滑的纹理和生动的表情，让角色栩栩如生。"
+      zh: "将您的照片转换成皮克斯标志性的3D动画风格，特点是夸张的面部特征、平滑的纹理和生动的表情，让角色栩栩如生。"
     },
     content: {
       en: "This prompt transforms ordinary photos into the distinctive Pixar 3D animation style, known for its exaggerated yet appealing character design, smooth textures, and emotionally expressive features.\n\nPixar Animation Studios has defined modern 3D animation with its unique aesthetic that balances caricature with believability. Characters typically feature slightly oversized heads, exaggerated facial features (especially noses, eyes, and eyebrows), and incredibly detailed texturing that creates a sense of both stylization and realism.\n\nWhen applied to photos, this transformation recreates subjects with Pixar's signature look: slightly cartoonish proportions, enhanced emotional expressiveness, and a polished, rendered 3D quality. Skin textures are smoothed yet retain subtle details, hair is simplified into flowing shapes, and features are exaggerated while maintaining the subject's recognizable traits.\n\nTo use this prompt effectively, upload a clear photo with good lighting. The AI works particularly well with portraits that show facial expressions, as the Pixar style excels at conveying emotion. Both close-up faces and full-body shots can be transformed effectively.\n\nThis prompt is remarkably simple yet produces consistent results due to the widespread recognition of the Pixar aesthetic developed through films like Toy Story, Up, and The Incredibles. The transformation is perfect for creating unique profile pictures, family portraits with a playful twist, or reimagining yourself as a character who might appear in a Pixar film.",
@@ -145,11 +112,11 @@ export const aiPromptTutorials: AIPromptTutorial[] = [
     },
     excerpt: {
       en: "Transform your photos into the enchanting world of Studio Ghibli with this simple prompt, recreating the iconic hand-drawn aesthetic made famous by films like 'Spirited Away' and 'My Neighbor Totoro'.",
-      zh: "使用这个简单的提示词将您的照片转换��吉卜力工作室的魅力世界，重现《千与千寻》和《龙猫》等电影中著名的手绘美学风格。"
+      zh: "使用这个简单的提示词将您的照片转换成吉卜力工作室的魅力世界，重现《千与千寻》和《龙猫》等电影中著名的手绘美学风格。"
     },
     content: {
       en: "This prompt transforms ordinary photos into the distinctive Studio Ghibli animation style, characterized by soft colors, expressive characters, and dreamy, painterly backgrounds.\n\nStudio Ghibli, founded by legendary animator Hayao Miyazaki, is renowned for its unique artistic approach that blends whimsical characters with detailed natural environments. The studio's hand-drawn animation style has a characteristic warmth and charm that is instantly recognizable.\n\nWhen applied to photos, this transformation recreates subjects with the large, expressive eyes typical of Ghibli characters, simplifies features while maintaining recognizability, and adds the studio's signature soft color palette. Backgrounds are reimagined with the studio's distinctive painterly quality, often featuring fluffy clouds, lush vegetation, and atmospheric lighting that creates a sense of wonder.\n\nTo use this prompt effectively, upload a clear photo with good lighting. The AI works particularly well with portraits, landscapes, or photos containing both people and natural settings. While the prompt is remarkably simple, it produces consistent results due to the widespread recognition of the Ghibli aesthetic.\n\nIf your uploaded image contains potentially inappropriate or sensitive content in the background, you can add an additional line to the prompt requesting the AI to modify or remove such elements.\n\nThis transformation is perfect for creating unique profile pictures, commemorating special moments in an artistic style, or simply exploring how you or your surroundings might appear in the enchanting world of a Ghibli film.",
-      zh: "这个提示词将普通照片转换成独特的吉卜力工作室动画风格，特点是柔和的色彩、富有表现力的角色和梦幻般的绘画背景。\n\n由传奇动画师宫崎骏创立的吉卜力工作室，因其独特的艺术方法而闻名，这种方法将奇幻角色与详细的自然环境融合在一起。工作室的手绘动画风格具有特有的温暖和魅力，让人一眼就能辨认出来。\n\n当应用于照片时，这种转换会重新创造主体，赋予其吉卜力角色典型的大而富有表现力的眼睛，简化特征的同时保持可识别性，并添加工作室标志性的柔和色彩调色板。背景则以工作室独特的绘画质感重新构想，通常包括蓬松的云朵、茂盛的植被和营造出奇妙感的大气光照效果。\n\n要有效使用这个提示词，请上传光线良好的清晰照片。AI特别适合处理人像、风景或同时包含人物和自然环境的照片。虽然提示词非常简单，但由于吉卜力美学的广泛认知度，它能产生一致的效果。\n\n如果您上传的图像背景中包含潜在不适当或敏感的内容，您可以在提示词中添加一行额外的请求，要求AI修改或删除这些元素。\n\n这种转换非常适合创建独特的个人头像、以艺术风格纪念特殊时刻，或者只是探索您或您周围的环境在吉卜力电影的迷人世界中会是什么样子。"
+      zh: "这个提示词将普通照片转换成独特的吉卜力工作室动画风格，特点是柔和的色彩、富有表现力的角色和梦幻般的绘画背景。\n\n由传奇动画师宫崎骏创立的吉卜力工作室，因其独特的艺术方法而闻名，这种方法将奇幻角色与详细的自然环境融合在一起。工作室的手绘动画风格具有特有的温暖和魅力，让人一眼就能辨认出来。\n\n当应用于照片时，这种转换会重新创造主体，赋予其吉卜力角色典型的大而富有表现力的眼睛，简化特征的同时保持可识别性，并添加工作室标志性的柔和色彩调色板。背景则以工作室独特的绘画质感重新构想，通常包括蓬松的云朵、茂盛的植被和营造出奇妙感的大气光照效果。\n\n要有效使用这个提示词，请上传一张光线良好的清晰照片。AI特别适合处理人像、风景或同时包含人物和自然环境的照片。虽然提示词非常简单，但由于吉卜力美学的广泛认知度，它能产生一致的效果。\n\n如果您上传的图像背景中包含潜在不适当或敏感的内容，您可以在提示词中添加一行额外的请求，要求AI修改或删除这些元素。\n\n这种转换非常适合创建独特的个人头像、以艺术风格纪念特殊时刻，或者只是探索您或您周围的环境在吉卜力电影的迷人世界中会是什么样子。"
     },
     prompt: "以吉卜力风格重绘这张照片",
     promptEn: "Redraw this photo in Studio Ghibli style",
@@ -181,7 +148,7 @@ export const aiPromptTutorials: AIPromptTutorial[] = [
       zh: "创建一个优雅的Q版3D中式婚礼场景，人物穿着传统红色服装并饰有金色刺绣，背景为喜庆的'囍'字剪纸图案。"
     },
     content: {
-      en: "This prompt transforms a couple's photo into charming Q-version 3D characters dressed in traditional Chinese wedding attire, set against a backdrop of auspicious 'Double Happiness' paper-cut patterns.\n\nThe male character is depicted wearing a red long gown (changpao) and formal outer jacket (magua) embroidered with golden dragon patterns, symbolizing nobility and prosperity. He sports a traditional red scholar's hat (zhuangyuan hat) adorned with golden patterns and an ornate gold embellishment on top, representing wisdom and honor. A large red flower is pinned to his chest, symbolizing joy and celebration.\\n\nThe female character is dressed in an exquisite red xiuhe outfit (traditional Chinese bridal attire), embellished with intricate golden patterns and phoenix embroidery, representing grace and elegance. Her headdress features a phoenix crown adorned with red flowers, golden three-dimensional decorations, and hanging tassels, embodying beauty and nobility in classical Chinese aesthetics.\\n\nThe background showcases the Chinese character for 'Double Happiness' (囍) in a traditional paper-cut style, creating a festive atmosphere that's essential for Chinese wedding celebrations.\\n\nTo use this prompt effectively, upload a clear photo of a couple. The AI will transform them into Q-version 3D characters while maintaining their recognizable features, dressing them in traditional Chinese wedding attire against a festive backdrop.\\n\nThis prompt is perfect for creating unique wedding announcements, anniversary gifts, or cultural celebration art that honors traditional Chinese wedding customs.",
+      en: "This prompt transforms a couple's photo into charming Q-version 3D characters dressed in traditional Chinese wedding attire, set against a backdrop of auspicious 'Double Happiness' paper-cut patterns.\n\nThe male character is depicted wearing a red long gown (changpao) and formal outer jacket (magua) embroidered with golden dragon patterns, symbolizing nobility and prosperity. He sports a traditional red scholar's hat (zhuangyuan hat) adorned with golden patterns and an ornate gold embellishment on top, representing wisdom and honor. A large red flower is pinned to his chest, symbolizing joy and celebration.\n\nThe female character is dressed in an exquisite red xiuhe outfit (traditional Chinese bridal attire), embellished with intricate golden patterns and phoenix embroidery, representing grace and elegance. Her headdress features a phoenix crown adorned with red flowers, golden three-dimensional decorations, and hanging tassels, embodying beauty and nobility in classical Chinese aesthetics.\n\nThe background showcases the Chinese character for 'Double Happiness' (囍) in a traditional paper-cut style, creating a festive atmosphere that's essential for Chinese wedding celebrations.\n\nTo use this prompt effectively, upload a clear photo of a couple. The AI will transform them into Q-version 3D characters while maintaining their recognizable features, dressing them in traditional Chinese wedding attire against a festive backdrop.\n\nThis prompt is perfect for creating unique wedding announcements, anniversary gifts, or cultural celebration art that honors traditional Chinese wedding customs.",
       zh: "这个提示词将情侣照片转换为穿着传统中式婚礼服装的Q版3D人物角色，背景是喜庆的'囍'字剪纸图案。\n\n男性角色身着红色长袍马褂，上面饰有金色龙纹刺绣，象征尊贵和繁荣。他戴着传统的红色状元帽，帽子上饰有金色图案和顶部精致的金色装饰，代表智慧和荣誉。胸前别着一朵大红花，寓意喜庆和庆祝。\n\n女性角色穿着精美的红色秀禾服（传统中式新娘礼服），上面装饰有复杂的金色图案和凤凰刺绣，展现优雅和典雅。她的头饰是一顶凤冠，上面点缀着红色花朵、金色立体装饰和垂坠流苏，体现了中国古典美学中的美丽和高贵。\n\n背景展示了传统剪纸风格的中国'囍'字，营造出中式婚礼庆典不可或缺的喜庆氛围。\n\n要有效使用这个提示词，请上传一张清晰的情侣照片。AI将把他们转换为Q版3D角色，同时保持他们的可识别特征，为他们穿上传统中式婚礼服装，配以喜庆背景。\n\n这个提示词非常适合创建独特的婚礼通知、周年纪念礼物或尊重传统中式婚礼习俗的文化庆祝艺术品。"
     },
     prompt: "将照片里的两个人转换成Q版 3D人物，中式古装婚礼，大红颜色，背景\"囍\"字剪纸风格图案。 服饰要求：写实，男士身着长袍马褂，主体为红色，上面以金色绣龙纹图案，彰显尊贵大气 ，胸前系着大红花，寓意喜庆吉祥。女士所穿是秀禾服，同样以红色为基调，饰有精美的金色花纹与凤凰刺绣，展现出典雅华丽之感 ，头上搭配花朵发饰，增添柔美温婉气质。二者皆为中式婚礼中经典着装，蕴含着对新人婚姻美满的祝福。 头饰要求： 男士：中式状元帽，主体红色，饰有金色纹样，帽顶有精致金饰，尽显传统儒雅庄重。 女士：凤冠造型，以红色花朵为中心，搭配金色立体装饰与垂坠流苏，华丽富贵，古典韵味十足。",
@@ -215,18 +182,54 @@ export const aiPromptTutorials: AIPromptTutorial[] = [
     },
     content: {
       en: "This prompt creates a unique and visually captivating dimensional effect where your subject is transformed into a 3D Q-version character that appears to be stepping out of a Polaroid photo.\n\nThe character is rendered in a cute, cartoon-like 3D style with exaggerated features while maintaining recognizable characteristics of the original subject. The Polaroid frame provides a perfect contrast between the 2D medium and the 3D character that's breaking through its boundaries.\n\nA hand holding the Polaroid photo adds a sense of scale and reality to the composition, enhancing the illusion of the character crossing dimensions from the flat photo into the real world.\n\nTo use this prompt effectively, upload a clear photo of a person, preferably a half-body or full-body shot. The AI will transform the subject into a 3D Q-version character while creating the dimensional breakthrough effect with the Polaroid frame.\n\nThis prompt is perfect for creating unique profile pictures, social media posts, or fun digital art pieces that play with the concept of dimensions.",
-      zh: "这个提示词创建了一个独特且视觉上引人注目的立体效果，将您的主体转变为一个3D Q版角色，看起来正从拍立得照片中走出来。\n\n角色以可爱的卡通3D风格呈现，具有夸张的特征��同时保持原主体的可识别特征。拍立得相框在2D媒介和正在突破其边界的3D角色之间提供了完美的对比。\n\n手持拍立得照片为构图增添了比例和现实感，增强了角色从平面照片穿越到现实世界的幻觉。\n\n要有效使用这个提示词，请上传一张清晰的人物照片，最好是半身或全身照。AI将把主体转换为3D Q版角色，同时通过拍立得相框创造维度突破的效果。\n\n这个提示词非常适合创建独特的个人头像、社交媒体帖子，或者玩弄维度概念的有趣数字艺术作品。"
+      zh: "这个提示词创建了一个独特且视觉上引人注目的立体效果，将您的主体转变为一个3D Q版角色，看起来正从拍立得照片中走出来。\n\n角色以可爱的卡通风格3D渲染，具有夸张的特征，同时保持原始主体的可识别特点。拍立得相框在二维媒介和突破边界的3D角色之间提供了完美的对比。\n\n一只手拿着拍立得照片，为构图增添了比例感和现实感，增强了角色从平面照片跨越维度进入现实世界的错觉。\n\n要有效地使用这个提示词，请上传一张清晰的人物照片，最好是半身或全身照。AI将把主体转变为3D Q版角色，同时创建带有拍立得相框的维度突破效果。\n\n这个提示词非常适合创建独特的头像、社交媒体帖子或有趣的数字艺术作品，玩转维度概念。"
     },
-    tags: ["3D", "Q版", "人物"],
-    source: "https://x.com/balconychy/status/1909418699150237917",
+    prompt: "将场景中的角色转化为3D Q版风格，放在一张拍立得照片上，相纸被一只手拿着，照片中的角色正从拍立得照片中走出，呈现出突破二维相片边框、进入二维现实空间的视觉效果。",
+    promptEn: "Transform the character in the scene into a 3D Q-version style, place them on a Polaroid photo being held by a hand, with the character stepping out of the photo, creating a visual effect of breaking through the 2D photo frame and entering the real world.",
+    promptZh: "将场景中的角色转化为3D Q版风格，放在一张拍立得照片上，相纸被一只手拿着，照片中的角色正从拍立得照片中走出，呈现出突破二维相片边框、进入二维现实空间的视觉效果。",
+    tags: ["Q版", "3D", "拍立得", "立体效果", "照片"],
+    source: "https://x.com/dotey/status/1908238003169903060",
+    sourceText: "@dotey on X",
+    authorName: "@dotey",
+    authorUrl: "https://x.com/dotey",
+    imageUrl: "public/lovable-uploads/f7bdb0b4-f88f-4e3e-ba9f-046cc0575c52.png",
+    requiresReferenceImage: true,
+    keyPoints: {
+      en: "1. Upload a clear half-body or full-body person photo\n2. The character will be rendered in 3D Q-version style while maintaining recognizable features\n3. The effect works best with photos that have good lighting and a clear subject\n4. Photos with simple backgrounds work better for this transformation",
+      zh: "1. 上传一张清晰的半身或全身人物照片\n2. 角色将以3D Q版风格呈现，同时保持可识别的特征\n3. 此效果在光线良好且主体清晰的照片上效果最佳\n4. 背景简单的照片更适合此类转换"
+    }
+  },
+  {
+    id: "q-version-proposal-scene",
+    title: {
+      en: "Q-Version Proposal Scene",
+      zh: "Q版求婚场景"
+    },
+    description: {
+      en: "Transform a couple's photo into a Q-version 3D proposal scene with romantic elements",
+      zh: "将情侣照片转换成浪漫的Q版3D求婚场景"
+    },
+    excerpt: {
+      en: "Create a charming Q-version 3D proposal scene with characters from your photo, featuring a romantic arch made of colorful petals and rose petals scattered on the ground.",
+      zh: "创建一个迷人的Q版3D求婚场景，角色来自您的照片，特色是由彩色花瓣制成的浪漫拱门，地上散落着玫瑰花瓣。"
+    },
+    content: {
+      en: "This prompt creates a romantic Q-version 3D proposal scene from a couple's photo. The characters are rendered in a cute, chibi 3D style while the environment is realistic.\n\nThe scene features a beautiful arch made of colorful petals in delicate hues, creating a romantic backdrop for the proposal. Rose petals are scattered on the ground, enhancing the romantic atmosphere.\n\nTo use this prompt effectively, upload a clear photo of a couple. The AI will transform them into Q-version 3D characters while maintaining their recognizable features. The background will shift to a romantic setting with a petal arch and rose petals on the ground.\n\nThis prompt is perfect for creating unique engagement announcements, anniversary gifts, or romantic keepsakes.",
+      zh: "这个提示词创建了一个从情侣照片生成的浪漫Q版3D求婚场景。角色以可爱的Q版3D风格呈现，而环境则保持真实写实风格。\n\n场景特色是由彩色花瓣制成的美丽拱门，色调淡雅，为求婚场景创造了浪漫的背景。地面上散落着玫瑰花瓣，增强了浪漫的氛围。\n\n要有效地使用这个提示词，请上传一张清晰的情侣照片。AI将把他们转换为Q版3D角色，同时保持他们可辨识的特征。背景将变成一个浪漫的场景，有花瓣拱门和地面上的玫瑰花瓣。\n\n这个提示词非常适合创建独特的订婚通知、周年纪念礼物或浪漫纪念品。"
+    },
+    prompt: "将照片里的两个人转换成Q版 3D人物，场景换成求婚，背景换成淡雅五彩花瓣做的拱门，背景换成浪漫颜色，地上散落着玫瑰花瓣。除了人物采用Q版 3D人物风格，其他环境采用真实写实风格。",
+    promptEn: "Transform the two people in the photo into Q-version 3D characters, change the scene to a proposal, replace the background with an elegant colorful petal arch, change the background to romantic colors, and scatter rose petals on the ground. Apart from the characters being in Q-version 3D style, the environment uses realistic style.",
+    promptZh: "将照片里的两个人转换成Q版 3D人物，场景换成求婚，背景换成淡雅五彩花瓣做的拱门，背景换成浪漫颜色，地上散落着玫瑰花瓣。除了人物采用Q版 3D人物风格，其他环境采用真实写实风格。",
+    tags: ["Q版", "3D", "求婚场景", "情侣", "浪漫"],
+    source: "https://x.com/balconychy/status/1909417750587486469",
     sourceText: "@balconychy on X",
     authorName: "@balconychy",
     authorUrl: "https://x.com/balconychy",
-    imageUrl: "public/lovable-uploads/385d92f3-850a-42b8-b24a-10a83ddcc76b.png",
+    imageUrl: "public/lovable-uploads/87a1132a-1e06-4ddd-be0e-933b88f6fc05.png",
     requiresReferenceImage: true,
     keyPoints: {
-      en: "1. Upload a clear photo of a person\n2. The AI will transform the subject into a 3D Q-version character\n3. The Polaroid frame will create a dimensional breakthrough effect",
-      zh: "1. 上传一张清晰的人物照片\n2. AI将把主体转换为3D Q版角色\n3. 拍立得相框将创造维度突破效果"
+      en: "1. Upload a clear couple's photo\n2. The characters will be rendered in Q-version 3D style while the environment remains realistic\n3. The prompt works best with photos showing both faces clearly\n4. For best results, use a photo with good lighting and clear faces",
+      zh: "1. 上传一张清晰的情侣照片\n2. 角色将以Q版3D风格呈现，而环境保持真实写实风格\n3. 使用能清晰显示两个人脸部的照片效果最佳\n4. 为获得最佳效果，请使用光线良好且面部清晰的照片"
     }
   }
 ];
