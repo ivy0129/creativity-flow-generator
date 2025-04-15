@@ -1,4 +1,3 @@
-
 export interface AIPromptTutorial {
   id: string;
   title: {
@@ -65,7 +64,7 @@ export const aiPromptTutorials: AIPromptTutorial[] = [
     requiresReferenceImage: true,
     keyPoints: {
       en: "1. Upload a clear photo with good lighting\n2. Photos showing facial expressions work best for capturing Pixar's emotional style\n3. Both close-up portraits and full-body shots can be transformed effectively\n4. If there's inappropriate or sensitive content in the background, add \"please modify or remove it\" to the prompt\n5. The transformation works well for both individuals and group photos",
-      zh: "1. 上传光线良好的清晰照片\n2. 展示面部表情的照片最能捕捉皮克斯的情感风格\n3. 特写肖像和全身照片都能有效转换\n4. 如果背景中有不合适或敏感的内容，可以在提示词中添加"请修改或删除"\n5. 这种转换对个人照片和合影都有很好的效果"
+      zh: "1. 上传光线良好的清晰照片\n2. 展示面部表情的照片最能捕捉皮克斯的情感风格\n3. 特写肖像和全身照片都能有效转换\n4. 如果背景中有不合适或敏感的内容，可以在提示词中添加\"请修改或删除\"\n5. 这种转换对个人照片和合影都有很好的效果"
     }
   },
   {
