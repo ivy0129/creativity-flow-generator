@@ -1,6 +1,7 @@
+
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { Book, FileText, ExternalLink, Home, Bookmark, Info, Copy, CheckCircle, Image } from 'lucide-react';
+import { Book, FileText, ExternalLink, Home, Bookmark, Info, Copy, CheckCircle, Image, ChevronRight } from 'lucide-react';
 import { useLanguage } from '@/hooks/useLanguage';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useToast } from '@/hooks/use-toast';
@@ -87,6 +88,7 @@ const Tutorials: React.FC = () => {
             </div>
             
             <article className="prose prose-slate dark:prose-invert max-w-none">
+              {/* 文章标题 */}
               <h1 className="text-3xl sm:text-4xl font-bold mb-4">{selectedArticle.title[language]}</h1>
               
               {selectedArticle.source && (
@@ -110,6 +112,7 @@ const Tutorials: React.FC = () => {
                 ))}
               </div>
               
+              {/* 提示词示例（图片） */}
               {sampleImages && sampleImages.length > 0 && (
                 <div className="mb-8">
                   <h2 className="text-xl font-medium mb-4">
@@ -144,6 +147,7 @@ const Tutorials: React.FC = () => {
                 </div>
               )}
               
+              {/* 文章对应的提示词 */}
               <div className="mb-8">
                 <h2 className="text-xl font-medium mb-2">
                   {language === 'en' ? 'Prompt:' : '提示词：'}
@@ -179,6 +183,7 @@ const Tutorials: React.FC = () => {
                 </div>
               </div>
 
+              {/* 注意事项 */}
               {selectedArticle.keyPoints && selectedArticle.keyPoints[language] && (
                 <div className="mb-8">
                   <h2 className="text-xl font-medium mb-2">
@@ -224,6 +229,27 @@ const Tutorials: React.FC = () => {
           </div>
         </main>
         
+        {isMobile && (
+          <div className="fixed bottom-0 left-0 right-0 bg-background border-t border-border flex justify-around items-center h-16 shadow-lg z-30">
+            <Link to="/" className="flex flex-1 flex-col items-center justify-center h-full text-muted-foreground hover:text-primary">
+              <Home className="h-5 w-5 mb-1" />
+              <span className="text-xs">{t('home')}</span>
+            </Link>
+            <Link to="/saved" className="flex flex-1 flex-col items-center justify-center h-full text-muted-foreground hover:text-primary">
+              <Bookmark className="h-5 w-5 mb-1" />
+              <span className="text-xs">{t('savedPrompts')}</span>
+            </Link>
+            <Link to="/tutorials" className="flex flex-1 flex-col items-center justify-center h-full text-primary">
+              <Book className="h-5 w-5 mb-1" />
+              <span className="text-xs">{language === 'en' ? 'Tutorials' : '教程'}</span>
+            </Link>
+            <Link to="/settings" className="flex flex-1 flex-col items-center justify-center h-full text-muted-foreground hover:text-primary">
+              <Info className="h-5 w-5 mb-1" />
+              <span className="text-xs">{language === 'en' ? 'About Us' : '关于我们'}</span>
+            </Link>
+          </div>
+        )}
+        
         <Footer />
       </div>
     );
@@ -260,54 +286,60 @@ const Tutorials: React.FC = () => {
             </p>
           </div>
           
+          {/* 更新列表样式，参考提供的图片 */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {currentArticles.map((article) => (
               <Link 
                 to={`/tutorials/${article.id}`} 
                 key={article.id}
+                className="block hover:no-underline"
               >
-                <Card className="h-full hover:shadow-md transition-shadow duration-200">
-                  <CardHeader>
-                    <CardTitle className="line-clamp-2">
-                      {article.title[language]}
-                    </CardTitle>
-                    <CardDescription className="line-clamp-2">
-                      {article.description[language]}
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    {article.imageUrl && (
-                      <div className="mb-4 aspect-video rounded-md overflow-hidden bg-muted">
-                        <img 
-                          src={article.imageUrl} 
-                          alt={article.title[language]}
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                    )}
-                    <div className="flex flex-wrap gap-1 mb-2">
-                      {article.tags.slice(0, 3).map(tag => (
-                        <span key={tag} className="text-xs bg-muted px-2 py-0.5 rounded-full">
-                          {tag}
-                        </span>
-                      ))}
-                      {article.tags.length > 3 && (
-                        <span className="text-xs bg-muted px-2 py-0.5 rounded-full">
-                          +{article.tags.length - 3}
-                        </span>
-                      )}
+                <div className="border border-border rounded-lg overflow-hidden hover:shadow-md transition-shadow duration-200 h-full flex flex-col">
+                  {/* 示例图片 */}
+                  {article.imageUrl && (
+                    <div className="aspect-video overflow-hidden bg-muted">
+                      <img 
+                        src={article.imageUrl} 
+                        alt={article.title[language]}
+                        className="w-full h-full object-cover"
+                      />
                     </div>
-                    <p className="text-sm line-clamp-3 text-muted-foreground">
+                  )}
+                  
+                  <div className="p-4 flex flex-col flex-grow">
+                    {/* 文章标题 */}
+                    <h2 className="text-xl font-medium mb-2 line-clamp-2 text-foreground">
+                      {article.title[language]}
+                    </h2>
+                    
+                    {/* 文章简介 */}
+                    <p className="text-sm text-muted-foreground mb-4 line-clamp-3 flex-grow">
                       {article.excerpt[language]}
                     </p>
-                  </CardContent>
-                  <CardFooter>
-                    <div className="text-sm text-primary flex items-center gap-1">
-                      <FileText className="h-4 w-4" />
-                      {language === 'en' ? 'Read more' : '阅读更多'}
+                    
+                    <div className="flex justify-between items-center mt-auto">
+                      {/* 标签 */}
+                      <div className="flex flex-wrap gap-1">
+                        {article.tags.slice(0, 2).map(tag => (
+                          <span key={tag} className="text-xs bg-muted px-2 py-0.5 rounded-full">
+                            {tag}
+                          </span>
+                        ))}
+                        {article.tags.length > 2 && (
+                          <span className="text-xs bg-muted px-2 py-0.5 rounded-full">
+                            +{article.tags.length - 2}
+                          </span>
+                        )}
+                      </div>
+                      
+                      {/* 阅读更多按钮 */}
+                      <div className="text-sm text-primary flex items-center gap-1 mt-2">
+                        {language === 'en' ? 'Read more' : '查看详情'}
+                        <ChevronRight className="h-4 w-4" />
+                      </div>
                     </div>
-                  </CardFooter>
-                </Card>
+                  </div>
+                </div>
               </Link>
             ))}
           </div>
