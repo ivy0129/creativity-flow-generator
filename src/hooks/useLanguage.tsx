@@ -1,3 +1,4 @@
+
 import React, { createContext, useContext, useState } from 'react';
 
 // 语言类型
@@ -77,7 +78,7 @@ const translations = {
     githubLogin: 'Login with GitHub',
     googleLogin: 'Login with Google',
     
-    // 新增翻译相关
+    // 翻译相关
     translateToLanguage: 'Translate to {language}',
     translateTo: 'Translate to',
     translateToChinese: 'Translate to Chinese',
@@ -89,6 +90,17 @@ const translations = {
     promptTranslatedTo: 'Prompt translated to {language}',
     translationError: 'Translation error',
     failedToTranslate: 'Failed to translate the prompt',
+    tutorials: 'Tutorials',
+    aboutUs: 'About Us',
+    backToAllTutorials: 'Back to all tutorials',
+    originalSource: 'Original source',
+    promptLabel: 'Prompt:',
+    keyPointsLabel: 'Key Points:',
+    forBestResults: 'For best results:',
+    detailsLabel: 'Details:',
+    sourceLabel: 'Source:',
+    tutorialsTitle: 'AI Prompt Tutorials & Examples',
+    tutorialsDescription: 'Learn how to use AI prompts with our collection of tutorials and real-world examples',
   },
   zh: {
     // 通用
@@ -162,7 +174,7 @@ const translations = {
     githubLogin: '使用GitHub登录',
     googleLogin: '使用Google登录',
     
-    // 新增翻译相关
+    // 翻译相关
     translateToLanguage: '翻译为{language}',
     translateTo: '翻译为',
     translateToChinese: '翻译为中文',
@@ -174,6 +186,17 @@ const translations = {
     promptTranslatedTo: '提示词已翻译为{language}',
     translationError: '翻译错误',
     failedToTranslate: '无法翻译提示词',
+    tutorials: '教程',
+    aboutUs: '关于我们',
+    backToAllTutorials: '返回所有教程',
+    originalSource: '原文链接',
+    promptLabel: '提示词：',
+    keyPointsLabel: '注意事项：',
+    forBestResults: '获得最佳效果：',
+    detailsLabel: '详细说明：',
+    sourceLabel: '来源：',
+    tutorialsTitle: 'AI提示词教程和案例',
+    tutorialsDescription: '通过我们收集的教程和真实案例学习如何使用AI提示词',
   }
 };
 
