@@ -1,7 +1,6 @@
-
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { Book, FileText, ExternalLink, Home, Bookmark, Info, Copy, CheckCircle } from 'lucide-react';
+import { Book, FileText, ExternalLink, Home, Bookmark, Info, Copy, CheckCircle, Image } from 'lucide-react';
 import { useLanguage } from '@/hooks/useLanguage';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useToast } from '@/hooks/use-toast';
@@ -21,6 +20,7 @@ import {
 } from '@/components/ui/pagination';
 import { articles } from '@/data/tutorial-articles';
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const ITEMS_PER_PAGE = 6;
 
@@ -31,6 +31,7 @@ const Tutorials: React.FC = () => {
   const { articleId } = useParams();
   const { toast } = useToast();
   const [copied, setCopied] = useState(false);
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
   
   const pageCount = Math.ceil(articles.length / ITEMS_PER_PAGE);
   const currentArticles = articles.slice(
@@ -46,6 +47,10 @@ const Tutorials: React.FC = () => {
     window.scrollTo(0, 0);
   }, [currentPage, articleId]);
 
+  useEffect(() => {
+    setActiveImageIndex(0);
+  }, [articleId]);
+
   const handleCopyPrompt = (text: string) => {
     navigator.clipboard.writeText(text);
     setCopied(true);
@@ -60,6 +65,8 @@ const Tutorials: React.FC = () => {
   };
 
   if (selectedArticle) {
+    const sampleImages = selectedArticle.sampleImages || [selectedArticle.imageUrl].filter(Boolean);
+    
     return (
       <div className="min-h-screen flex flex-col bg-background">
         <SEO 
@@ -103,13 +110,35 @@ const Tutorials: React.FC = () => {
                 ))}
               </div>
               
-              {selectedArticle.imageUrl && (
-                <div className="mb-8 border border-border rounded-md overflow-hidden">
-                  <img 
-                    src={selectedArticle.imageUrl} 
-                    alt={selectedArticle.title[language]} 
-                    className="w-full object-cover max-h-[500px]"
-                  />
+              {sampleImages && sampleImages.length > 0 && (
+                <div className="mb-8">
+                  <h2 className="text-xl font-medium mb-4">{language === 'en' ? 'Sample Results:' : '示例结果：'}</h2>
+                  
+                  <div className="mb-4 border border-border rounded-md overflow-hidden">
+                    <img 
+                      src={sampleImages[activeImageIndex]} 
+                      alt={`${selectedArticle.title[language]} - ${language === 'en' ? 'Sample' : '示例'} ${activeImageIndex + 1}`}
+                      className="w-full object-cover max-h-[500px]"
+                    />
+                  </div>
+                  
+                  {sampleImages.length > 1 && (
+                    <div className="grid grid-cols-3 sm:grid-cols-5 gap-2 mb-4">
+                      {sampleImages.map((img, idx) => (
+                        <div 
+                          key={idx}
+                          className={`cursor-pointer border-2 rounded-md overflow-hidden ${activeImageIndex === idx ? 'border-primary' : 'border-transparent'}`}
+                          onClick={() => setActiveImageIndex(idx)}
+                        >
+                          <img 
+                            src={img} 
+                            alt={`${selectedArticle.title[language]} - ${language === 'en' ? 'Thumbnail' : '缩略图'} ${idx + 1}`}
+                            className="w-full h-20 object-cover"
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
               )}
               
@@ -235,6 +264,15 @@ const Tutorials: React.FC = () => {
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
+                    {article.imageUrl && (
+                      <div className="mb-4 aspect-video rounded-md overflow-hidden bg-muted">
+                        <img 
+                          src={article.imageUrl} 
+                          alt={article.title[language]}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                    )}
                     <div className="flex flex-wrap gap-1 mb-2">
                       {article.tags.slice(0, 3).map(tag => (
                         <span key={tag} className="text-xs bg-muted px-2 py-0.5 rounded-full">
@@ -278,7 +316,6 @@ const Tutorials: React.FC = () => {
                 
                 {[...Array(pageCount)].map((_, i) => {
                   const page = i + 1;
-                  // Show first page, last page, and pages around current page
                   if (
                     page === 1 || 
                     page === pageCount || 
@@ -300,7 +337,6 @@ const Tutorials: React.FC = () => {
                     );
                   }
                   
-                  // Show ellipsis for skipped pages
                   if (
                     (page === 2 && currentPage > 3) || 
                     (page === pageCount - 1 && currentPage < pageCount - 2)

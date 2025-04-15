@@ -22,6 +22,7 @@ interface TutorialArticle {
   source?: string;
   sourceText?: string;
   imageUrl?: string;
+  sampleImages?: string[]; // New field for sample images
   keyPoints?: {
     en: string;
     zh: string;
@@ -60,6 +61,16 @@ export const articles: TutorialArticle[] = [
     tags: ["Character Design", "3D Art", "Cyberpunk", "Concept Art", "AI Art"],
     source: "https://github.com/jamez-bondos/awesome-gpt4o-images",
     sourceText: "awesome-gpt4o-images GitHub Repository",
+    imageUrl: "public/lovable-uploads/a257f5c6-1511-4a1e-a999-3fd071525e5b.png",
+    sampleImages: [
+      "public/lovable-uploads/a257f5c6-1511-4a1e-a999-3fd071525e5b.png",
+      "public/lovable-uploads/character-concept-1.png",
+      "public/lovable-uploads/character-concept-2.png"
+    ],
+    keyPoints: {
+      en: "1. Specify the character type (e.g., cyberpunk hacker)\n2. Include distinctive physical features (neon blue hair)\n3. Detail clothing and accessories (black leather jacket with circuits)\n4. Define the expression (smirking confidently)\n5. Set a specific pose (one hand on hip)\n6. Create context with environment (dark alley with neon signs)\n7. Specify render quality (highly detailed, professional, octane render)\n8. Use consistent style descriptors throughout",
+      zh: "1. 明确角色类型（如赛博朋克黑客）\n2. 包含独特的物理特征（霓虹蓝色头发）\n3. 详细描述服装和配饰（带有电路图案的黑色皮夹克）\n4. 定义表情（自信地微笑）\n5. 设定特定姿势（一只手放在臀部上）\n6. 通过环境创建上下文（霓虹灯照亮的黑暗小巷）\n7. 指定渲染质量（高度详细，专业，Octane渲染）\n8. 全程使用一致的风格描述符"
+    },
     seoKeywords: {
       en: ["character design AI", "3D concept art", "AI character generation", "cyberpunk character", "creative prompts", "character visualization", "AI prompt engineering", "digital character concepts"],
       zh: ["AI角色设计", "3D概念艺术", "AI角色生成", "赛博朋克角色", "创意提示词", "角色可视化", "AI提示词工程", "数字角色概念"]
@@ -278,6 +289,11 @@ export const articles: TutorialArticle[] = [
     source: "https://github.com/jamez-bondos/awesome-gpt4o-images",
     sourceText: "awesome-gpt4o-images GitHub Repository",
     imageUrl: "public/lovable-uploads/a257f5c6-1511-4a1e-a999-3fd071525e5b.png",
+    sampleImages: [
+      "public/lovable-uploads/a257f5c6-1511-4a1e-a999-3fd071525e5b.png",
+      "public/lovable-uploads/fantasy-character-1.png",
+      "public/lovable-uploads/fantasy-character-2.png"
+    ],
     keyPoints: {
       en: "1. Define specific character attributes (race, age, profession)\n2. Include detailed clothing descriptions with colors and materials\n3. Add unique accessories and magical items that tell a story\n4. Describe facial features and expressions to convey personality\n5. Set the character in an appropriate environment\n6. Specify lighting conditions and atmosphere\n7. Reference an art style suitable for fantasy illustration\n8. Include magical elements that enhance the character's role",
       zh: "1. 明确定义角色属性（种族、年龄、职业）\n2. 包含详细的服装描述，包括颜色和材质\n3. 添加能讲述故事的独特配件和魔法物品\n4. 描述面部特征和表情以传达个性\n5. 将角色置于适当的环境中\n6. 指定照明条件和氛围\n7. 引用适合奇幻插图的艺术风格\n8. 包含增强角色角色的魔法元素"
@@ -292,3 +308,4 @@ export const articles: TutorialArticle[] = [
     }
   }
 ];
+
